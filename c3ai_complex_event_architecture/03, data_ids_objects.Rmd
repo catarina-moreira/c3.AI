@@ -1,0 +1,180 @@
+---
+title: "C3.ai objectID creation notebook"
+output: html_notebook
+---
+
+# C3.ai COVID-19 Data Lake - ObjectID Creation
+
+This R notebook fetches IDs for countries, US states and German states, and assigns UUIDs to these objects and the respective object types (type of geographical entity)
+
+To view an outline of this notebook, use the RStudio keyboard shortcut Control + Shift + O on Windows or Command + Shift + O on Mac. 
+
+Remark: Some of the packages may not be needed, use the following (sample) code to load packages instead:
+
+#define a function to install and load required packages
+ipak <- function(pkg){
+  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+  if (length(new.pkg)) 
+    install.packages(new.pkg, dependencies = TRUE)
+  sapply(pkg, require, character.only = TRUE)
+}
+
+#specify a list of required packages
+pack_list <- c("dplyr",
+               "lubridate",
+               "NCmisc")
+
+#install and load packages
+suppressWarnings(ipak(pack_list))
+
+#define current working directory
+current_wd <- dirname(rstudioapi::getActiveDocumentContext()$path)
+setwd(current_wd)
+
+#cross-check unused packages
+used_packages <- list.functions.in.file(rstudioapi::getSourceEditorContext()$path) %>%
+  names() %>%
+  unique()
+pack_list <- paste0("package:",unlist(pack_list))
+print("Unused packages:")
+print(setdiff(pack_list,used_packages))
+print("Missing packages:")
+print(setdiff(used_packages,pack_list))
+
+```{r}
+if (!require(plyr)) install.packages('plyr')
+if (!require(tidyverse)) install.packages('tidyverse')
+if (!require(httr)) install.packages('httr')
+if (!require(jsonlite)) install.packages('jsonlite')
+if (!require(zoo)) install.packages('zoo')
+if (!require(lubridate)) install.packages('lubridate')
+if (!require(uuid)) install.packages('uuid')
+if (!require(pbmcapply)) install.packages('pbmcapply')
+if (!require(readxl)) install.packages('readxl')
+
+library(plyr)
+library(tidyverse)
+library(httr)
+library(jsonlite)
+library(zoo)
+library(lubridate)
+library(uuid)
+library(pbmcapply)
+library(readxl)
+```
+
+## Helper methods for accessing the API
+
+The helper methods in `c3aidatalake.R` convert a JSON response from the C3.ai APIs to a Tibble. You may wish to view the code in `c3aidatalake.R` before continuing.
+
+```{r}
+source("c3aidatalake.R")
+```
+
+Get all countries; remark: countries are missing (because they are not identified as "countries")
+
+Germany is missing and therefore added manually (as data for Germany are available)
+
+```{r}
+countries <- fetch(
+    "outbreaklocation",
+    list(
+      spec = list(
+        filter = "locationType == 'country'"
+      )
+    ),
+    get_all = TRUE
+) %>% 
+  select(locationType,id)
+
+countries <- rbind(countries,
+                   c(locationType="country",
+                     id="Germany"))
+countries
+```
+
+Get all US states; remark: states are missing (because they are not identified as states and ambiguous - like "Pennsylvania_USA" and "Pennsylvania_UnitedStates", same with
+3 different variants for New Jersey)
+
+```{r}
+states_us <- fetch(
+    "outbreaklocation",
+    list(
+      spec = list(
+        filter = "contains(id, 'UnitedStates') && locationType == 'state'"
+      )
+    ),
+    get_all = TRUE
+) %>% 
+  select(-location) %>% 
+  unnest_wider(fips, names_sep = ".") %>% 
+  select(id) %>%
+  cbind(locationType="state_us",.)
+
+states_us
+```
+
+Get all German states
+
+Berlin is missing and therefore added manually
+
+```{r}
+states_de <- fetch(
+    "outbreaklocation",
+    list(
+      spec = list(
+        filter = "contains(id, 'Germany') && locationType == 'state'"
+      )
+    ),
+    get_all = TRUE
+) %>% 
+  select(id) %>%
+  cbind(locationType="state_de",.)
+
+states_de <- rbind(states_de,
+                   c(locationType="state_de",
+                     id="Berlin_Germany"))
+states_de
+```
+
+Consolidate/standardize objectIDs
+
+```{r}
+objectIDs <- rbind(countries,
+                   states_us,
+                   states_de)
+objectTypeIDs <- data.frame(uuidObjectType=UUIDgenerate(n=length(unique(objectIDs$locationType))),
+                            description=unique(objectIDs$locationType),
+                            stringsAsFactors=FALSE) %>%
+                   mutate(.,
+                          uuidObjectType=as.factor(uuidObjectType))
+write.table(objectTypeIDs,
+            file="events/objectTypeIDs.csv",
+            append=FALSE,
+            quote=FALSE,
+            sep=";",
+            row.names=FALSE,
+            col.names=TRUE)
+
+objectIDs <- mutate(objectIDs,
+                    description=id) %>%
+               left_join(.,
+                         objectTypeIDs,
+                         by=c("locationType"="description")) %>%
+               group_by(description) %>%
+               unique(.) %>%
+               cbind(uuidObject=UUIDgenerate(n=nrow(.)),.) %>%
+               select(uuidObjectType,
+                      uuidObject,
+                      description) %>%
+               mutate(.,
+                      uuidObjectType=as.factor(uuidObjectType),
+                      uuidObject=as.factor(uuidObject))
+write.table(objectIDs,
+            file="events/objectIDs.csv",
+            append=FALSE,
+            quote=FALSE,
+            sep=";",
+            row.names=FALSE,
+            col.names=TRUE)
+```

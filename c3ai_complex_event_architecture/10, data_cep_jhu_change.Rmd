@@ -1,0 +1,176 @@
+---
+title: "C3.ai cep daily change notebook"
+output: html_notebook
+---
+
+# C3.ai COVID-19 Data Lake - Complex Event Processing for Daily Changes
+
+This notebook uses time series from the abstraction layer to generate new time series (complex event processing approach). This specific notebook uses cumulated data to create daily changes.
+
+For the time being, we are using a simplified model in which only the data segment but not the header segment will be created for event types.
+
+To view an outline of this notebook, use the RStudio keyboard shortcut Control + Shift + O on Windows or Command + Shift + O on Mac.
+
+Remark: Some of the packages may not be needed, use the following (sample) code to load packages instead:
+
+#define a function to install and load required packages
+ipak <- function(pkg){
+  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+  if (length(new.pkg)) 
+    install.packages(new.pkg, dependencies = TRUE)
+  sapply(pkg, require, character.only = TRUE)
+}
+
+#specify a list of required packages
+pack_list <- c("dplyr",
+               "lubridate",
+               "NCmisc")
+
+#install and load packages
+suppressWarnings(ipak(pack_list))
+
+#define current working directory
+current_wd <- dirname(rstudioapi::getActiveDocumentContext()$path)
+setwd(current_wd)
+
+#cross-check unused packages
+used_packages <- list.functions.in.file(rstudioapi::getSourceEditorContext()$path) %>%
+  names() %>%
+  unique()
+pack_list <- paste0("package:",unlist(pack_list))
+print("Unused packages:")
+print(setdiff(pack_list,used_packages))
+print("Missing packages:")
+print(setdiff(used_packages,pack_list))
+
+```{r}
+if (!require(plyr)) install.packages('plyr')
+if (!require(dplyr)) install.packages('dplyr')
+if (!require(pbmcapply)) install.packages('pbmcapply')
+if (!require(stats)) install.packages('stats')
+if (!require(lubridate)) install.packages('lubridate')
+if (!require(data.table)) install.packages('data.table')
+
+library(plyr)
+library(dplyr)
+library(pbmcapply)
+library(stats)
+library(lubridate)
+library(data.table)
+```
+
+Define some basic parameters for data selection
+
+```{r}
+#define time threshold for preceding events
+seconds_max_back <- 36*60*60
+```
+
+Get desired event types
+
+```{r}
+event_scope <- read.csv(file="cep/event_scope_cep_jhu_change.csv",
+                        header=TRUE,
+                        sep=";")
+print(paste0(nrow(event_scope),
+             " event types requested"))
+event_scope$eventType <- paste0(event_scope$uuidObjectType,
+                                "_",
+                                event_scope$uuidMeasure)
+event_scope$eventTypeNew <- paste0(event_scope$uuidObjectType,
+                                   "_",
+                                   event_scope$uuidMeasureNew)
+event_scope <- select(event_scope,
+                      eventType,
+                      eventTypeNew)
+
+files <- pbmclapply(1:nrow(event_scope),FUN=function(x) {
+  list.files(path="events/",
+             pattern=event_scope[x,]$eventType)
+},mc.cores=8L) %>%
+  unlist()
+print(paste0(length(files),
+             " event types found"))
+
+event_records <- pbmclapply(files,FUN=function(x) {
+  load(paste0("events/",
+              x))
+  data$measurementTime <- with_tz(data$measurementTime,
+                                  tzone="UTC")
+  return(data.frame(eventType=substr(x,
+                                     1,
+                                     nchar(x)-4),
+                    data,
+                    stringsAsFactors=FALSE))
+},mc.cores=8L) %>%
+  ldply(.parallel=TRUE)  %>%
+  data.table(.) %>%
+  setorder(.,
+           eventType,
+           uuidObject,
+           -measurementTime) %>%
+  distinct(.,
+           .keep_all=TRUE)
+print(paste0(nrow(event_records),
+             " events loaded"))
+```
+
+Group records by event type and object, find most recent preceding value (within limits), calculate difference
+
+```{r}
+records <- event_records
+records_previous <- records[,shift(.SD,
+                                   n=-1,
+                                   fill=NA,
+                                   type="lag"),
+                            by=c("eventType","uuidObject"),
+                            .SDcols=3:4] %>%
+                      .[,3:4]
+records <- cbind(records,
+                 records_previous)
+colnames(records)[5:6] <- c("measurementTimeShifted",
+                            "measurementValueShifted")
+records$timeDiff <- difftime(records$measurementTime,
+                             records$measurementTimeShifted,
+                             tz="UTC",
+                             units="secs")
+records <- records[which(records$timeDiff>0 & records$timeDiff<=seconds_max_back),]
+
+#prepare new events
+records$measurementValue <- as.character(as.numeric(records$measurementValue) - as.numeric(records$measurementValueShifted))
+records <- select(records,
+                  eventType:measurementValue)
+records <- left_join(records,
+                     select(event_scope,
+                            eventType,
+                            eventTypeNew),
+                     by="eventType") %>%
+             mutate(.,
+                    eventType=eventTypeNew) %>%
+             select(.,
+                    eventType,
+                    uuidObject,
+                    measurementTime,
+                    measurementValue)
+
+#function to save data by event type (should actually be made available as a basic function)
+save_group <- function(data,
+                       eventType) {
+  save(data,
+       file=paste0("events/",
+                   eventType,
+                   ".rda"))
+  
+}
+
+records %>%
+  group_by(eventType) %>%
+  group_walk(~ save_group(.x,
+                          .y$eventType))
+
+print(paste0(length(unique(records$eventType)),
+             " new event types created"))
+print(paste0(length(unique(records$uuidObject)),
+             " objects saved"))
+```
+

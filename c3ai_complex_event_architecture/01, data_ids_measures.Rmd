@@ -1,0 +1,145 @@
+---
+title: "C3.ai measureID creation notebook"
+output: html_notebook
+---
+
+# C3.ai COVID-19 Data Lake - MeasureID Creation
+
+This notebook creates UUIDs for the measures that are meant to be acquired from C3.ai's data lake.
+
+To view an outline of this notebook, use the RStudio keyboard shortcut Control + Shift + O on Windows or Command + Shift + O on Mac. 
+
+Remark: Some of the packages may not be needed, use the following (sample) code to load packages instead:
+
+#define a function to install and load required packages
+ipak <- function(pkg){
+  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+  if (length(new.pkg)) 
+    install.packages(new.pkg, dependencies = TRUE)
+  sapply(pkg, require, character.only = TRUE)
+}
+
+#specify a list of required packages
+pack_list <- c("dplyr",
+               "lubridate",
+               "NCmisc")
+
+#install and load packages
+suppressWarnings(ipak(pack_list))
+
+#define current working directory
+current_wd <- dirname(rstudioapi::getActiveDocumentContext()$path)
+setwd(current_wd)
+
+#cross-check unused packages
+used_packages <- list.functions.in.file(rstudioapi::getSourceEditorContext()$path) %>%
+  names() %>%
+  unique()
+pack_list <- paste0("package:",unlist(pack_list))
+print("Unused packages:")
+print(setdiff(pack_list,used_packages))
+print("Missing packages:")
+print(setdiff(used_packages,pack_list))
+
+```{r}
+if (!require(plyr)) install.packages('plyr')
+if (!require(tidyverse)) install.packages('tidyverse')
+if (!require(httr)) install.packages('httr')
+if (!require(jsonlite)) install.packages('jsonlite')
+if (!require(zoo)) install.packages('zoo')
+if (!require(lubridate)) install.packages('lubridate')
+if (!require(uuid)) install.packages('uuid')
+if (!require(pbmcapply)) install.packages('pbmcapply')
+if (!require(readxl)) install.packages('readxl')
+
+library(plyr)
+library(tidyverse)
+library(httr)
+library(jsonlite)
+library(zoo)
+library(lubridate)
+library(uuid)
+library(pbmcapply)
+library(readxl)
+```
+
+Define measures and assign UUIDs.
+
+```{r}
+measureIDs <- c("Apple_WalkingMobility", 
+                "Apple_DrivingMobility",
+                "Apple_TransitMobility",
+                "Google_ParksMobility",
+                "Google_ResidentialMobility",
+                "Google_RetailMobility",
+                "Google_GroceryMobility",
+                "Google_TransitStationsMobility",
+                "Google_WorkplacesMobility",
+                "OxCGRT_Policy_C1_Flag",
+                "OxCGRT_Policy_C1_SchoolClosing",
+                "OxCGRT_Policy_C8_InternationalTravelControls",
+                "OxCGRT_Policy_E1_IncomeSupport",
+                "OxCGRT_Policy_ConfirmedCases",
+                "OxCGRT_Policy_ConfirmedDeaths",
+                "OxCGRT_Policy_StringencyIndex",
+                "OxCGRT_Policy_StringencyIndexForDisplay",
+                "OxCGRT_Policy_StringencyLegacyIndex",
+                "OxCGRT_Policy_StringencyLegacyIndexForDisplay",
+                "OxCGRT_Policy_GovernmentResponseIndex",
+                "OxCGRT_Policy_GovernmentResponseIndexForDisplay",
+                "OxCGRT_Policy_ContainmentHealthIndex",
+                "OxCGRT_Policy_ContainmentHealthIndexForDisplay",
+                "OxCGRT_Policy_EconomicSupportIndex",
+                "OxCGRT_Policy_EconomicSupportIndexForDisplay",
+                "JHU_ConfirmedCases",
+                "JHU_ConfirmedDeaths",
+                "LifeExpectancyInternational",
+                "MaleFemaletotal_InternationalCensus",
+                "MortalityRateUnder5International")
+measureScales <- c("index",  
+                   "index",
+                   "index",
+                   "index",
+                   "index",
+                   "index",
+                   "index",
+                   "index",
+                   "index",
+                   "binary",
+                   "ordinal",
+                   "ordinal",
+                   "ordinal",
+                   "integer",
+                   "integer",
+                   "mean_of_ordinal",
+                   "mean_of_ordinal",
+                   "mean_of_ordinal",
+                   "mean_of_ordinal",
+                   "mean_of_ordinal",
+                   "mean_of_ordinal",
+                   "mean_of_ordinal",
+                   "mean_of_ordinal",
+                   "mean_of_ordinal",
+                   "mean_of_ordinal",
+                   "integer",
+                   "integer",
+                   "numeric",
+                   "integer",
+                   "numeric")
+measureIDs <- data.frame(source="c3",
+                         uuidMeasure=UUIDgenerate(n=length(measureIDs)),
+                         description=measureIDs,
+                         scaleLevel=measureScales,
+                         stringsAsFactors=FALSE) %>%
+                mutate(.,
+                       source=as.factor(source),
+                       uuidMeasure=as.factor(uuidMeasure),
+                       scaleLevel=as.factor(scaleLevel))
+write.table(measureIDs,
+            file="events/measureIDs.csv",
+            append=FALSE,
+            quote=FALSE,
+            sep=";",
+            row.names=FALSE,
+            col.names=TRUE)
+```

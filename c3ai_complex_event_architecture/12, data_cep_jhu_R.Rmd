@@ -1,0 +1,203 @@
+---
+title: "C3.ai cep notebook"
+output: html_notebook
+---
+
+# C3.ai COVID-19 Data Lake - Complex Event Processing
+
+This notebook uses time series from the abstraction layer to generate new time series (complex event processing approach). This specific notebook calculates daily from cumulated data.
+
+To view an outline of this notebook, use the RStudio keyboard shortcut Control + Shift + O on Windows or Command + Shift + O on Mac. 
+
+```{r}
+if (!require(plyr)) install.packages('plyr')
+if (!require(dplyr)) install.packages('dplyr')
+if (!require(pbmcapply)) install.packages('pbmcapply')
+if (!require(stats)) install.packages('stats')
+if (!require(lubridate)) install.packages('lubridate')
+if (!require(data.table)) install.packages('data.table')
+if (!require(tidyr)) install.packages('tidyr')
+
+library(plyr)
+library(dplyr)
+library(pbmcapply)
+library(stats)
+library(lubridate)
+library(data.table)
+library(tidyr)
+```
+
+The following code is taken from: https://github.com/Stochastik-TU-Ilmenau/COVID-19/blob/gh-pages/estimator.r
+See also: https://stochastik-tu-ilmenau.github.io/COVID-19/
+
+```{r}
+# infectivity profile:
+infectivity <- c((0:3)/3, 1, (5:0)/5)
+names(infectivity) <- seq_along(infectivity)
+infectivity <- infectivity / sum(infectivity)
+
+width <- 1
+report.delay <- 7
+alpha <- 0.05
+
+repronum <- function(
+    new.cases, # I
+    profile, # w
+    window = 1, # H
+    delay = 0, # Delta
+    conf.level = 0.95, # 1-alpha
+    pad.zeros = FALSE,
+    min.denominator = 5,
+    min.numerator = 5
+) {
+    # pad zeros if desired
+    if(pad.zeros) new.cases <- c(rep(0, length(profile) - 1), new.cases)
+
+    # compute convolutions over h, tau and both, respectively
+    sum.h.I <- as.numeric(stats::filter(new.cases, rep(1, window),
+        method = "convolution", sides = 1))
+    sum.tau.wI <- as.numeric(stats::filter(new.cases, c(0, profile),
+        method = "convolution", sides = 1))
+    sum.htau.wI <- as.numeric(stats::filter(sum.tau.wI, rep(1, window),
+        method = "convolution", sides = 1))
+
+    # estimators
+    repronum <- ifelse(sum.h.I < min.numerator, NA, sum.h.I) / ifelse(sum.htau.wI < min.denominator, NA, sum.htau.wI)
+
+    # standard errors
+    repronum.se <- sqrt(repronum / sum.htau.wI)
+
+    # shift by delay
+    repronum <- c(repronum, rep(NA, delay))[(1:length(repronum)) + delay]
+    repronum.se <- c(repronum.se,
+        rep(NA, delay))[(1:length(repronum.se)) + delay]
+
+    # standard normal quantile
+    q <- qnorm(1 - (1-conf.level) / 2)
+
+    # return data.frame with as many rows as new.cases
+    ret <- data.frame(
+        repronum = repronum,
+        repronum.se = repronum.se,
+        ci.lower = repronum - q * repronum.se,
+        ci.upper = repronum + q * repronum.se
+    )
+    if(pad.zeros) ret[-(1:(length(profile)-1)),] else ret
+}
+```
+
+Get desired event types
+
+```{r}
+event_scope <- read.csv(file="cep/event_scope_cep_r.csv",
+                        header=TRUE,
+                        sep=";")
+print(paste0(nrow(event_scope),
+             " event types requested"))
+event_scope$eventType <- paste0(event_scope$uuidObjectType,
+                                "_",
+                                event_scope$uuidMeasure)
+
+files <- pbmclapply(1:nrow(event_scope),FUN=function(x) {
+  list.files(path="events/",
+             pattern=event_scope[x,]$eventType)
+},mc.cores=8L) %>%
+  unlist()
+print(paste0(length(files),
+             " event types found"))
+
+event_records <- pbmclapply(files,FUN=function(x) {
+  load(paste0("events/",
+              x))
+  data$measurementTime <- with_tz(data$measurementTime,
+                                  tzone="UTC")
+  return(data.frame(eventType=substr(x,
+                                     1,
+                                     nchar(x)-4),
+                    data,
+                    stringsAsFactors=FALSE))
+},mc.cores=8L) %>%
+  ldply(.parallel=TRUE)  %>%
+  data.table(.) %>%
+  setorder(.,
+           eventType,
+           uuidObject,
+           -measurementTime) %>%
+  distinct(.,
+           .keep_all=TRUE) %>%
+  left_join(.,
+            event_scope,
+            by="eventType") %>%
+  select(.,
+         c(eventType,
+           uuidObjectType,
+           uuidObject,
+           measurementTime,
+           measurementValue))
+print(paste0(nrow(event_records),
+             " events loaded"))
+```
+
+Group records by event type and object, find most recent preceding value (within limits), calculate difference
+
+```{r}
+r_values <- event_records %>%
+              group_by(eventType,
+                       uuidObject) %>%
+              group_modify(~ repronum(.x$measurementValue,
+                                      infectivity)) %>%
+              ungroup() %>%
+              select(.,
+                     -c(eventType,
+                        uuidObject))
+new_measure_names <- event_scope %>%
+                       select(.,-c(uuidObjectType,uuidMeasure,eventType)) %>%
+                       distinct(.)
+colnames(r_values) <- new_measure_names
+event_records <- event_records %>%
+                   select(.,
+                          -measurementValue) %>%
+                   cbind(.,
+                         r_values)
+
+#prepare new events
+event_records <- pivot_longer(event_records,
+                              cols=5:8,
+                              names_to="measurement_description",
+                              values_to="measurementValue",
+                              values_transform=list(measurementValue=as.character)) %>%
+                 na.omit(.,
+                         measurementValue) %>%
+                 mutate(.,
+                        eventType=paste0(uuidObjectType,
+                                         "_",
+                                         measurement_description),
+                        uuidObject=as.factor(uuidObject),
+                        measurementValue=as.character(measurementValue)) %>%
+                 select(.,
+                        c(eventType,
+                          uuidObject,
+                          measurementTime,
+                          measurementValue))
+
+#function to save data by event type (should actually be made available as a basic function)
+save_group <- function(data,
+                       eventType) {
+  save(data,
+       file=paste0("events/",
+                   eventType,
+                   ".rda"))
+  
+}
+
+event_records %>%
+  group_by(eventType) %>%
+  group_walk(~ save_group(.x,
+                          .y$eventType))
+
+print(paste0(length(unique(event_records$eventType)),
+             " new event types created"))
+print(paste0(length(unique(event_records$uuidObject)),
+             " objects saved"))
+```
+

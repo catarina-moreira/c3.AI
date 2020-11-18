@@ -1,0 +1,113 @@
+---
+title: "C3.ai ISO objectID notebook"
+output: html_notebook
+---
+
+# C3.ai COVID-19 Data Lake - ISO objectID
+
+Many data sources use ISO codes instead of C3's "outbreak location" to identify countries or lower-level geographical entities (like states); to be able to integrate Oxford test data, we will at least need ISO codes at country level. This notebook produces a file that needs to be reviewed manually for further processing (as not all countries can be assigned manually)
+
+To view an outline of this notebook, use the RStudio keyboard shortcut Control + Shift + O on Windows or Command + Shift + O on Mac.
+
+Remark: Some of the packages may not be needed, use the following (sample) code to load packages instead:
+
+#define a function to install and load required packages
+ipak <- function(pkg){
+  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+  if (length(new.pkg)) 
+    install.packages(new.pkg, dependencies = TRUE)
+  sapply(pkg, require, character.only = TRUE)
+}
+
+#specify a list of required packages
+pack_list <- c("dplyr",
+               "lubridate",
+               "NCmisc")
+
+#install and load packages
+suppressWarnings(ipak(pack_list))
+
+#define current working directory
+current_wd <- dirname(rstudioapi::getActiveDocumentContext()$path)
+setwd(current_wd)
+
+#cross-check unused packages
+used_packages <- list.functions.in.file(rstudioapi::getSourceEditorContext()$path) %>%
+  names() %>%
+  unique()
+pack_list <- paste0("package:",unlist(pack_list))
+print("Unused packages:")
+print(setdiff(pack_list,used_packages))
+print("Missing packages:")
+print(setdiff(used_packages,pack_list))
+
+```{r}
+if (!require(plyr)) install.packages('plyr')
+if (!require(tidyverse)) install.packages('tidyverse')
+if (!require(httr)) install.packages('httr')
+if (!require(jsonlite)) install.packages('jsonlite')
+if (!require(zoo)) install.packages('zoo')
+if (!require(lubridate)) install.packages('lubridate')
+if (!require(uuid)) install.packages('uuid')
+if (!require(pbmcapply)) install.packages('pbmcapply')
+if (!require(readxl)) install.packages('readxl')
+if (!require(jsonlite)) install.packages('jsonlite')
+if (!require(ISOcodes)) install.packages('ISOcodes')
+
+library(plyr)
+library(tidyverse)
+library(httr)
+library(jsonlite)
+library(zoo)
+library(lubridate)
+library(uuid)
+library(pbmcapply)
+library(readxl)
+library(jsonlite)
+library(ISOcodes)
+```
+
+Get existing object IDs for countries
+
+```{r}
+objectTypeIDs <- read.csv("events/objectTypeIDs.csv",
+                          header=TRUE,
+                          sep=";")
+objectIDs <- read.csv("events/objectIDs.csv",
+                    header=TRUE,
+                    sep=";")
+objectIDs_countries <- left_join(objectIDs,
+                                 objectTypeIDs,
+                                 by="uuidObjectType") %>%
+                         .[which(.$description.y=="country"),] %>%
+                         select(.,
+                                -description.y) %>%
+                         mutate(.,
+                                description=description.x,
+                                .keep="unused")
+```
+
+Add ISO codes to country list
+
+```{r}
+objectIDs_iso <- left_join(objectIDs_countries,
+                           ISO_3166_1,
+                           by=c("description"="Name"),
+                           keep=TRUE) %>%
+                   select(.,
+                          c(uuidObjectType,
+                            uuidObject,
+                            description,
+                            Alpha_3))
+write.table(objectIDs_iso,
+            file="events/objectIDs_iso_for_review.csv",
+            append=FALSE,
+            quote=FALSE,
+            sep=";",
+            na="",
+            row.names=FALSE,
+            col.names=TRUE)
+```
+
+At this stage, the list of ISO codes needs to be manually reviewed/amended. It will then be merged with the list of objectIDs.
+

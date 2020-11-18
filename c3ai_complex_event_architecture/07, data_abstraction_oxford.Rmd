@@ -1,0 +1,173 @@
+---
+title: "C3.ai Oxford data abstraction notebook"
+output: html_notebook
+---
+
+# C3.ai COVID-19 Data Lake - Oxford Data Abstraction
+
+This notebook acquires time series from Oxford test data and stores them in an abstraction layer as event types.
+
+For the time being, we are using a simplified model in which only the data segment but not the header segment will be created for event types.
+
+To view an outline of this notebook, use the RStudio keyboard shortcut Control + Shift + O on Windows or Command + Shift + O on Mac.
+
+Remark: Some of the packackes may not be needed, use the following (sample) code to load packages instead:
+
+#define a function to install and load required packages
+ipak <- function(pkg){
+  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+  if (length(new.pkg)) 
+    install.packages(new.pkg, dependencies = TRUE)
+  sapply(pkg, require, character.only = TRUE)
+}
+
+#specify a list of required packages
+pack_list <- c("dplyr",
+               "lubridate",
+               "NCmisc")
+
+#install and load packages
+suppressWarnings(ipak(pack_list))
+
+#define current working directory
+current_wd <- dirname(rstudioapi::getActiveDocumentContext()$path)
+setwd(current_wd)
+
+#cross-check unused packages
+used_packages <- list.functions.in.file(rstudioapi::getSourceEditorContext()$path) %>%
+  names() %>%
+  unique()
+pack_list <- paste0("package:",unlist(pack_list))
+print("Unused packages:")
+print(setdiff(pack_list,used_packages))
+print("Missing packages:")
+print(setdiff(used_packages,pack_list))
+
+```{r}
+if (!require(plyr)) install.packages('plyr')
+if (!require(tidyverse)) install.packages('tidyverse')
+if (!require(httr)) install.packages('httr')
+if (!require(jsonlite)) install.packages('jsonlite')
+if (!require(zoo)) install.packages('zoo')
+if (!require(lubridate)) install.packages('lubridate')
+if (!require(uuid)) install.packages('uuid')
+if (!require(pbmcapply)) install.packages('pbmcapply')
+if (!require(readxl)) install.packages('readxl')
+if (!require(jsonlite)) install.packages('jsonlite')
+if (!require(purrr)) install.packages('purrr')
+
+library(plyr)
+library(tidyverse)
+library(httr)
+library(jsonlite)
+library(zoo)
+library(lubridate)
+library(uuid)
+library(pbmcapply)
+library(readxl)
+library(jsonlite)
+library(purrr)
+```
+
+Get oxford data
+
+```{r}
+objectIDs <- read.csv(file="events/objectIDs.csv",
+                      header=TRUE,
+                      sep=";") %>%
+               .[which(!(is.na(.$iso))),] %>%
+               .[which(!(.$iso=="")),]
+measureIDs <- read.csv(file="events/measureIDs.csv",
+                       header=TRUE,
+                       sep=";") %>%
+                .[which(.$source=="oxford"),]
+                
+#get Oxford data, save as .csv file
+oxford_data <- read.csv(file="https://covid.ourworldindata.org/data/owid-covid-data.csv",
+                        header=TRUE,
+                        sep=",",
+                        dec=".") %>%
+                 mutate(.,
+                        date=as.POSIXct(paste0(date,
+                                               " 00:00:00 GMT"))) %>%
+                 mutate(.,
+                        date=with_tz(date,
+                                     tzone="UTC")) %>%
+                 .[order(.$date),]
+save(oxford_data,
+     file="events/oxford_data_csv.rda")
+
+#ensure that there are records for each combination of iso and date (assuming that no dates are missing between min and max of original data)
+oxford_data <- expand.grid(unique(oxford_data$iso_code),
+                           unique(oxford_data$date)) %>%
+                 left_join(.,
+                           oxford_data,
+                           by=c("Var1"="iso_code",
+                                "Var2"="date"))
+colnames(oxford_data)[1:2] <- c("iso_code",
+                                "date")
+
+#fill in missing data for stable variables
+oxford_data <- oxford_data %>%
+                 group_by(.,iso_code) %>%
+                 fill(.,
+                      c("population":"human_development_index"),
+                      .direction=c("downup")) %>%
+                 ungroup()
+
+#consider only data with existing object IDs and same test units
+oxford_data <- oxford_data[which(oxford_data$iso_code %in% objectIDs$iso),]
+total_tests_col <- which(colnames(oxford_data)=="total_tests")
+positive_rate_col <- which(colnames(oxford_data)=="positive_rate")
+oxford_data[which(!(oxford_data$tests_units %in% c("people tested",
+                                                  "people tested (incl. non-PCR)",
+                                                  ""))),total_tests_col:positive_rate_col] <- as.numeric(NA)
+
+#consider only known measures
+oxford_data <- oxford_data[,which(names(oxford_data) %in% c("iso_code",
+                                                            "date",
+                                                            measureIDs$description))] %>%
+                 left_join(.,
+                           objectIDs,
+                           by=c("iso_code"="iso")) %>%
+                 select(.,
+                        -iso_code)
+
+#prepare event-based format
+oxford_data <- pivot_longer(oxford_data,
+                            cols=measureIDs$description,
+                            names_to="measurement_description",
+                            values_to="measurementValue") %>%
+                 na.omit(.,
+                         measurementValue) %>%
+                 left_join(.,
+                           measureIDs,
+                           by=c("measurement_description"="description")) %>%
+                 mutate(.,
+                        eventType=paste0(uuidObjectType,
+                                         "_",
+                                         uuidMeasure),
+                        uuidObject=as.factor(uuidObject),
+                        measurementTime=date,
+                        measurementValue=as.character(measurementValue)) %>%
+                 select(.,
+                        c(eventType,
+                          uuidObject,
+                          measurementTime,
+                          measurementValue))
+
+#function to save data by event type
+save_group <- function(data,
+                       eventType) {
+  save(data,
+       file=paste0("events/",
+                   eventType,
+                   ".rda"))
+}
+  
+#save data  
+oxford_data %>%
+  group_by(eventType) %>%
+  group_walk(~ save_group(.x,
+                          .y$eventType))
+```

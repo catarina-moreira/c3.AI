@@ -1,0 +1,176 @@
+---
+title: "C3.ai German states prime minister data abstraction notebook"
+output: html_notebook
+---
+
+# C3.ai COVID-19 Data Lake - German States Prime Ministers Data Abstraction
+
+This notebook acquires data about the prime ministers of German states and stores them in an abstraction layer as event types.
+
+For the time being, we are using a simplified model in which only the data segment but not the header segment will be created for event types.
+
+To view an outline of this notebook, use the RStudio keyboard shortcut Control + Shift + O on Windows or Command + Shift + O on Mac.
+
+Remark: Some of the packages may not be needed, use the following (sample) code to load packages instead:
+
+#define a function to install and load required packages
+ipak <- function(pkg){
+  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+  if (length(new.pkg)) 
+    install.packages(new.pkg, dependencies = TRUE)
+  sapply(pkg, require, character.only = TRUE)
+}
+
+#specify a list of required packages
+pack_list <- c("dplyr",
+               "lubridate",
+               "NCmisc")
+
+#install and load packages
+suppressWarnings(ipak(pack_list))
+
+#define current working directory
+current_wd <- dirname(rstudioapi::getActiveDocumentContext()$path)
+setwd(current_wd)
+
+#cross-check unused packages
+used_packages <- list.functions.in.file(rstudioapi::getSourceEditorContext()$path) %>%
+  names() %>%
+  unique()
+pack_list <- paste0("package:",unlist(pack_list))
+print("Unused packages:")
+print(setdiff(pack_list,used_packages))
+print("Missing packages:")
+print(setdiff(used_packages,pack_list))
+
+```{r}
+if (!require(plyr)) install.packages('plyr')
+if (!require(tidyverse)) install.packages('tidyverse')
+if (!require(httr)) install.packages('httr')
+if (!require(jsonlite)) install.packages('jsonlite')
+if (!require(zoo)) install.packages('zoo')
+if (!require(lubridate)) install.packages('lubridate')
+if (!require(uuid)) install.packages('uuid')
+if (!require(pbmcapply)) install.packages('pbmcapply')
+if (!require(readxl)) install.packages('readxl')
+if (!require(jsonlite)) install.packages('jsonlite')
+if (!require(purrr)) install.packages('purrr')
+if (!require(stringr)) install.packages('stringr')
+
+library(plyr)
+library(tidyverse)
+library(httr)
+library(jsonlite)
+library(zoo)
+library(lubridate)
+library(uuid)
+library(pbmcapply)
+library(readxl)
+library(jsonlite)
+library(purrr)
+library(stringr)
+```
+
+Get governor data
+
+```{r}
+objectIDs <- read.csv(file="events/objectIDs.csv",
+                      header=TRUE,
+                      sep=";")
+measureIDs <- read.csv(file="events/measureIDs.csv",
+                       header=TRUE,
+                       sep=";") %>%
+                .[which(.$source=="leader"),]
+                
+#get pm data, save as .csv file
+governor <- read.csv(file="events/pms.csv",
+                     header=TRUE,
+                     sep=";",
+                     dec=".")
+save(governor,
+     file="events/states_de_pms_data_csv.rda")
+
+#extract required information per date, for sake of simplicity assuming same timezone/time for all dates
+governor <- mutate(governor,
+                   daysSinceBirth=dmy(daysSinceBirth),
+                   daysSinceStart=dmy(daysSinceStart),
+                   daysToEnd=dmy(daysToEnd),
+                   .keep="unused") %>%
+              left_join(.,
+                        objectIDs,
+                        by="description") %>%
+              select(.,
+                     -c(description,iso))
+
+#ensure that there are records for each combination of iso and date (assuming that no dates are missing between min and max of original data)
+governor <- expand.grid(unique(governor$uuidObject),
+                        seq(max(governor$daysSinceStart),ymd("2020-12-31"),by="days")) %>%
+              left_join(.,
+                        governor,
+                        by=c("Var1"="uuidObject")) %>%
+              mutate(.,
+                     uuidObject=Var1,
+                     daysSinceBirth=as.integer(Var2-daysSinceBirth),
+                     daysSinceStart=as.integer(Var2-daysSinceStart),
+                     daysToEnd=as.integer(daysToEnd-Var2)) %>%
+              mutate(.,
+                     measurementTime=Var2,
+                     percentTerm=daysSinceStart/(daysSinceStart+daysToEnd)) %>%
+              select(.,
+                     uuidObjectType,
+                     uuidObject,
+                     measurementTime,
+                     party,
+                     gender,
+                     daysSinceBirth,
+                     daysSinceStart,
+                     daysToEnd,
+                     percentTerm) %>%
+              mutate(.,
+                     party=case_when(party=="c" ~ 1,
+                                     party=="spd" ~ 2,
+                                     party=="green" ~ 3,
+                                     party=="left" ~ 4,
+                                     TRUE ~ 0),
+                     gender=case_when(gender=="male" ~ 1,
+                                      gender=="female" ~ 2,
+                                      TRUE ~ 0))
+
+#prepare event-based format
+governor <- pivot_longer(governor,
+                         cols=party:percentTerm,
+                         names_to="measurement_description",
+                         values_to="measurementValue",
+                         values_transform=list(measurementValue=as.character)) %>%
+                 na.omit(.,
+                         measurementValue) %>%
+                 left_join(.,
+                           measureIDs,
+                           by=c("measurement_description"="description")) %>%
+                 mutate(.,
+                        eventType=paste0(uuidObjectType,
+                                         "_",
+                                         uuidMeasure),
+                        uuidObject=as.factor(uuidObject),
+                        measurementValue=as.character(measurementValue)) %>%
+                 select(.,
+                        c(eventType,
+                          uuidObject,
+                          measurementTime,
+                          measurementValue))
+
+#function to save data by event type
+save_group <- function(data,
+                       eventType) {
+  save(data,
+       file=paste0("events/",
+                   eventType,
+                   ".rda"))
+}
+  
+#save data  
+governor %>%
+  group_by(eventType) %>%
+  group_walk(~ save_group(.x,
+                          .y$eventType))
+```

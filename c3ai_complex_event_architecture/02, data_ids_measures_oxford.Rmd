@@ -1,0 +1,128 @@
+---
+title: "C3.ai Oxford measureID creation notebook"
+output: html_notebook
+---
+
+# C3.ai COVID-19 Data Lake - Oxford MeasureID Creation
+
+This notebook creates UUIDs for the measures that are meant to be acquired from Oxford test data. The code does not yet assign proper scale levels, we are working under the assumption that the data are numeric, but that should be reviewed later to select appropriate anonymous functions for further processing.
+
+In the next version, this notebook should be integrated into data_ids_measures.Rmd as the central point for measure ID creation. For data abstraction purposes, sources can still be separated via the "source" field.
+
+To view an outline of this notebook, use the RStudio keyboard shortcut Control + Shift + O on Windows or Command + Shift + O on Mac. 
+
+Remark: Some of the packages may not be needed, use the following (sample) code to load packages instead:
+
+#define a function to install and load required packages
+ipak <- function(pkg){
+  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+  if (length(new.pkg)) 
+    install.packages(new.pkg, dependencies = TRUE)
+  sapply(pkg, require, character.only = TRUE)
+}
+
+#specify a list of required packages
+pack_list <- c("dplyr",
+               "lubridate",
+               "NCmisc")
+
+#install and load packages
+suppressWarnings(ipak(pack_list))
+
+#define current working directory
+current_wd <- dirname(rstudioapi::getActiveDocumentContext()$path)
+setwd(current_wd)
+
+#cross-check unused packages
+used_packages <- list.functions.in.file(rstudioapi::getSourceEditorContext()$path) %>%
+  names() %>%
+  unique()
+pack_list <- paste0("package:",unlist(pack_list))
+print("Unused packages:")
+print(setdiff(pack_list,used_packages))
+print("Missing packages:")
+print(setdiff(used_packages,pack_list))
+
+```{r}
+if (!require(plyr)) install.packages('plyr')
+if (!require(tidyverse)) install.packages('tidyverse')
+if (!require(httr)) install.packages('httr')
+if (!require(jsonlite)) install.packages('jsonlite')
+if (!require(zoo)) install.packages('zoo')
+if (!require(lubridate)) install.packages('lubridate')
+if (!require(uuid)) install.packages('uuid')
+if (!require(pbmcapply)) install.packages('pbmcapply')
+if (!require(readxl)) install.packages('readxl')
+if (!require(jsonlite)) install.packages('jsonlite')
+if (!require(purrr)) install.packages('purrr')
+
+library(plyr)
+library(tidyverse)
+library(httr)
+library(jsonlite)
+library(zoo)
+library(lubridate)
+library(uuid)
+library(pbmcapply)
+library(readxl)
+library(jsonlite)
+library(purrr)
+```
+
+Get oxford data and extract measures
+
+```{r}
+measureIDs <- read.csv(file="events/measureIDs.csv",
+                      header=TRUE,
+                      sep=";")
+
+#get oxford data, save as JSON file
+oxford_data <- fromJSON("https://covid.ourworldindata.org/data/owid-covid-data.json",
+                        flatten=TRUE)
+save(oxford_data,
+     file="events/oxford_data_json.rda")
+
+#generate measureIDs for characteristics that are considered stable
+measures_stable <- pbmclapply(oxford_data,FUN=function(x) {
+  names(x)
+},mc.cores=8L) %>%
+  unlist() %>%
+  as.vector() %>%
+  unique() %>%
+  .[which(!(. %in% c("continent",
+                     "location",
+                     "data")))]
+measures_stable <- data.frame(source="oxford",
+                              uuidMeasure=UUIDgenerate(n=length(measures_stable)),
+                              description=measures_stable,
+                              scaleLevel="tbd",
+                              stringsAsFactors=TRUE)
+
+#generate measureIDs for time series
+measures_time <- pbmclapply(oxford_data,FUN=function(x) {
+  names(x$data)
+},mc.cores=8L) %>%
+  unlist() %>%
+  as.vector() %>%
+  unique() %>%
+  .[which(!(. %in% c("date",
+                     "tests_units",
+                     "stringency_index")))]
+measures_time <- data.frame(source="oxford",
+                            uuidMeasure=UUIDgenerate(n=length(measures_time)),
+                            description=measures_time,
+                            scaleLevel="tbd",
+                            stringsAsFactors=TRUE)
+measureIDs <- rbind(measureIDs,
+                    measures_stable,
+                    measures_time)
+
+#save measureIDs
+write.table(measureIDs,
+            file="events/measureIDs.csv",
+            append=FALSE,
+            quote=FALSE,
+            sep=";",
+            row.names=FALSE,
+            col.names=TRUE)
+```

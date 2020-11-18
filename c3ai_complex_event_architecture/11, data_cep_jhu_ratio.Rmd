@@ -1,0 +1,219 @@
+---
+title: "C3.ai cep case/death ratio notebook"
+output: html_notebook
+---
+
+# C3.ai COVID-19 Data Lake - Complex Event Processing for Case/Death Ratios
+
+This notebook uses time series from the abstraction layer to generate new time series (complex event processing approach). This specific notebook divides JHU case/death data by population.
+
+For the time being, we are using a simplified model in which only the data segment but not the header segment will be created for event types.
+
+To view an outline of this notebook, use the RStudio keyboard shortcut Control + Shift + O on Windows or Command + Shift + O on Mac.
+
+Remark: Some of the packages may not be needed, use the following (sample) code to load packages instead:
+
+#define a function to install and load required packages
+ipak <- function(pkg){
+  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+  if (length(new.pkg)) 
+    install.packages(new.pkg, dependencies = TRUE)
+  sapply(pkg, require, character.only = TRUE)
+}
+
+#specify a list of required packages
+pack_list <- c("dplyr",
+               "lubridate",
+               "NCmisc")
+
+#install and load packages
+suppressWarnings(ipak(pack_list))
+
+#define current working directory
+current_wd <- dirname(rstudioapi::getActiveDocumentContext()$path)
+setwd(current_wd)
+
+#cross-check unused packages
+used_packages <- list.functions.in.file(rstudioapi::getSourceEditorContext()$path) %>%
+  names() %>%
+  unique()
+pack_list <- paste0("package:",unlist(pack_list))
+print("Unused packages:")
+print(setdiff(pack_list,used_packages))
+print("Missing packages:")
+print(setdiff(used_packages,pack_list))
+
+```{r}
+if (!require(plyr)) install.packages('plyr')
+if (!require(dplyr)) install.packages('dplyr')
+if (!require(pbmcapply)) install.packages('pbmcapply')
+if (!require(stats)) install.packages('stats')
+if (!require(lubridate)) install.packages('lubridate')
+if (!require(data.table)) install.packages('data.table')
+if (!require(fuzzyjoin)) install.packages('fuzzyjoin')
+if (!require(matrixStats)) install.packages('matrixStats')
+
+library(plyr)
+library(dplyr)
+library(pbmcapply)
+library(stats)
+library(lubridate)
+library(data.table)
+library(matrixStats)
+```
+
+Define some basic parameters for data selection
+
+```{r}
+#define which events count as being recorded at the same time
+seconds_backward <- 12*60*60-1
+seconds_forward <- 12*60*60-1
+```
+
+Get desired event types
+
+```{r}
+event_scope <- read.csv(file="cep/event_scope_cep_jhu_ratio.csv",
+                        header=TRUE,
+                        sep=";")
+print(paste0(nrow(event_scope)*2,
+             " event types requested"))
+event_scope$eventTypeDividend <- paste0(event_scope$uuidObjectTypeDividend,
+                                        "_",
+                                        event_scope$uuidMeasureDividend)
+event_scope$eventTypeDivisor <- paste0(event_scope$uuidObjectTypeDividend,
+                                       "_",
+                                       event_scope$uuidMeasureDivisor)
+event_scope$eventTypeNew <- paste0(event_scope$uuidObjectTypeDividend,
+                                   "_",
+                                   event_scope$uuidMeasureNew)
+event_scope <- select(event_scope,
+                      eventTypeDividend,
+                      eventTypeDivisor,
+                      eventTypeNew)
+event_check <- c(event_scope$eventTypeDividend,
+                 event_scope$eventTypeDivisor)
+
+files <- pbmclapply(1:length(event_check),FUN=function(x) {
+  list.files(path="events/",
+             pattern=event_check[x])
+},mc.cores=8L) %>%
+  unlist()
+print(paste0(length(files),
+             " event types found"))
+
+event_records <- pbmclapply(files,FUN=function(x) {
+  load(paste0("events/",
+              x))
+  data$measurementTime <- with_tz(data$measurementTime,
+                                  tzone="UTC")
+  return(data.frame(eventType=substr(x,
+                                     1,
+                                     nchar(x)-4),
+                    data,
+                    stringsAsFactors=FALSE))
+},mc.cores=8L) %>%
+  ldply(.parallel=TRUE)  %>%
+  data.table(.) %>%
+  setorder(.,
+           eventType,
+           uuidObject,
+           -measurementTime) %>%
+  distinct(.,
+           .keep_all=TRUE)
+print(paste0(nrow(event_records),
+             " events loaded"))
+
+event_types_found <- unique(event_records$eventType)
+print(paste0(length(event_types_found),
+             " event types in data"))
+```
+
+Collect data in simultaneous chunks (simultaneous in terms of timestamps) - data recorded not more than seconds_backward ago and not more than seconds_forward in the future are considered to be recorded at the same time - and then create samples for pairs of events on that basis
+
+```{r}
+#reduce event scope to events that have been found
+event_scope <- event_scope %>%
+                 filter(.,
+                        event_scope$eventTypeDividend %in% event_types_found) %>%
+                 filter(.,
+                        event_scope$eventTypeDivisor %in% event_types_found)
+
+print("Processing events")
+records <- event_records %>%
+  group_by(eventType) %>%
+  distinct(.,
+           eventType,
+           uuidObject,
+           measurementTime,
+           .keep_all=TRUE) %>%
+  ungroup()
+
+#function to save data by event type (should actually be made available as a basic function)
+save_group <- function(data,
+                       eventType) {
+  save(data,
+       file=paste0("events/",
+                   eventType,
+                   ".rda"))
+  
+}
+  
+pbmclapply(1:nrow(event_scope),FUN=function(x) {
+  records_a <- records %>%
+    filter(eventType==event_scope[x,]$eventTypeDividend) %>%
+    mutate(.,
+           validity=interval(measurementTime-seconds_backward,
+                             measurementTime+seconds_forward))
+  records_b <- records %>%
+    filter(eventType==event_scope[x,]$eventTypeDivisor) %>%
+    mutate(.,
+           validity=interval(measurementTime-seconds_backward,
+                             measurementTime+seconds_forward))
+  records <- inner_join(records_a,
+                        records_b,
+                        by="uuidObject") %>%
+               .[which(int_overlaps(.$validity.x,
+                                    .$validity.y)),]
+  
+  #execution calculation
+  records$measurementValue <- as.numeric(records$measurementValue.x) / as.numeric(records$measurementValue.y)
+  records$measurementTime <- lubridate::intersect(records$validity.x,
+                                                  records$validity.y)
+  records$measurementTime <- records$measurementTime@start + records$measurementTime@.Data
+  
+  #clean results
+  records <- select(records,
+                    uuidObject,
+                    measurementTime,
+                    measurementValue,
+                    eventType.x,
+                    eventType.y) %>%
+               left_join(.,
+                         event_scope,
+                         by=c("eventType.x"="eventTypeDividend",
+                              "eventType.y"="eventTypeDivisor")) %>%
+               select(.,
+                      -c(eventType.x,
+                         eventType.y)) %>%
+               .[order(.$measurementTime,
+                       decreasing=TRUE),] %>%
+               distinct(.,
+                        uuidObject,
+                        measurementTime,
+                        .keep_all=TRUE) %>%
+               .[which(!is.infinite(.$measurementValue)),] %>%
+               mutate(.,
+                      measurementValue=as.character(measurementValue))
+  
+  records %>%
+    group_by(eventTypeNew) %>%
+    group_walk(~ save_group(.x,
+                            .y$eventTypeNew))
+  
+  print(paste0(length(unique(records$eventTypeNew)),
+               " new event types created"))
+  print(paste0(length(unique(records$uuidObject)),
+               " objects saved"))
+},mc.cores=8L)
+```

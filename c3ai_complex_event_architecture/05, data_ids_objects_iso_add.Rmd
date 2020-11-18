@@ -1,0 +1,101 @@
+---
+title: "C3.ai add ISO codes"
+output: html_notebook
+---
+
+# C3.ai COVID-19 Data Lake - Add ISO Codes
+
+This notebook uses the manually reviewed ISO codes and adds this information to existing object IDs. Due to inconsistencies, some object IDs will not have ISO codes (Sao Tome for example appeared more than once in C3's list of countries, MetropolitanFrance is not a country, etc.).
+
+To view an outline of this notebook, use the RStudio keyboard shortcut Control + Shift + O on Windows or Command + Shift + O on Mac.
+
+Remark: Some of the packages may not be needed, use the following (sample) code to load packages instead:
+
+#define a function to install and load required packages
+ipak <- function(pkg){
+  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+  if (length(new.pkg)) 
+    install.packages(new.pkg, dependencies = TRUE)
+  sapply(pkg, require, character.only = TRUE)
+}
+
+#specify a list of required packages
+pack_list <- c("dplyr",
+               "lubridate",
+               "NCmisc")
+
+#install and load packages
+suppressWarnings(ipak(pack_list))
+
+#define current working directory
+current_wd <- dirname(rstudioapi::getActiveDocumentContext()$path)
+setwd(current_wd)
+
+#cross-check unused packages
+used_packages <- list.functions.in.file(rstudioapi::getSourceEditorContext()$path) %>%
+  names() %>%
+  unique()
+pack_list <- paste0("package:",unlist(pack_list))
+print("Unused packages:")
+print(setdiff(pack_list,used_packages))
+print("Missing packages:")
+print(setdiff(used_packages,pack_list))
+
+```{r}
+if (!require(plyr)) install.packages('plyr')
+if (!require(tidyverse)) install.packages('tidyverse')
+if (!require(httr)) install.packages('httr')
+if (!require(jsonlite)) install.packages('jsonlite')
+if (!require(zoo)) install.packages('zoo')
+if (!require(lubridate)) install.packages('lubridate')
+if (!require(uuid)) install.packages('uuid')
+if (!require(pbmcapply)) install.packages('pbmcapply')
+if (!require(readxl)) install.packages('readxl')
+if (!require(jsonlite)) install.packages('jsonlite')
+if (!require(ISOcodes)) install.packages('ISOcodes')
+
+library(plyr)
+library(tidyverse)
+library(httr)
+library(jsonlite)
+library(zoo)
+library(lubridate)
+library(uuid)
+library(pbmcapply)
+library(readxl)
+library(jsonlite)
+library(ISOcodes)
+```
+
+Get existing object IDs and add manually reviewed ISO codes
+
+```{r}
+objectIDs <- read.csv("events/objectIDs.csv",
+                    header=TRUE,
+                    sep=";")
+objectIDs_iso_reviewed <- read.csv("events/objectIDs_iso_reviewed.csv",
+                                   header=TRUE,
+                                   sep=";")
+objectIDs <- left_join(objectIDs,
+                       objectIDs_iso_reviewed,
+                       by=c("uuidObjectType","uuidObject")) %>%
+               mutate(.,
+                      description=description.x,
+                      iso=Alpha_3,
+                      .keep="unused") %>%
+               select(.,
+                      -description.y)
+```
+
+Save enriched objectIDs
+
+```{r}
+write.table(objectIDs,
+            file="events/objectIDs.csv",
+            append=FALSE,
+            quote=FALSE,
+            sep=";",
+            na="",
+            row.names=FALSE,
+            col.names=TRUE)
+```

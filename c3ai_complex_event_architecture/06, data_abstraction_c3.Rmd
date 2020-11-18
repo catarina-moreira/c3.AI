@@ -1,0 +1,307 @@
+---
+title: "C3.ai C3 data abstraction notebook"
+output: html_notebook
+---
+
+# C3.ai COVID-19 Data Lake - C3 Data Abstraction
+
+This notebook acquires time series from the C3.ai data lake and stores them in an abstraction layer as event types.
+
+For the time being, we are using a simplified model in which only the data segment but not the header segment will be created for event types.
+
+To view an outline of this notebook, use the RStudio keyboard shortcut Control + Shift + O on Windows or Command + Shift + O on Mac. 
+
+Remark: Some of the packages may not be needed, use the following (sample) code to load packages instead:
+
+#define a function to install and load required packages
+ipak <- function(pkg){
+  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+  if (length(new.pkg)) 
+    install.packages(new.pkg, dependencies = TRUE)
+  sapply(pkg, require, character.only = TRUE)
+}
+
+#specify a list of required packages
+pack_list <- c("dplyr",
+               "lubridate",
+               "NCmisc")
+
+#install and load packages
+suppressWarnings(ipak(pack_list))
+
+#define current working directory
+current_wd <- dirname(rstudioapi::getActiveDocumentContext()$path)
+setwd(current_wd)
+
+#cross-check unused packages
+used_packages <- list.functions.in.file(rstudioapi::getSourceEditorContext()$path) %>%
+  names() %>%
+  unique()
+pack_list <- paste0("package:",unlist(pack_list))
+print("Unused packages:")
+print(setdiff(pack_list,used_packages))
+print("Missing packages:")
+print(setdiff(used_packages,pack_list))
+
+```{r}
+if (!require(plyr)) install.packages('plyr')
+if (!require(tidyverse)) install.packages('tidyverse')
+if (!require(httr)) install.packages('httr')
+if (!require(jsonlite)) install.packages('jsonlite')
+if (!require(zoo)) install.packages('zoo')
+if (!require(lubridate)) install.packages('lubridate')
+if (!require(uuid)) install.packages('uuid')
+if (!require(pbmcapply)) install.packages('pbmcapply')
+if (!require(readxl)) install.packages('readxl')
+
+library(plyr)
+library(tidyverse)
+library(httr)
+library(jsonlite)
+library(zoo)
+library(lubridate)
+library(uuid)
+library(pbmcapply)
+library(readxl)
+```
+
+## Helper methods for accessing the API
+
+The helper methods in `c3aidatalake.R` convert a JSON response from the C3.ai APIs to a Tibble. You may wish to view the code in `c3aidatalake.R` before continuing.
+
+```{r}
+source("c3aidatalake.R")
+```
+
+Load event type definitions (object types, objects, measures)
+
+```{r}
+objectTypeIDs <- read.csv(file="events/objectTypeIDs.csv",
+                          header=TRUE,
+                          sep=";")
+print(paste0("Loaded ",
+             nrow(objectTypeIDs),
+             " objectTypeIDs"))
+str(objectTypeIDs)
+objectIDs <- read.csv(file="events/objectIDs.csv",
+                      header=TRUE,
+                      sep=";") %>%
+               .[which(!(is.na(.$description))),] %>%
+               .[which(!(.$description=="")),]
+print(paste0("Loaded ",
+             nrow(objectIDs),
+             " objectIDs"))
+str(objectIDs)
+measureIDs <- read.csv(file="events/measureIDs.csv",
+                      header=TRUE,
+                      sep=";") %>%
+                .[which(.$source=="c3"),]
+print(paste0("Loaded ",
+             nrow(measureIDs),
+             " C3 measureIDs"))
+str(measureIDs)
+```
+
+Define function to split off measureIDs, streamline and save event data
+
+```{r}
+save_events <- function (data) {
+  print(paste0(length(unique(data$name)),
+               " objects received"))
+  print(paste0(length(unique(data$value_id)),
+               " measures received"))
+  data <- left_join(data,
+                    objectIDs,
+                    by=c("name"="description")) %>%
+          left_join(.,
+                    measureIDs,
+                    by=c("value_id"="description")) %>%
+          select(uuidObjectType,
+                 uuidObject,
+                 uuidMeasure,
+                 dates,
+                 data)
+  data$eventType <- paste0(data$uuidObjectType,
+                           "_",
+                           data$uuidMeasure)
+  colnames(data)[4:5] <- c("measurementTime",
+                           "measurementValue")
+  data$measurementValue <- as.character(data$measurementValue)
+  data <- select(data,
+                 eventType,
+                 uuidObject,
+                 measurementTime,
+                 measurementValue)
+  
+  #function to save data by event type
+  save_group <- function(data,
+                         eventType) {
+    save(data,
+         file=paste0("events/",
+                     eventType,
+                     ".rda"))
+  }
+  
+  print(paste0(length(unique(data$eventType)),
+               " event types identified"))
+  
+  data %>%
+    mutate(.,
+           uuidObject=as.factor(uuidObject)) %>%
+    group_by(eventType) %>%
+    group_walk(~ save_group(.x,
+                            .y$eventType))
+}
+```
+
+Get and save mobility data
+
+```{r}
+end_date <- Sys.Date()
+
+data <- evalmetrics(
+  "outbreaklocation",
+  list(
+    spec = list(
+      ids = objectIDs$description,
+      expressions = list(
+        "Apple_WalkingMobility", 
+        "Apple_DrivingMobility",
+        "Apple_TransitMobility",
+        "Google_ParksMobility",
+        "Google_ResidentialMobility",
+        "Google_RetailMobility",
+        "Google_GroceryMobility",
+        "Google_TransitStationsMobility",
+        "Google_WorkplacesMobility"
+      ),
+      start = "2020-02-15",
+      end = end_date,
+      interval = "DAY"
+    )
+  ),
+  get_all = TRUE
+) %>% 
+  filter(missing == 0) %>% 
+  select(-missing)
+
+#save mobility data
+save_events(data)
+```
+
+Get and save detailed policy data
+
+```{r}
+data_types <- c("OxCGRT_Policy_C1_Flag",
+                "OxCGRT_Policy_C1_SchoolClosing",
+                "OxCGRT_Policy_C8_InternationalTravelControls",
+                "OxCGRT_Policy_E1_IncomeSupport",
+                "OxCGRT_Policy_ConfirmedCases",
+                "OxCGRT_Policy_ConfirmedDeaths",
+                "OxCGRT_Policy_StringencyIndex",
+                "OxCGRT_Policy_StringencyIndexForDisplay",
+                "OxCGRT_Policy_StringencyLegacyIndex",
+                "OxCGRT_Policy_StringencyLegacyIndexForDisplay",
+                "OxCGRT_Policy_GovernmentResponseIndex",
+                "OxCGRT_Policy_GovernmentResponseIndexForDisplay",
+                "OxCGRT_Policy_ContainmentHealthIndex",
+                "OxCGRT_Policy_ContainmentHealthIndexForDisplay",
+                "OxCGRT_Policy_EconomicSupportIndex",
+                "OxCGRT_Policy_EconomicSupportIndexForDisplay")
+
+end_date <- Sys.Date()
+
+for (i in 1:length(data_types)) {
+  data <- evalmetrics(
+    "outbreaklocation",
+    list(
+      spec = list(
+        ids = objectIDs$description,
+        expressions = data_types[i],
+        start = "2020-02-15",
+        end = end_date,
+        interval = "DAY"
+      )
+    ),
+    get_all = TRUE
+  ) %>% 
+    filter(missing == 0) %>% 
+    select(-missing)
+  
+  #save oxford data
+  save_events(data)
+  print(paste0("Oxford processed: ",
+               i,
+               " of ",
+               length(data_types)))
+}
+```
+
+Get JHU Data (Recoveries not used, no data)
+
+```{r}
+data_types <- c("JHU_ConfirmedCases",
+                "JHU_ConfirmedDeaths")
+
+end_date <- Sys.Date()
+
+for (i in 1:length(data_types)) {
+  data <- evalmetrics(
+    "outbreaklocation",
+    list(
+      spec = list(
+        ids = objectIDs$description,
+        expressions = data_types[i],
+        start = "2020-02-15",
+        end = end_date,
+        interval = "DAY"
+      )
+    ),
+    get_all = TRUE
+  ) %>% 
+    filter(missing == 0) %>% 
+    select(-missing)
+  
+  #save jhu data
+  save_events(data)
+  print(paste0("JHU processed ",
+               i,
+               " of ",
+               length(data_types)))
+}
+```
+
+Get and save international census data
+
+```{r}
+data_types <- c("LifeExpectancyInternational",
+                "MaleFemaletotal_InternationalCensus",
+                "MortalityRateUnder5International")
+
+end_date <- Sys.Date()
+
+for (i in 1:length(data_types)) {
+  data <- evalmetrics(
+    "outbreaklocation",
+    list(
+      spec = list(
+        ids = objectIDs$description,
+        expressions = data_types[i],
+        start = "2020-02-15",
+        end = end_date,
+        interval = "DAY"
+      )
+    ),
+    get_all = TRUE
+  ) %>% 
+    filter(missing == 0) %>% 
+    select(-missing)
+
+  #save census data
+  save_events(data)
+  print(paste0("International census processed ",
+               i,
+               " of ",
+               length(data_types)))
+}
+```
