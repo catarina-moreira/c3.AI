@@ -12,11 +12,11 @@ The suggested architecture can promote flexibility by increasing the speed of th
 We propose a domain-independent Complex Event Processing (CEP) architecture (Figure 2). Our event types are combinations of object types (like “country”) and measures, and are managed in an event type (metadata) repository. The result of this abstraction step are abstract and domain-independent event stream files, changes to which automatically trigger anonymous and anonymous CEP functions generating complex events (such as ratios).
 A continuous sampling process draws samples from the event lake, matching event types that are compatible and events recorded at the same time; these state/output samples are used for hypothesis generation (data mining) and model testing. The model generation and testing results and the respective quality criteria (e.g. correlation of predicted and test values) are stored in specific event types to be reported to users.
 
-<img src="imgs/Architecture.png" />	
+<img src="imgs/Architecture.png" width="70%" />	
 
 Classical and Quantum-Like Inference enables the analysis and identification of biased and (ir)rational government responses through the formalisms of quantum mechanics. Uncertainty can cause decision-makers to deviate from the normative (rational) setting. This is due to quantum interference effects. Identifying these decisions can reduce policies that might put minority groups at risk. Figure 1 exemplifies quantum interference effects showing a decision process, where two ambiguous beliefs are co-occurring in the decision-maker’s mind, generating quantum interference effects that may lead to biases.
 
-<img src="imgs/Interference.png" />	
+<img src="imgs/Interference.png" width="70%" />	
 
 
 ## Classical Analysis
