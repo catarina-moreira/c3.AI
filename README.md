@@ -31,7 +31,7 @@ The proposed architecture enables fast statistical evaluation of events accordin
 We used Bayesian networks (BNs) to learn insights regarding the (ir)rationality of government responses. Our analysis compared Sweden and Australia in different government responses. 
 
 
-<img src="imgs/BN1.png" />	
+<img src="imgs/BN1.png" width="70%" />	
 <img src="imgs/BN2.png" />	
 
 ## Quantum-Like Bayesian Network Analysis
