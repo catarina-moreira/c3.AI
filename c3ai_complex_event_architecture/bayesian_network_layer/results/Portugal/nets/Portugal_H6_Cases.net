@@ -1,0 +1,33 @@
+
+net {
+  name = unnamedBN;
+  software = "aGrUM 0.18.2";
+  node_size = (50 50);
+}
+
+node Cases_per_Million {
+   states = (L0_0__145_86L L145_86__291_71L L291_71__437_57L L437_57__583_42L L583_42__729_28L );
+   label = "Cases_per_Million";
+   ID = "Cases_per_Million";
+}
+
+node H6_Facial_Coverings {
+   states = (0 1 2 3 );
+   label = "H6_Facial_Coverings";
+   ID = "H6_Facial_Coverings";
+}
+
+potential (Cases_per_Million) {
+   data = (  0.886347 0.0560886 0.0376384 0.0118081 0.00811808);
+}
+
+potential ( H6_Facial_Coverings | Cases_per_Million   ) {
+   data = 
+   ((   0.320774   0.324938   0.0501665   0.304122)   % Cases_per_Million=L0_0__145_86L   
+   (   0.0690789   0.00328947   0.00328947   0.924342)   % Cases_per_Million=L145_86__291_71L   
+   (   0.00490196   0.00490196   0.00490196   0.985294)   % Cases_per_Million=L291_71__437_57L   
+   (   0.015625   0.015625   0.015625   0.953125)   % Cases_per_Million=L437_57__583_42L   
+   (   0.0227273   0.0227273   0.0227273   0.931818));   % Cases_per_Million=L583_42__729_28L   
+}
+
+

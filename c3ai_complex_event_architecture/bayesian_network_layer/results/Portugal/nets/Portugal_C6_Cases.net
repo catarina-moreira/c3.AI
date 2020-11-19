@@ -1,0 +1,33 @@
+
+net {
+  name = unnamedBN;
+  software = "aGrUM 0.18.2";
+  node_size = (50 50);
+}
+
+node Cases_per_Million {
+   states = (L0_0__145_86L L145_86__291_71L L291_71__437_57L L437_57__583_42L L583_42__729_28L );
+   label = "Cases_per_Million";
+   ID = "Cases_per_Million";
+}
+
+node C6_Stay_at_home_requirements {
+   states = (0 1 3 );
+   label = "C6_Stay_at_home_requirements";
+   ID = "C6_Stay_at_home_requirements";
+}
+
+potential (Cases_per_Million) {
+   data = (  0.886347 0.0560886 0.0376384 0.0118081 0.00811808);
+}
+
+potential ( C6_Stay_at_home_requirements | Cases_per_Million   ) {
+   data = 
+   ((   0.22509   0.312517   0.462392)   % Cases_per_Million=L0_0__145_86L   
+   (   0.00438596   0.79386   0.201754)   % Cases_per_Million=L145_86__291_71L   
+   (   0.00653595   0.300654   0.69281)   % Cases_per_Million=L291_71__437_57L   
+   (   0.0208333   0.0208333   0.958333)   % Cases_per_Million=L437_57__583_42L   
+   (   0.030303   0.030303   0.939394));   % Cases_per_Million=L583_42__729_28L   
+}
+
+

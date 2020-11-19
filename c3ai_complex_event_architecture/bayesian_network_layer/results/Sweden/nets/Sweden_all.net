@@ -1,0 +1,856 @@
+
+net {
+  name = unnamedBN;
+  software = "aGrUM 0.18.2";
+  node_size = (50 50);
+}
+
+node Cases_per_Million {
+   states = (L0_0__308_48L L1233_94__1542_42L L308_48__616_97L L925_45__1233_94L );
+   label = "Cases_per_Million";
+   ID = "Cases_per_Million";
+}
+
+node Deaths_per_Million {
+   states = (L0_0__2_25L L2_25__4_5L L4_5__6_74L L6_74__8_99L L8_99__11_24L );
+   label = "Deaths_per_Million";
+   ID = "Deaths_per_Million";
+}
+
+node G_Retail {
+   states = (L_18_81___3_64L L_33_99___18_81L L_3_64__11_53L L_49_16___33_99L L_64_33___49_16L );
+   label = "G_Retail";
+   ID = "G_Retail";
+}
+
+node G_Grocery_Pharmacy {
+   states = (L15_82__28_0L L3_64__15_82L L_20_71___8_53L L_32_89___20_71L L_8_53__3_64L );
+   label = "G_Grocery_Pharmacy";
+   ID = "G_Grocery_Pharmacy";
+}
+
+node G_Parks {
+   states = (L136_62__181_5L L1_97__46_85L L46_85__91_74L L91_74__136_62L L_42_91__1_97L );
+   label = "G_Parks";
+   ID = "G_Parks";
+}
+
+node G_Transit {
+   states = (L_23_09___8_73L L_37_45___23_09L L_51_82___37_45L L_66_18___51_82L L_8_73__5_64L );
+   label = "G_Transit";
+   ID = "G_Transit";
+}
+
+node G_Workplace {
+   states = (L_25_72___6_72L L_44_72___25_72L L_63_72___44_72L L_6_72__12_29L L_82_73___63_72L );
+   label = "G_Workplace";
+   ID = "G_Workplace";
+}
+
+node G_Residencial {
+   states = (L0_16__6_19L L12_21__18_23L L18_23__24_25L L6_19__12_21L L_5_86__0_16L );
+   label = "G_Residencial";
+   ID = "G_Residencial";
+}
+
+node H2_Testing_policy {
+   states = (1 2 );
+   label = "H2_Testing_policy";
+   ID = "H2_Testing_policy";
+}
+
+node H3_Contact_tracing {
+   states = (1 2 );
+   label = "H3_Contact_tracing";
+   ID = "H3_Contact_tracing";
+}
+
+node H6_Facial_Coverings {
+   states = (0 );
+   label = "H6_Facial_Coverings";
+   ID = "H6_Facial_Coverings";
+}
+
+node C1_School_closing {
+   states = (0 1 2 );
+   label = "C1_School_closing";
+   ID = "C1_School_closing";
+}
+
+node C2_Workplace_closing {
+   states = (0 1 );
+   label = "C2_Workplace_closing";
+   ID = "C2_Workplace_closing";
+}
+
+node C4_Restrictions_on_gatherings {
+   states = (0 2 3 );
+   label = "C4_Restrictions_on_gatherings";
+   ID = "C4_Restrictions_on_gatherings";
+}
+
+node C6_Stay_at_home_requirements {
+   states = (0 1 );
+   label = "C6_Stay_at_home_requirements";
+   ID = "C6_Stay_at_home_requirements";
+}
+
+potential ( Cases_per_Million | C1_School_closing   Deaths_per_Million   ) {
+   data = 
+   (((   0.998391   0.000536481   0.000536481   0.000536481)   % Deaths_per_Million=L0_0__2_25L   C1_School_closing=0   
+   (   0.25   0.25   0.25   0.25)   % Deaths_per_Million=L2_25__4_5L   C1_School_closing=0   
+   (   0.25   0.25   0.25   0.25)   % Deaths_per_Million=L4_5__6_74L   C1_School_closing=0   
+   (   0.25   0.25   0.25   0.25)   % Deaths_per_Million=L6_74__8_99L   C1_School_closing=0   
+   (   0.25   0.25   0.25   0.25))   % Deaths_per_Million=L8_99__11_24L   C1_School_closing=0   
+   ((   0.905368   0.000195925   0.0824843   0.0119514)   % Deaths_per_Million=L0_0__2_25L   C1_School_closing=1   
+   (   0.015625   0.953125   0.015625   0.015625)   % Deaths_per_Million=L2_25__4_5L   C1_School_closing=1   
+   (   0.25   0.25   0.25   0.25)   % Deaths_per_Million=L4_5__6_74L   C1_School_closing=1   
+   (   0.25   0.25   0.25   0.25)   % Deaths_per_Million=L6_74__8_99L   C1_School_closing=1   
+   (   0.25   0.25   0.25   0.25))   % Deaths_per_Million=L8_99__11_24L   C1_School_closing=1   
+   ((   0.99922   0.000260146   0.000260146   0.000260146)   % Deaths_per_Million=L0_0__2_25L   C1_School_closing=2   
+   (   0.998614   0.000462107   0.000462107   0.000462107)   % Deaths_per_Million=L2_25__4_5L   C1_School_closing=2   
+   (   0.996888   0.00103734   0.00103734   0.00103734)   % Deaths_per_Million=L4_5__6_74L   C1_School_closing=2   
+   (   0.998441   0.000519751   0.000519751   0.000519751)   % Deaths_per_Million=L6_74__8_99L   C1_School_closing=2   
+   (   0.990132   0.00328947   0.00328947   0.00328947)));   % Deaths_per_Million=L8_99__11_24L   C1_School_closing=2   
+}
+
+potential ( Deaths_per_Million | C6_Stay_at_home_requirements   H2_Testing_policy   C1_School_closing   ) {
+   data = 
+   ((((   0.997855   0.000536193   0.000536193   0.000536193   0.000536193)   % C1_School_closing=0   H2_Testing_policy=1   C6_Stay_at_home_requirements=0   
+   (   0.2   0.2   0.2   0.2   0.2)   % C1_School_closing=1   H2_Testing_policy=1   C6_Stay_at_home_requirements=0   
+   (   0.991753   0.00206186   0.00206186   0.00206186   0.00206186))   % C1_School_closing=2   H2_Testing_policy=1   C6_Stay_at_home_requirements=0   
+   ((   0.2   0.2   0.2   0.2   0.2)   % C1_School_closing=0   H2_Testing_policy=2   C6_Stay_at_home_requirements=0   
+   (   0.2   0.2   0.2   0.2   0.2)   % C1_School_closing=1   H2_Testing_policy=2   C6_Stay_at_home_requirements=0   
+   (   0.2   0.2   0.2   0.2   0.2)))   % C1_School_closing=2   H2_Testing_policy=2   C6_Stay_at_home_requirements=0   
+   (((   0.2   0.2   0.2   0.2   0.2)   % C1_School_closing=0   H2_Testing_policy=1   C6_Stay_at_home_requirements=1   
+   (   0.2   0.2   0.2   0.2   0.2)   % C1_School_closing=1   H2_Testing_policy=1   C6_Stay_at_home_requirements=1   
+   (   0.000234467   0.253458   0.225322   0.45041   0.0705744))   % C1_School_closing=2   H2_Testing_policy=1   C6_Stay_at_home_requirements=1   
+   ((   0.2   0.2   0.2   0.2   0.2)   % C1_School_closing=0   H2_Testing_policy=2   C6_Stay_at_home_requirements=1   
+   (   0.987609   0.0118103   0.000193611   0.000193611   0.000193611)   % C1_School_closing=1   H2_Testing_policy=2   C6_Stay_at_home_requirements=1   
+   (   0.75613   0.243195   0.000224972   0.000224972   0.000224972))));   % C1_School_closing=2   H2_Testing_policy=2   C6_Stay_at_home_requirements=1   
+}
+
+potential ( G_Retail | C4_Restrictions_on_gatherings   ) {
+   data = 
+   ((   0.192405   0.00253165   0.8   0.00253165   0.00253165)   % C4_Restrictions_on_gatherings=0   
+   (   0.506158   0.308211   0.145455   0.0222874   0.0178886)   % C4_Restrictions_on_gatherings=2   
+   (   0.119231   0.753846   0.00384615   0.119231   0.00384615));   % C4_Restrictions_on_gatherings=3   
+}
+
+potential ( G_Grocery_Pharmacy | G_Retail   ) {
+   data = 
+   ((   0.000327332   0.0576105   0.22946   0.000327332   0.712275)   % G_Retail=L_18_81___3_64L   
+   (   0.000480769   0.0125   0.493269   0.0125   0.48125)   % G_Retail=L_33_99___18_81L   
+   (   0.0191882   0.111439   0.000738007   0.000738007   0.867897)   % G_Retail=L_3_64__11_53L   
+   (   0.00555556   0.00555556   0.561111   0.422222   0.00555556)   % G_Retail=L_49_16___33_99L   
+   (   0.00952381   0.00952381   0.00952381   0.961905   0.00952381));   % G_Retail=L_64_33___49_16L   
+}
+
+potential ( G_Parks | H2_Testing_policy   ) {
+   data = 
+   ((   0.0461538   0.453394   0.227149   0.0823529   0.19095)   % H2_Testing_policy=1   
+   (   0.119003   0.374455   0.268536   0.193769   0.0442368));   % H2_Testing_policy=2   
+}
+
+potential ( G_Transit | H2_Testing_policy   C1_School_closing   ) {
+   data = 
+   (((   0.193583   0.0652406   0.00106952   0.00106952   0.739037)   % C1_School_closing=0   H2_Testing_policy=1   
+   (   0.2   0.2   0.2   0.2   0.2)   % C1_School_closing=1   H2_Testing_policy=1   
+   (   0.0256842   0.240421   0.695158   0.0383158   0.000421053))   % C1_School_closing=2   H2_Testing_policy=1   
+   ((   0.2   0.2   0.2   0.2   0.2)   % C1_School_closing=0   H2_Testing_policy=2   
+   (   0.0468085   0.835977   0.116441   0.000386847   0.000386847)   % C1_School_closing=1   H2_Testing_policy=2   
+   (   0.121798   0.566742   0.310562   0.000449438   0.000449438)));   % C1_School_closing=2   H2_Testing_policy=2   
+}
+
+potential ( G_Workplace | G_Transit   H2_Testing_policy   ) {
+   data = 
+   (((   0.37284   0.00246914   0.00246914   0.619753   0.00246914)   % H2_Testing_policy=1   G_Transit=L_23_09___8_73L   
+   (   0.00152672   0.00152672   0.00152672   0.993893   0.00152672))   % H2_Testing_policy=2   G_Transit=L_23_09___8_73L   
+   ((   0.617062   0.285308   0.000947867   0.0957346   0.000947867)   % H2_Testing_policy=1   G_Transit=L_37_45___23_09L   
+   (   0.254338   0.333216   0.184224   0.228046   0.000175285))   % H2_Testing_policy=2   G_Transit=L_37_45___23_09L   
+   ((   0.2   0.708167   0.0366606   0.0366606   0.0185118)   % H2_Testing_policy=1   G_Transit=L_51_82___37_45L   
+   (   0.0912387   0.181873   0.635045   0.0610272   0.0308157))   % H2_Testing_policy=2   G_Transit=L_51_82___37_45L   
+   ((   0.00645161   0.00645161   0.00645161   0.00645161   0.974194)   % H2_Testing_policy=1   G_Transit=L_66_18___51_82L   
+   (   0.2   0.2   0.2   0.2   0.2))   % H2_Testing_policy=2   G_Transit=L_66_18___51_82L   
+   ((   0.174026   0.000865801   0.000865801   0.823377   0.000865801)   % H2_Testing_policy=1   G_Transit=L_8_73__5_64L   
+   (   0.2   0.2   0.2   0.2   0.2)));   % H2_Testing_policy=2   G_Transit=L_8_73__5_64L   
+}
+
+potential ( G_Residencial | H2_Testing_policy   G_Workplace   ) {
+   data = 
+   (((   0.675884   0.000643087   0.000643087   0.322186   0.000643087)   % G_Workplace=L_25_72___6_72L   H2_Testing_policy=1   
+   (   0.000443459   0.377384   0.000443459   0.621286   0.000443459)   % G_Workplace=L_44_72___25_72L   H2_Testing_policy=1   
+   (   0.00952381   0.961905   0.00952381   0.00952381   0.00952381)   % G_Workplace=L_63_72___44_72L   H2_Testing_policy=1   
+   (   0.819217   0.000711744   0.000711744   0.000711744   0.178648)   % G_Workplace=L_6_72__12_29L   H2_Testing_policy=1   
+   (   0.00487805   0.24878   0.736585   0.00487805   0.00487805))   % G_Workplace=L_82_73___63_72L   H2_Testing_policy=1   
+   ((   0.561371   0.000623053   0.000623053   0.405607   0.0317757)   % G_Workplace=L_25_72___6_72L   H2_Testing_policy=2   
+   (   0.34059   0.000453515   0.000453515   0.65805   0.000453515)   % G_Workplace=L_44_72___25_72L   H2_Testing_policy=2   
+   (   0.047981   0.000475059   0.000475059   0.950594   0.000475059)   % G_Workplace=L_63_72___44_72L   H2_Testing_policy=2   
+   (   0.414112   0.000486618   0.000486618   0.000486618   0.584428)   % G_Workplace=L_6_72__12_29L   H2_Testing_policy=2   
+   (   0.0181818   0.0181818   0.0181818   0.927273   0.0181818)));   % G_Workplace=L_82_73___63_72L   H2_Testing_policy=2   
+}
+
+potential (H2_Testing_policy) {
+   data = (  0.407749 0.592251);
+}
+
+potential ( H3_Contact_tracing | C6_Stay_at_home_requirements   C1_School_closing   ) {
+   data = 
+   (((   0.0026738   0.997326)   % C1_School_closing=0   C6_Stay_at_home_requirements=0   
+   (   0.5   0.5)   % C1_School_closing=1   C6_Stay_at_home_requirements=0   
+   (   0.255102   0.744898))   % C1_School_closing=2   C6_Stay_at_home_requirements=0   
+   ((   0.5   0.5)   % C1_School_closing=0   C6_Stay_at_home_requirements=1   
+   (   0.999033   0.000967118)   % C1_School_closing=1   C6_Stay_at_home_requirements=1   
+   (   0.999426   0.000574053)));   % C1_School_closing=2   C6_Stay_at_home_requirements=1   
+}
+
+potential ( H6_Facial_Coverings | H2_Testing_policy   Cases_per_Million   G_Residencial   G_Grocery_Pharmacy   C1_School_closing   ) {
+   data = 
+   ((((((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   (   1))))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=1   
+   ((((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   (   1))))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=1   
+   ((((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   (   1))))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=1   
+   ((((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (   1)))))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=1   
+   (((((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L0_16__6_19L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L12_21__18_23L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L18_23__24_25L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L6_19__12_21L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   (   1))))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L0_0__308_48L   H2_Testing_policy=2   
+   ((((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L0_16__6_19L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L12_21__18_23L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L18_23__24_25L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L6_19__12_21L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   (   1))))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L1233_94__1542_42L   H2_Testing_policy=2   
+   ((((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L0_16__6_19L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L12_21__18_23L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L18_23__24_25L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L6_19__12_21L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   (   1))))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L308_48__616_97L   H2_Testing_policy=2   
+   ((((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L0_16__6_19L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L12_21__18_23L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L18_23__24_25L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)))   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L6_19__12_21L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L15_82__28_0L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L3_64__15_82L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_20_71___8_53L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1))   % C1_School_closing=2   G_Grocery_Pharmacy=L_32_89___20_71L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   ((   1)   % C1_School_closing=0   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1)   % C1_School_closing=1   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+   (   1))))));   % C1_School_closing=2   G_Grocery_Pharmacy=L_8_53__3_64L   G_Residencial=L_5_86__0_16L   Cases_per_Million=L925_45__1233_94L   H2_Testing_policy=2   
+}
+
+potential ( C1_School_closing | H2_Testing_policy   G_Parks   ) {
+   data = 
+   (((   0.00653595   0.00653595   0.986928)   % G_Parks=L136_62__181_5L   H2_Testing_policy=1   
+   (   0.260146   0.000665336   0.739188)   % G_Parks=L1_97__46_85L   H2_Testing_policy=1   
+   (   0.0411687   0.00132802   0.957503)   % G_Parks=L46_85__91_74L   H2_Testing_policy=1   
+   (   0.003663   0.003663   0.992674)   % G_Parks=L91_74__136_62L   H2_Testing_policy=1   
+   (   0.807267   0.00157978   0.191153))   % G_Parks=L_42_91__1_97L   H2_Testing_policy=1   
+   ((   0.0017452   0.0017452   0.99651)   % G_Parks=L136_62__181_5L   H2_Testing_policy=2   
+   (   0.000554631   0.948974   0.0504714)   % G_Parks=L1_97__46_85L   H2_Testing_policy=2   
+   (   0.000773395   0.441609   0.557618)   % G_Parks=L46_85__91_74L   H2_Testing_policy=2   
+   (   0.00107181   0.0975348   0.901393)   % G_Parks=L91_74__136_62L   H2_Testing_policy=2   
+   (   0.00469484   0.99061   0.00469484)));   % G_Parks=L_42_91__1_97L   H2_Testing_policy=2   
+}
+
+potential ( C2_Workplace_closing | H3_Contact_tracing   C6_Stay_at_home_requirements   ) {
+   data = 
+   (((   0.944444   0.0555556)   % C6_Stay_at_home_requirements=0   H3_Contact_tracing=1   
+   (   0.000540541   0.999459))   % C6_Stay_at_home_requirements=1   H3_Contact_tracing=1   
+   ((   0.996644   0.0033557)   % C6_Stay_at_home_requirements=0   H3_Contact_tracing=2   
+   (   0.5   0.5)));   % C6_Stay_at_home_requirements=1   H3_Contact_tracing=2   
+}
+
+potential ( C4_Restrictions_on_gatherings | H2_Testing_policy   C1_School_closing   ) {
+   data = 
+   (((   0.836007   0.00178253   0.16221)   % C1_School_closing=0   H2_Testing_policy=1   
+   (   0.333333   0.333333   0.333333)   % C1_School_closing=1   H2_Testing_policy=1   
+   (   0.000701754   0.847018   0.152281))   % C1_School_closing=2   H2_Testing_policy=1   
+   ((   0.333333   0.333333   0.333333)   % C1_School_closing=0   H2_Testing_policy=2   
+   (   0.000644745   0.998711   0.000644745)   % C1_School_closing=1   H2_Testing_policy=2   
+   (   0.000749064   0.998502   0.000749064)));   % C1_School_closing=2   H2_Testing_policy=2   
+}
+
+potential ( C6_Stay_at_home_requirements | C4_Restrictions_on_gatherings   C1_School_closing   ) {
+   data = 
+   (((   0.997872   0.00212766)   % C1_School_closing=0   C4_Restrictions_on_gatherings=0   
+   (   0.5   0.5)   % C1_School_closing=1   C4_Restrictions_on_gatherings=0   
+   (   0.5   0.5))   % C1_School_closing=2   C4_Restrictions_on_gatherings=0   
+   ((   0.5   0.5)   % C1_School_closing=0   C4_Restrictions_on_gatherings=2   
+   (   0.000645161   0.999355)   % C1_School_closing=1   C4_Restrictions_on_gatherings=2   
+   (   0.000393701   0.999606))   % C1_School_closing=2   C4_Restrictions_on_gatherings=2   
+   ((   0.98913   0.0108696)   % C1_School_closing=0   C4_Restrictions_on_gatherings=3   
+   (   0.5   0.5)   % C1_School_closing=1   C4_Restrictions_on_gatherings=3   
+   (   0.665138   0.334862)));   % C1_School_closing=2   C4_Restrictions_on_gatherings=3   
+}
+
+

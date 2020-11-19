@@ -1,0 +1,40 @@
+net
+{
+	name = "unnamedBN";
+	software = "aGrUM 0.18.2";
+	node_size = (50.0 50.0);
+	huginenginegenerator3061656038650325130L = "edu.ucla.belief.inference.JoinTreeSettings@5bc7606a";
+}
+
+node H2_Testing_policy
+{
+	states = ("1.0" "2.0" );
+	position = (199 -157);
+	ismapvariable = "false";
+	label = "H2_Testing_policy";
+	ID = "H2_Testing_policy";
+	diagnosistype = "AUXILIARY";
+	excludepolicy = "include whole CPT";
+}
+node Deaths_per_Million
+{
+	states = ("L0_0__2_25L" "L2_25__4_5L" "L4_5__6_74L" "L6_74__8_99L" "L8_99__11_24L" );
+	position = (105 -51);
+	ismapvariable = "false";
+	label = "Deaths_per_Million";
+	ID = "Deaths_per_Million";
+	diagnosistype = "AUXILIARY";
+	excludepolicy = "include whole CPT";
+}
+potential ( H2_Testing_policy | Deaths_per_Million )
+{
+	data = ((	0.216981	0.783019	)
+		(	0.486559	0.513441	)
+		(	0.9938271590123455	0.006172840987654558	)
+		(	0.9968944087267075	0.0031055912732924225	)
+		(	0.9807691961538393	0.019230803846160768	));
+}
+potential ( Deaths_per_Million | )
+{
+	data = (	0.6649451329890266	0.13726902745380548	0.05977861195572239	0.11881902376380475	0.019188203837640767	);
+}

@@ -1,0 +1,33 @@
+
+net {
+  name = unnamedBN;
+  software = "aGrUM 0.18.2";
+  node_size = (50 50);
+}
+
+node Deaths_per_Million {
+   states = (L0_0__1_23L L1_23__2_45L L2_45__3_68L L3_68__4_9L L4_9__6_13L );
+   label = "Deaths_per_Million";
+   ID = "Deaths_per_Million";
+}
+
+node H6_Facial_Coverings {
+   states = (0 1 2 3 );
+   label = "H6_Facial_Coverings";
+   ID = "H6_Facial_Coverings";
+}
+
+potential (Deaths_per_Million) {
+   data = (  0.661255 0.20369 0.0929889 0.0228782 0.0191882);
+}
+
+potential ( H6_Facial_Coverings | Deaths_per_Million   ) {
+   data = 
+   ((   0.201172   0.340681   0.0672433   0.390904)   % Deaths_per_Million=L0_0__1_23L   
+   (   0.399457   0.308877   0.000905797   0.290761)   % Deaths_per_Million=L1_23__2_45L   
+   (   0.795635   0.00198413   0.00198413   0.200397)   % Deaths_per_Million=L2_45__3_68L   
+   (   0.00806452   0.00806452   0.00806452   0.975806)   % Deaths_per_Million=L3_68__4_9L   
+   (   0.00961538   0.00961538   0.00961538   0.971154));   % Deaths_per_Million=L4_9__6_13L   
+}
+
+

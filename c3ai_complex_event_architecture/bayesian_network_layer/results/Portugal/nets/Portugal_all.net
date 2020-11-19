@@ -1,0 +1,442 @@
+
+net {
+  name = unnamedBN;
+  software = "aGrUM 0.18.2";
+  node_size = (50 50);
+}
+
+node Cases_per_Million {
+   states = (L0_0__145_86L L145_86__291_71L L291_71__437_57L L437_57__583_42L L583_42__729_28L );
+   label = "Cases_per_Million";
+   ID = "Cases_per_Million";
+}
+
+node Deaths_per_Million {
+   states = (L0_0__1_23L L1_23__2_45L L2_45__3_68L L3_68__4_9L L4_9__6_13L );
+   label = "Deaths_per_Million";
+   ID = "Deaths_per_Million";
+}
+
+node G_Retail {
+   states = (L_24_0___3_05L L_3_05__17_9L L_44_95___24_0L L_65_9___44_95L L_86_85___65_9L );
+   label = "G_Retail";
+   ID = "G_Retail";
+}
+
+node G_Grocery_Pharmacy {
+   states = (L1_64__22_8L L_19_52__1_64L L_40_68___19_52L L_61_84___40_68L L_83_0___61_84L );
+   label = "G_Grocery_Pharmacy";
+   ID = "G_Grocery_Pharmacy";
+}
+
+node G_Parks {
+   states = (L34_64__74_97L L74_97__115_3L L_46_01___5_68L L_5_68__34_64L L_86_33___46_01L );
+   label = "G_Parks";
+   ID = "G_Parks";
+}
+
+node G_Transit {
+   states = (L_23_58___3_65L L_3_65__16_27L L_43_5___23_58L L_63_43___43_5L L_83_35___63_43L );
+   label = "G_Transit";
+   ID = "G_Transit";
+}
+
+node G_Workplace {
+   states = (L_14_57__3_18L L_32_31___14_57L L_50_06___32_31L L_67_8___50_06L L_85_55___67_8L );
+   label = "G_Workplace";
+   ID = "G_Workplace";
+}
+
+node G_Residencial {
+   states = (L16_89__27_39L L27_39__37_9L L37_9__48_4L L6_39__16_89L L_4_12__6_39L );
+   label = "G_Residencial";
+   ID = "G_Residencial";
+}
+
+node H2_Testing_policy {
+   states = (1 2 3 );
+   label = "H2_Testing_policy";
+   ID = "H2_Testing_policy";
+}
+
+node H3_Contact_tracing {
+   states = (0 1 2 );
+   label = "H3_Contact_tracing";
+   ID = "H3_Contact_tracing";
+}
+
+node H6_Facial_Coverings {
+   states = (0 1 2 3 );
+   label = "H6_Facial_Coverings";
+   ID = "H6_Facial_Coverings";
+}
+
+node C1_School_closing {
+   states = (0 1 2 3 );
+   label = "C1_School_closing";
+   ID = "C1_School_closing";
+}
+
+node C2_Workplace_closing {
+   states = (0 2 3 );
+   label = "C2_Workplace_closing";
+   ID = "C2_Workplace_closing";
+}
+
+node C4_Restrictions_on_gatherings {
+   states = (0 1 2 );
+   label = "C4_Restrictions_on_gatherings";
+   ID = "C4_Restrictions_on_gatherings";
+}
+
+node C6_Stay_at_home_requirements {
+   states = (0 1 3 );
+   label = "C6_Stay_at_home_requirements";
+   ID = "C6_Stay_at_home_requirements";
+}
+
+potential ( Cases_per_Million | C6_Stay_at_home_requirements   H6_Facial_Coverings   ) {
+   data = 
+   (((   0.997985   0.000503778   0.000503778   0.000503778   0.000503778)   % H6_Facial_Coverings=0   C6_Stay_at_home_requirements=0   
+   (   0.2   0.2   0.2   0.2   0.2)   % H6_Facial_Coverings=1   C6_Stay_at_home_requirements=0   
+   (   0.2   0.2   0.2   0.2   0.2)   % H6_Facial_Coverings=2   C6_Stay_at_home_requirements=0   
+   (   0.996838   0.000790514   0.000790514   0.000790514   0.000790514))   % H6_Facial_Coverings=3   C6_Stay_at_home_requirements=0   
+   ((   0.2   0.2   0.2   0.2   0.2)   % H6_Facial_Coverings=0   C6_Stay_at_home_requirements=1   
+   (   0.99872   0.00032   0.00032   0.00032   0.00032)   % H6_Facial_Coverings=1   C6_Stay_at_home_requirements=1   
+   (   0.2   0.2   0.2   0.2   0.2)   % H6_Facial_Coverings=2   C6_Stay_at_home_requirements=1   
+   (   0.604376   0.315536   0.0792123   0.000437637   0.000437637))   % H6_Facial_Coverings=3   C6_Stay_at_home_requirements=1   
+   ((   0.97634   0.0225508   0.000369686   0.000369686   0.000369686)   % H6_Facial_Coverings=0   C6_Stay_at_home_requirements=3   
+   (   0.997444   0.000638978   0.000638978   0.000638978   0.000638978)   % H6_Facial_Coverings=1   C6_Stay_at_home_requirements=3   
+   (   0.994483   0.00137931   0.00137931   0.00137931   0.00137931)   % H6_Facial_Coverings=2   C6_Stay_at_home_requirements=3   
+   (   0.673501   0.0468085   0.162863   0.0700193   0.0468085)));   % H6_Facial_Coverings=3   C6_Stay_at_home_requirements=3   
+}
+
+potential ( Deaths_per_Million | Cases_per_Million   C1_School_closing   ) {
+   data = 
+   (((   0.998265   0.000433839   0.000433839   0.000433839   0.000433839)   % C1_School_closing=0   Cases_per_Million=L0_0__145_86L   
+   (   0.862883   0.136436   0.000227015   0.000227015   0.000227015)   % C1_School_closing=1   Cases_per_Million=L0_0__145_86L   
+   (   0.90959   0.0901396   9.00495e-05   9.00495e-05   9.00495e-05)   % C1_School_closing=2   Cases_per_Million=L0_0__145_86L   
+   (   0.225786   0.467526   0.306366   0.00016116   0.00016116))   % C1_School_closing=3   Cases_per_Million=L0_0__145_86L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % C1_School_closing=0   Cases_per_Million=L145_86__291_71L   
+   (   0.249793   0.581743   0.166805   0.000829876   0.000829876)   % C1_School_closing=1   Cases_per_Million=L145_86__291_71L   
+   (   0.00487805   0.00487805   0.00487805   0.980488   0.00487805)   % C1_School_closing=2   Cases_per_Million=L145_86__291_71L   
+   (   0.00952381   0.00952381   0.961905   0.00952381   0.00952381))   % C1_School_closing=3   Cases_per_Million=L145_86__291_71L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % C1_School_closing=0   Cases_per_Million=L291_71__437_57L   
+   (   0.00246914   0.74321   0.249383   0.00246914   0.00246914)   % C1_School_closing=1   Cases_per_Million=L291_71__437_57L   
+   (   0.00165289   0.00165289   0.332231   0.332231   0.332231)   % C1_School_closing=2   Cases_per_Million=L291_71__437_57L   
+   (   0.2   0.2   0.2   0.2   0.2))   % C1_School_closing=3   Cases_per_Million=L291_71__437_57L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % C1_School_closing=0   Cases_per_Million=L437_57__583_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % C1_School_closing=1   Cases_per_Million=L437_57__583_42L   
+   (   0.00327869   0.00327869   0.00327869   0.659016   0.331148)   % C1_School_closing=2   Cases_per_Million=L437_57__583_42L   
+   (   0.2   0.2   0.2   0.2   0.2))   % C1_School_closing=3   Cases_per_Million=L437_57__583_42L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % C1_School_closing=0   Cases_per_Million=L583_42__729_28L   
+   (   0.2   0.2   0.2   0.2   0.2)   % C1_School_closing=1   Cases_per_Million=L583_42__729_28L   
+   (   0.00487805   0.00487805   0.00487805   0.00487805   0.980488)   % C1_School_closing=2   Cases_per_Million=L583_42__729_28L   
+   (   0.2   0.2   0.2   0.2   0.2)));   % C1_School_closing=3   Cases_per_Million=L583_42__729_28L   
+}
+
+potential ( G_Retail | G_Parks   ) {
+   data = 
+   ((   0.69537   0.0703704   0.232407   0.000925926   0.000925926)   % G_Parks=L34_64__74_97L   
+   (   0.745455   0.166942   0.0842975   0.00165289   0.00165289)   % G_Parks=L74_97__115_3L   
+   (   0.190521   0.0720379   0.261611   0.403791   0.0720379)   % G_Parks=L_46_01___5_68L   
+   (   0.3843   0.153925   0.426962   0.034471   0.000341297)   % G_Parks=L_5_68__34_64L   
+   (   0.000904977   0.000904977   0.0461538   0.136652   0.815385));   % G_Parks=L_86_33___46_01L   
+}
+
+potential ( G_Grocery_Pharmacy | G_Retail   ) {
+   data = 
+   ((   0.237549   0.761265   0.000395257   0.000395257   0.000395257)   % G_Retail=L_24_0___3_05L   
+   (   0.710638   0.285106   0.00141844   0.00141844   0.00141844)   % G_Retail=L_3_05__17_9L   
+   (   0.0138298   0.692021   0.293085   0.000531915   0.000531915)   % G_Retail=L_44_95___24_0L   
+   (   0.00147059   0.111765   0.883824   0.00147059   0.00147059)   % G_Retail=L_65_9___44_95L   
+   (   0.00102041   0.00102041   0.358163   0.613265   0.0265306));   % G_Retail=L_86_85___65_9L   
+}
+
+potential (G_Parks) {
+   data = (  0.15941 0.0892989 0.15572 0.432472 0.1631);
+}
+
+potential ( G_Transit | G_Retail   ) {
+   data = 
+   ((   0.563636   0.0102767   0.425296   0.000395257   0.000395257)   % G_Retail=L_24_0___3_05L   
+   (   0.143262   0.852482   0.00141844   0.00141844   0.00141844)   % G_Retail=L_3_05__17_9L   
+   (   0.0670213   0.000531915   0.612234   0.319681   0.000531915)   % G_Retail=L_44_95___24_0L   
+   (   0.00147059   0.00147059   0.075   0.663235   0.258824)   % G_Retail=L_65_9___44_95L   
+   (   0.00102041   0.00102041   0.00102041   0.077551   0.919388));   % G_Retail=L_86_85___65_9L   
+}
+
+potential ( G_Workplace | G_Transit   G_Residencial   ) {
+   data = 
+   (((   0.2   0.2   0.2   0.2   0.2)   % G_Residencial=L16_89__27_39L   G_Transit=L_23_58___3_65L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Residencial=L27_39__37_9L   G_Transit=L_23_58___3_65L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Residencial=L37_9__48_4L   G_Transit=L_23_58___3_65L   
+   (   0.0626145   0.749542   0.166694   0.0209825   0.000166528)   % G_Residencial=L6_39__16_89L   G_Transit=L_23_58___3_65L   
+   (   0.942794   0.0558758   0.000443459   0.000443459   0.000443459))   % G_Residencial=L_4_12__6_39L   G_Transit=L_23_58___3_65L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Residencial=L16_89__27_39L   G_Transit=L_3_65__16_27L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Residencial=L27_39__37_9L   G_Transit=L_3_65__16_27L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Residencial=L37_9__48_4L   G_Transit=L_3_65__16_27L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Residencial=L6_39__16_89L   G_Transit=L_3_65__16_27L   
+   (   0.958786   0.0402556   0.000319489   0.000319489   0.000319489))   % G_Residencial=L_4_12__6_39L   G_Transit=L_3_65__16_27L   
+   ((   0.0015873   0.0015873   0.795238   0.0015873   0.2)   % G_Residencial=L16_89__27_39L   G_Transit=L_43_5___23_58L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Residencial=L27_39__37_9L   G_Transit=L_43_5___23_58L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Residencial=L37_9__48_4L   G_Transit=L_43_5___23_58L   
+   (   0.161787   0.396943   0.441035   0.000117578   0.000117578)   % G_Residencial=L6_39__16_89L   G_Transit=L_43_5___23_58L   
+   (   0.776497   0.222173   0.000443459   0.000443459   0.000443459))   % G_Residencial=L_4_12__6_39L   G_Transit=L_43_5___23_58L   
+   ((   0.000275482   0.000275482   0.723416   0.241322   0.0347107)   % G_Residencial=L16_89__27_39L   G_Transit=L_63_43___43_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Residencial=L27_39__37_9L   G_Transit=L_63_43___43_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Residencial=L37_9__48_4L   G_Transit=L_63_43___43_5L   
+   (   0.000498753   0.249875   0.312219   0.436908   0.000498753)   % G_Residencial=L6_39__16_89L   G_Transit=L_63_43___43_5L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Residencial=L_4_12__6_39L   G_Transit=L_63_43___43_5L   
+   ((   0.000724638   0.000724638   0.181884   0.815942   0.000724638)   % G_Residencial=L16_89__27_39L   G_Transit=L_83_35___63_43L   
+   (   0.000266312   0.000266312   0.000266312   0.932357   0.0668442)   % G_Residencial=L27_39__37_9L   G_Transit=L_83_35___63_43L   
+   (   0.00392157   0.00392157   0.00392157   0.00392157   0.984314)   % G_Residencial=L37_9__48_4L   G_Transit=L_83_35___63_43L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Residencial=L6_39__16_89L   G_Transit=L_83_35___63_43L   
+   (   0.2   0.2   0.2   0.2   0.2)));   % G_Residencial=L_4_12__6_39L   G_Transit=L_83_35___63_43L   
+}
+
+potential ( G_Residencial | G_Transit   G_Grocery_Pharmacy   ) {
+   data = 
+   (((   0.000332779   0.000332779   0.000332779   0.957072   0.0419301)   % G_Grocery_Pharmacy=L1_64__22_8L   G_Transit=L_23_58___3_65L   
+   (   0.000190295   0.000190295   0.000190295   0.594862   0.404567)   % G_Grocery_Pharmacy=L_19_52__1_64L   G_Transit=L_23_58___3_65L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Grocery_Pharmacy=L_40_68___19_52L   G_Transit=L_23_58___3_65L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Grocery_Pharmacy=L_61_84___40_68L   G_Transit=L_23_58___3_65L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Grocery_Pharmacy=L_83_0___61_84L   G_Transit=L_23_58___3_65L   
+   ((   0.000443459   0.000443459   0.000443459   0.000443459   0.998226)   % G_Grocery_Pharmacy=L1_64__22_8L   G_Transit=L_3_65__16_27L   
+   (   0.00113636   0.00113636   0.00113636   0.00113636   0.995455)   % G_Grocery_Pharmacy=L_19_52__1_64L   G_Transit=L_3_65__16_27L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Grocery_Pharmacy=L_40_68___19_52L   G_Transit=L_3_65__16_27L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Grocery_Pharmacy=L_61_84___40_68L   G_Transit=L_3_65__16_27L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Grocery_Pharmacy=L_83_0___61_84L   G_Transit=L_3_65__16_27L   
+   ((   0.00263158   0.00263158   0.00263158   0.989474   0.00263158)   % G_Grocery_Pharmacy=L1_64__22_8L   G_Transit=L_43_5___23_58L   
+   (   0.0641722   0.000102512   0.000102512   0.820195   0.115428)   % G_Grocery_Pharmacy=L_19_52__1_64L   G_Transit=L_43_5___23_58L   
+   (   0.000796813   0.000796813   0.000796813   0.100398   0.897211)   % G_Grocery_Pharmacy=L_40_68___19_52L   G_Transit=L_43_5___23_58L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Grocery_Pharmacy=L_61_84___40_68L   G_Transit=L_43_5___23_58L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Grocery_Pharmacy=L_83_0___61_84L   G_Transit=L_43_5___23_58L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Grocery_Pharmacy=L1_64__22_8L   G_Transit=L_63_43___43_5L   
+   (   0.997546   0.000613497   0.000613497   0.000613497   0.000613497)   % G_Grocery_Pharmacy=L_19_52__1_64L   G_Transit=L_63_43___43_5L   
+   (   0.515722   0.000257732   0.000257732   0.483505   0.000257732)   % G_Grocery_Pharmacy=L_40_68___19_52L   G_Transit=L_63_43___43_5L   
+   (   0.00769231   0.00769231   0.00769231   0.969231   0.00769231)   % G_Grocery_Pharmacy=L_61_84___40_68L   G_Transit=L_63_43___43_5L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Grocery_Pharmacy=L_83_0___61_84L   G_Transit=L_63_43___43_5L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Grocery_Pharmacy=L1_64__22_8L   G_Transit=L_83_35___63_43L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Grocery_Pharmacy=L_19_52__1_64L   G_Transit=L_83_35___63_43L   
+   (   0.105462   0.893277   0.000420168   0.000420168   0.000420168)   % G_Grocery_Pharmacy=L_40_68___19_52L   G_Transit=L_83_35___63_43L   
+   (   0.347569   0.564583   0.0871528   0.000347222   0.000347222)   % G_Grocery_Pharmacy=L_61_84___40_68L   G_Transit=L_83_35___63_43L   
+   (   0.969231   0.00769231   0.00769231   0.00769231   0.00769231)));   % G_Grocery_Pharmacy=L_83_0___61_84L   G_Transit=L_83_35___63_43L   
+}
+
+potential ( H2_Testing_policy | H3_Contact_tracing   ) {
+   data = 
+   ((   0.0680272   0.92517   0.00680272)   % H3_Contact_tracing=0   
+   (   0.000515996   0.000515996   0.998968)   % H3_Contact_tracing=1   
+   (   0.99435   0.00282486   0.00282486));   % H3_Contact_tracing=2   
+}
+
+potential ( H3_Contact_tracing | G_Retail   G_Transit   C2_Workplace_closing   ) {
+   data = 
+   ((((   0.00438596   0.00438596   0.991228)   % C2_Workplace_closing=0   G_Transit=L_23_58___3_65L   G_Retail=L_24_0___3_05L   
+   (   7.93462e-05   0.999841   7.93462e-05)   % C2_Workplace_closing=2   G_Transit=L_23_58___3_65L   G_Retail=L_24_0___3_05L   
+   (   0.333333   0.333333   0.333333))   % C2_Workplace_closing=3   G_Transit=L_23_58___3_65L   G_Retail=L_24_0___3_05L   
+   ((   0.00438596   0.00438596   0.991228)   % C2_Workplace_closing=0   G_Transit=L_3_65__16_27L   G_Retail=L_24_0___3_05L   
+   (   0.333333   0.333333   0.333333)   % C2_Workplace_closing=2   G_Transit=L_3_65__16_27L   G_Retail=L_24_0___3_05L   
+   (   0.333333   0.333333   0.333333))   % C2_Workplace_closing=3   G_Transit=L_3_65__16_27L   G_Retail=L_24_0___3_05L   
+   ((   0.333333   0.333333   0.333333)   % C2_Workplace_closing=0   G_Transit=L_43_5___23_58L   G_Retail=L_24_0___3_05L   
+   (   0.000103327   0.999793   0.000103327)   % C2_Workplace_closing=2   G_Transit=L_43_5___23_58L   G_Retail=L_24_0___3_05L   
+   (   0.333333   0.333333   0.333333))   % C2_Workplace_closing=3   G_Transit=L_43_5___23_58L   G_Retail=L_24_0___3_05L   
+   ((   0.333333   0.333333   0.333333)   % C2_Workplace_closing=0   G_Transit=L_63_43___43_5L   G_Retail=L_24_0___3_05L   
+   (   0.333333   0.333333   0.333333)   % C2_Workplace_closing=2   G_Transit=L_63_43___43_5L   G_Retail=L_24_0___3_05L   
+   (   0.333333   0.333333   0.333333))   % C2_Workplace_closing=3   G_Transit=L_63_43___43_5L   G_Retail=L_24_0___3_05L   
+   ((   0.333333   0.333333   0.333333)   % C2_Workplace_closing=0   G_Transit=L_83_35___63_43L   G_Retail=L_24_0___3_05L   
+   (   0.333333   0.333333   0.333333)   % C2_Workplace_closing=2   G_Transit=L_83_35___63_43L   G_Retail=L_24_0___3_05L   
+   (   0.333333   0.333333   0.333333)))   % C2_Workplace_closing=3   G_Transit=L_83_35___63_43L   G_Retail=L_24_0___3_05L   
+   (((   0.00438596   0.00438596   0.991228)   % C2_Workplace_closing=0   G_Transit=L_23_58___3_65L   G_Retail=L_3_05__17_9L   
+   (   0.00147493   0.99705   0.00147493)   % C2_Workplace_closing=2   G_Transit=L_23_58___3_65L   G_Retail=L_3_05__17_9L   
+   (   0.333333   0.333333   0.333333))   % C2_Workplace_closing=3   G_Transit=L_23_58___3_65L   G_Retail=L_3_05__17_9L   
+   ((   0.000233754   0.000233754   0.999532)   % C2_Workplace_closing=0   G_Transit=L_3_65__16_27L   G_Retail=L_3_05__17_9L   
+   (   0.000886525   0.998227   0.000886525)   % C2_Workplace_closing=2   G_Transit=L_3_65__16_27L   G_Retail=L_3_05__17_9L   
+   (   0.333333   0.333333   0.333333))   % C2_Workplace_closing=3   G_Transit=L_3_65__16_27L   G_Retail=L_3_05__17_9L   
+   ((   0.333333   0.333333   0.333333)   % C2_Workplace_closing=0   G_Transit=L_43_5___23_58L   G_Retail=L_3_05__17_9L   
+   (   0.333333   0.333333   0.333333)   % C2_Workplace_closing=2   G_Transit=L_43_5___23_58L   G_Retail=L_3_05__17_9L   
+   (   0.333333   0.333333   0.333333))   % C2_Workplace_closing=3   G_Transit=L_43_5___23_58L   G_Retail=L_3_05__17_9L   
+   ((   0.333333   0.333333   0.333333)   % C2_Workplace_closing=0   G_Transit=L_63_43___43_5L   G_Retail=L_3_05__17_9L   
+   (   0.333333   0.333333   0.333333)   % C2_Workplace_closing=2   G_Transit=L_63_43___43_5L   G_Retail=L_3_05__17_9L   
+   (   0.333333   0.333333   0.333333))   % C2_Workplace_closing=3   G_Transit=L_63_43___43_5L   G_Retail=L_3_05__17_9L   
+   ((   0.333333   0.333333   0.333333)   % C2_Workplace_closing=0   G_Transit=L_83_35___63_43L   G_Retail=L_3_05__17_9L   
+   (   0.333333   0.333333   0.333333)   % C2_Workplace_closing=2   G_Transit=L_83_35___63_43L   G_Retail=L_3_05__17_9L   
+   (   0.333333   0.333333   0.333333)))   % C2_Workplace_closing=3   G_Transit=L_83_35___63_43L   G_Retail=L_3_05__17_9L   
+   (((   0.00438596   0.00438596   0.991228)   % C2_Workplace_closing=0   G_Transit=L_23_58___3_65L   G_Retail=L_44_95___24_0L   
+   (   0.00110742   0.997785   0.00110742)   % C2_Workplace_closing=2   G_Transit=L_23_58___3_65L   G_Retail=L_44_95___24_0L   
+   (   0.333333   0.333333   0.333333))   % C2_Workplace_closing=3   G_Transit=L_23_58___3_65L   G_Retail=L_44_95___24_0L   
+   ((   0.333333   0.333333   0.333333)   % C2_Workplace_closing=0   G_Transit=L_3_65__16_27L   G_Retail=L_44_95___24_0L   
+   (   0.333333   0.333333   0.333333)   % C2_Workplace_closing=2   G_Transit=L_3_65__16_27L   G_Retail=L_44_95___24_0L   
+   (   0.333333   0.333333   0.333333))   % C2_Workplace_closing=3   G_Transit=L_3_65__16_27L   G_Retail=L_44_95___24_0L   
+   ((   0.333333   0.333333   0.333333)   % C2_Workplace_closing=0   G_Transit=L_43_5___23_58L   G_Retail=L_44_95___24_0L   
+   (   9.65904e-05   0.999807   9.65904e-05)   % C2_Workplace_closing=2   G_Transit=L_43_5___23_58L   G_Retail=L_44_95___24_0L   
+   (   0.333333   0.333333   0.333333))   % C2_Workplace_closing=3   G_Transit=L_43_5___23_58L   G_Retail=L_44_95___24_0L   
+   ((   0.333333   0.333333   0.333333)   % C2_Workplace_closing=0   G_Transit=L_63_43___43_5L   G_Retail=L_44_95___24_0L   
+   (   0.000185082   0.99963   0.000185082)   % C2_Workplace_closing=2   G_Transit=L_63_43___43_5L   G_Retail=L_44_95___24_0L   
+   (   0.333333   0.333333   0.333333))   % C2_Workplace_closing=3   G_Transit=L_63_43___43_5L   G_Retail=L_44_95___24_0L   
+   ((   0.333333   0.333333   0.333333)   % C2_Workplace_closing=0   G_Transit=L_83_35___63_43L   G_Retail=L_44_95___24_0L   
+   (   0.333333   0.333333   0.333333)   % C2_Workplace_closing=2   G_Transit=L_83_35___63_43L   G_Retail=L_44_95___24_0L   
+   (   0.333333   0.333333   0.333333)))   % C2_Workplace_closing=3   G_Transit=L_83_35___63_43L   G_Retail=L_44_95___24_0L   
+   (((   0.333333   0.333333   0.333333)   % C2_Workplace_closing=0   G_Transit=L_23_58___3_65L   G_Retail=L_65_9___44_95L   
+   (   0.333333   0.333333   0.333333)   % C2_Workplace_closing=2   G_Transit=L_23_58___3_65L   G_Retail=L_65_9___44_95L   
+   (   0.333333   0.333333   0.333333))   % C2_Workplace_closing=3   G_Transit=L_23_58___3_65L   G_Retail=L_65_9___44_95L   
+   ((   0.333333   0.333333   0.333333)   % C2_Workplace_closing=0   G_Transit=L_3_65__16_27L   G_Retail=L_65_9___44_95L   
+   (   0.333333   0.333333   0.333333)   % C2_Workplace_closing=2   G_Transit=L_3_65__16_27L   G_Retail=L_65_9___44_95L   
+   (   0.333333   0.333333   0.333333))   % C2_Workplace_closing=3   G_Transit=L_3_65__16_27L   G_Retail=L_65_9___44_95L   
+   ((   0.00438596   0.00438596   0.991228)   % C2_Workplace_closing=0   G_Transit=L_43_5___23_58L   G_Retail=L_65_9___44_95L   
+   (   0.00438596   0.991228   0.00438596)   % C2_Workplace_closing=2   G_Transit=L_43_5___23_58L   G_Retail=L_65_9___44_95L   
+   (   0.333333   0.333333   0.333333))   % C2_Workplace_closing=3   G_Transit=L_43_5___23_58L   G_Retail=L_65_9___44_95L   
+   ((   0.00220751   0.00220751   0.995585)   % C2_Workplace_closing=0   G_Transit=L_63_43___43_5L   G_Retail=L_65_9___44_95L   
+   (   0.000443853   0.799379   0.200178)   % C2_Workplace_closing=2   G_Transit=L_63_43___43_5L   G_Retail=L_65_9___44_95L   
+   (   0.000739098   0.998522   0.000739098))   % C2_Workplace_closing=3   G_Transit=L_63_43___43_5L   G_Retail=L_65_9___44_95L   
+   ((   0.333333   0.333333   0.333333)   % C2_Workplace_closing=0   G_Transit=L_83_35___63_43L   G_Retail=L_65_9___44_95L   
+   (   0.333333   0.333333   0.333333)   % C2_Workplace_closing=2   G_Transit=L_83_35___63_43L   G_Retail=L_65_9___44_95L   
+   (   0.000633714   0.998733   0.000633714)))   % C2_Workplace_closing=3   G_Transit=L_83_35___63_43L   G_Retail=L_65_9___44_95L   
+   (((   0.333333   0.333333   0.333333)   % C2_Workplace_closing=0   G_Transit=L_23_58___3_65L   G_Retail=L_86_85___65_9L   
+   (   0.333333   0.333333   0.333333)   % C2_Workplace_closing=2   G_Transit=L_23_58___3_65L   G_Retail=L_86_85___65_9L   
+   (   0.333333   0.333333   0.333333))   % C2_Workplace_closing=3   G_Transit=L_23_58___3_65L   G_Retail=L_86_85___65_9L   
+   ((   0.333333   0.333333   0.333333)   % C2_Workplace_closing=0   G_Transit=L_3_65__16_27L   G_Retail=L_86_85___65_9L   
+   (   0.333333   0.333333   0.333333)   % C2_Workplace_closing=2   G_Transit=L_3_65__16_27L   G_Retail=L_86_85___65_9L   
+   (   0.333333   0.333333   0.333333))   % C2_Workplace_closing=3   G_Transit=L_3_65__16_27L   G_Retail=L_86_85___65_9L   
+   ((   0.333333   0.333333   0.333333)   % C2_Workplace_closing=0   G_Transit=L_43_5___23_58L   G_Retail=L_86_85___65_9L   
+   (   0.333333   0.333333   0.333333)   % C2_Workplace_closing=2   G_Transit=L_43_5___23_58L   G_Retail=L_86_85___65_9L   
+   (   0.333333   0.333333   0.333333))   % C2_Workplace_closing=3   G_Transit=L_43_5___23_58L   G_Retail=L_86_85___65_9L   
+   ((   0.333333   0.333333   0.333333)   % C2_Workplace_closing=0   G_Transit=L_63_43___43_5L   G_Retail=L_86_85___65_9L   
+   (   0.00438596   0.991228   0.00438596)   % C2_Workplace_closing=2   G_Transit=L_63_43___43_5L   G_Retail=L_86_85___65_9L   
+   (   0.00220751   0.995585   0.00220751))   % C2_Workplace_closing=3   G_Transit=L_63_43___43_5L   G_Retail=L_86_85___65_9L   
+   ((   0.333333   0.333333   0.333333)   % C2_Workplace_closing=0   G_Transit=L_83_35___63_43L   G_Retail=L_86_85___65_9L   
+   (   0.000886525   0.000886525   0.998227)   % C2_Workplace_closing=2   G_Transit=L_83_35___63_43L   G_Retail=L_86_85___65_9L   
+   (   0.51605   0.290341   0.193608))));   % C2_Workplace_closing=3   G_Transit=L_83_35___63_43L   G_Retail=L_86_85___65_9L   
+}
+
+potential ( H6_Facial_Coverings | C1_School_closing   C6_Stay_at_home_requirements   ) {
+   data = 
+   (((   0.997292   0.000902527   0.000902527   0.000902527)   % C6_Stay_at_home_requirements=0   C1_School_closing=0   
+   (   0.25   0.25   0.25   0.25)   % C6_Stay_at_home_requirements=1   C1_School_closing=0   
+   (   0.25   0.25   0.25   0.25))   % C6_Stay_at_home_requirements=3   C1_School_closing=0   
+   ((   0.000988142   0.000988142   0.000988142   0.997036)   % C6_Stay_at_home_requirements=0   C1_School_closing=1   
+   (   0.000547046   0.000547046   0.000547046   0.998359)   % C6_Stay_at_home_requirements=1   C1_School_closing=1   
+   (   0.0192308   0.0192308   0.0192308   0.942308))   % C6_Stay_at_home_requirements=3   C1_School_closing=1   
+   ((   0.991176   0.00294118   0.00294118   0.00294118)   % C6_Stay_at_home_requirements=0   C1_School_closing=2   
+   (   0.000547046   0.998359   0.000547046   0.000547046)   % C6_Stay_at_home_requirements=1   C1_School_closing=2   
+   (   0.000263435   0.316386   0.152002   0.531349))   % C6_Stay_at_home_requirements=3   C1_School_closing=2   
+   ((   0.97973   0.00675676   0.00675676   0.00675676)   % C6_Stay_at_home_requirements=0   C1_School_closing=3   
+   (   0.00147929   0.995562   0.00147929   0.00147929)   % C6_Stay_at_home_requirements=1   C1_School_closing=3   
+   (   0.976944   0.0221519   0.00045208   0.00045208)));   % C6_Stay_at_home_requirements=3   C1_School_closing=3   
+}
+
+potential ( C1_School_closing | G_Transit   ) {
+   data = 
+   ((   0.0460725   0.620091   0.333082   0.000755287)   % G_Transit=L_23_58___3_65L   
+   (   0.795635   0.00198413   0.200397   0.00198413)   % G_Transit=L_3_65__16_27L   
+   (   0.000548246   0.208882   0.790022   0.000548246)   % G_Transit=L_43_5___23_58L   
+   (   0.00110619   0.00110619   0.509956   0.487832)   % G_Transit=L_63_43___43_5L   
+   (   0.00115741   0.00115741   0.0474537   0.950231));   % G_Transit=L_83_35___63_43L   
+}
+
+potential ( C2_Workplace_closing | C1_School_closing   G_Retail   ) {
+   data = 
+   (((   0.98374   0.00813008   0.00813008)   % G_Retail=L_24_0___3_05L   C1_School_closing=0   
+   (   0.998337   0.000831255   0.000831255)   % G_Retail=L_3_05__17_9L   C1_School_closing=0   
+   (   0.968254   0.015873   0.015873)   % G_Retail=L_44_95___24_0L   C1_School_closing=0   
+   (   0.333333   0.333333   0.333333)   % G_Retail=L_65_9___44_95L   C1_School_closing=0   
+   (   0.333333   0.333333   0.333333))   % G_Retail=L_86_85___65_9L   C1_School_closing=0   
+   ((   0.000378358   0.999243   0.000378358)   % G_Retail=L_24_0___3_05L   C1_School_closing=1   
+   (   0.333333   0.333333   0.333333)   % G_Retail=L_3_05__17_9L   C1_School_closing=1   
+   (   0.00103842   0.997923   0.00103842)   % G_Retail=L_44_95___24_0L   C1_School_closing=1   
+   (   0.333333   0.333333   0.333333)   % G_Retail=L_65_9___44_95L   C1_School_closing=1   
+   (   0.333333   0.333333   0.333333))   % G_Retail=L_86_85___65_9L   C1_School_closing=1   
+   ((   0.000302755   0.999394   0.000302755)   % G_Retail=L_24_0___3_05L   C1_School_closing=2   
+   (   0.00207039   0.995859   0.00207039)   % G_Retail=L_3_05__17_9L   C1_School_closing=2   
+   (   0.000314169   0.999372   0.000314169)   % G_Retail=L_44_95___24_0L   C1_School_closing=2   
+   (   0.498623   0.498623   0.00275482)   % G_Retail=L_65_9___44_95L   C1_School_closing=2   
+   (   0.00813008   0.98374   0.00813008))   % G_Retail=L_86_85___65_9L   C1_School_closing=2   
+   ((   0.333333   0.333333   0.333333)   % G_Retail=L_24_0___3_05L   C1_School_closing=3   
+   (   0.333333   0.333333   0.333333)   % G_Retail=L_3_05__17_9L   C1_School_closing=3   
+   (   0.00330033   0.993399   0.00330033)   % G_Retail=L_44_95___24_0L   C1_School_closing=3   
+   (   0.000791766   0.380839   0.618369)   % G_Retail=L_65_9___44_95L   C1_School_closing=3   
+   (   0.000449843   0.108412   0.891138)));   % G_Retail=L_86_85___65_9L   C1_School_closing=3   
+}
+
+potential ( C4_Restrictions_on_gatherings | C2_Workplace_closing   C1_School_closing   H3_Contact_tracing   ) {
+   data = 
+   ((((   0.333333   0.333333   0.333333)   % H3_Contact_tracing=0   C1_School_closing=0   C2_Workplace_closing=0   
+   (   0.333333   0.333333   0.333333)   % H3_Contact_tracing=1   C1_School_closing=0   C2_Workplace_closing=0   
+   (   0.999196   0.000402091   0.000402091))   % H3_Contact_tracing=2   C1_School_closing=0   C2_Workplace_closing=0   
+   ((   0.333333   0.333333   0.333333)   % H3_Contact_tracing=0   C1_School_closing=1   C2_Workplace_closing=0   
+   (   0.333333   0.333333   0.333333)   % H3_Contact_tracing=1   C1_School_closing=1   C2_Workplace_closing=0   
+   (   0.333333   0.333333   0.333333))   % H3_Contact_tracing=2   C1_School_closing=1   C2_Workplace_closing=0   
+   ((   0.333333   0.333333   0.333333)   % H3_Contact_tracing=0   C1_School_closing=2   C2_Workplace_closing=0   
+   (   0.333333   0.333333   0.333333)   % H3_Contact_tracing=1   C1_School_closing=2   C2_Workplace_closing=0   
+   (   0.993884   0.0030581   0.0030581))   % H3_Contact_tracing=2   C1_School_closing=2   C2_Workplace_closing=0   
+   ((   0.333333   0.333333   0.333333)   % H3_Contact_tracing=0   C1_School_closing=3   C2_Workplace_closing=0   
+   (   0.333333   0.333333   0.333333)   % H3_Contact_tracing=1   C1_School_closing=3   C2_Workplace_closing=0   
+   (   0.333333   0.333333   0.333333)))   % H3_Contact_tracing=2   C1_School_closing=3   C2_Workplace_closing=0   
+   (((   0.333333   0.333333   0.333333)   % H3_Contact_tracing=0   C1_School_closing=0   C2_Workplace_closing=2   
+   (   0.333333   0.333333   0.333333)   % H3_Contact_tracing=1   C1_School_closing=0   C2_Workplace_closing=2   
+   (   0.333333   0.333333   0.333333))   % H3_Contact_tracing=2   C1_School_closing=0   C2_Workplace_closing=2   
+   ((   0.333333   0.333333   0.333333)   % H3_Contact_tracing=0   C1_School_closing=1   C2_Workplace_closing=2   
+   (   0.00015425   0.999692   0.00015425)   % H3_Contact_tracing=1   C1_School_closing=1   C2_Workplace_closing=2   
+   (   0.333333   0.333333   0.333333))   % H3_Contact_tracing=2   C1_School_closing=1   C2_Workplace_closing=2   
+   ((   0.333333   0.333333   0.333333)   % H3_Contact_tracing=0   C1_School_closing=2   C2_Workplace_closing=2   
+   (   7.91202e-05   0.811852   0.188069)   % H3_Contact_tracing=1   C1_School_closing=2   C2_Workplace_closing=2   
+   (   0.995402   0.00229885   0.00229885))   % H3_Contact_tracing=2   C1_School_closing=2   C2_Workplace_closing=2   
+   ((   0.333333   0.333333   0.333333)   % H3_Contact_tracing=0   C1_School_closing=3   C2_Workplace_closing=2   
+   (   0.000660066   0.99868   0.000660066)   % H3_Contact_tracing=1   C1_School_closing=3   C2_Workplace_closing=2   
+   (   0.993884   0.0030581   0.0030581)))   % H3_Contact_tracing=2   C1_School_closing=3   C2_Workplace_closing=2   
+   (((   0.333333   0.333333   0.333333)   % H3_Contact_tracing=0   C1_School_closing=0   C2_Workplace_closing=3   
+   (   0.333333   0.333333   0.333333)   % H3_Contact_tracing=1   C1_School_closing=0   C2_Workplace_closing=3   
+   (   0.333333   0.333333   0.333333))   % H3_Contact_tracing=2   C1_School_closing=0   C2_Workplace_closing=3   
+   ((   0.333333   0.333333   0.333333)   % H3_Contact_tracing=0   C1_School_closing=1   C2_Workplace_closing=3   
+   (   0.333333   0.333333   0.333333)   % H3_Contact_tracing=1   C1_School_closing=1   C2_Workplace_closing=3   
+   (   0.333333   0.333333   0.333333))   % H3_Contact_tracing=2   C1_School_closing=1   C2_Workplace_closing=3   
+   ((   0.333333   0.333333   0.333333)   % H3_Contact_tracing=0   C1_School_closing=2   C2_Workplace_closing=3   
+   (   0.333333   0.333333   0.333333)   % H3_Contact_tracing=1   C1_School_closing=2   C2_Workplace_closing=3   
+   (   0.333333   0.333333   0.333333))   % H3_Contact_tracing=2   C1_School_closing=2   C2_Workplace_closing=3   
+   ((   0.000577701   0.998845   0.000577701)   % H3_Contact_tracing=0   C1_School_closing=3   C2_Workplace_closing=3   
+   (   0.000385356   0.999229   0.000385356)   % H3_Contact_tracing=1   C1_School_closing=3   C2_Workplace_closing=3   
+   (   0.0015361   0.996928   0.0015361))));   % H3_Contact_tracing=2   C1_School_closing=3   C2_Workplace_closing=3   
+}
+
+potential ( C6_Stay_at_home_requirements | C4_Restrictions_on_gatherings   C2_Workplace_closing   C1_School_closing   ) {
+   data = 
+   ((((   0.999196   0.000402091   0.000402091)   % C1_School_closing=0   C2_Workplace_closing=0   C4_Restrictions_on_gatherings=0   
+   (   0.333333   0.333333   0.333333)   % C1_School_closing=1   C2_Workplace_closing=0   C4_Restrictions_on_gatherings=0   
+   (   0.993884   0.0030581   0.0030581)   % C1_School_closing=2   C2_Workplace_closing=0   C4_Restrictions_on_gatherings=0   
+   (   0.333333   0.333333   0.333333))   % C1_School_closing=3   C2_Workplace_closing=0   C4_Restrictions_on_gatherings=0   
+   ((   0.333333   0.333333   0.333333)   % C1_School_closing=0   C2_Workplace_closing=2   C4_Restrictions_on_gatherings=0   
+   (   0.333333   0.333333   0.333333)   % C1_School_closing=1   C2_Workplace_closing=2   C4_Restrictions_on_gatherings=0   
+   (   0.995402   0.00229885   0.00229885)   % C1_School_closing=2   C2_Workplace_closing=2   C4_Restrictions_on_gatherings=0   
+   (   0.993884   0.0030581   0.0030581))   % C1_School_closing=3   C2_Workplace_closing=2   C4_Restrictions_on_gatherings=0   
+   ((   0.333333   0.333333   0.333333)   % C1_School_closing=0   C2_Workplace_closing=3   C4_Restrictions_on_gatherings=0   
+   (   0.333333   0.333333   0.333333)   % C1_School_closing=1   C2_Workplace_closing=3   C4_Restrictions_on_gatherings=0   
+   (   0.333333   0.333333   0.333333)   % C1_School_closing=2   C2_Workplace_closing=3   C4_Restrictions_on_gatherings=0   
+   (   0.333333   0.333333   0.333333)))   % C1_School_closing=3   C2_Workplace_closing=3   C4_Restrictions_on_gatherings=0   
+   (((   0.333333   0.333333   0.333333)   % C1_School_closing=0   C2_Workplace_closing=0   C4_Restrictions_on_gatherings=1   
+   (   0.333333   0.333333   0.333333)   % C1_School_closing=1   C2_Workplace_closing=0   C4_Restrictions_on_gatherings=1   
+   (   0.333333   0.333333   0.333333)   % C1_School_closing=2   C2_Workplace_closing=0   C4_Restrictions_on_gatherings=1   
+   (   0.333333   0.333333   0.333333))   % C1_School_closing=3   C2_Workplace_closing=0   C4_Restrictions_on_gatherings=1   
+   ((   0.333333   0.333333   0.333333)   % C1_School_closing=0   C2_Workplace_closing=2   C4_Restrictions_on_gatherings=1   
+   (   0.349992   0.633195   0.0168132)   % C1_School_closing=1   C2_Workplace_closing=2   C4_Restrictions_on_gatherings=1   
+   (   9.74374e-05   0.399981   0.599922)   % C1_School_closing=2   C2_Workplace_closing=2   C4_Restrictions_on_gatherings=1   
+   (   0.000660066   0.99868   0.000660066))   % C1_School_closing=3   C2_Workplace_closing=2   C4_Restrictions_on_gatherings=1   
+   ((   0.333333   0.333333   0.333333)   % C1_School_closing=0   C2_Workplace_closing=3   C4_Restrictions_on_gatherings=1   
+   (   0.333333   0.333333   0.333333)   % C1_School_closing=1   C2_Workplace_closing=3   C4_Restrictions_on_gatherings=1   
+   (   0.333333   0.333333   0.333333)   % C1_School_closing=2   C2_Workplace_closing=3   C4_Restrictions_on_gatherings=1   
+   (   0.000201167   0.000201167   0.999598)))   % C1_School_closing=3   C2_Workplace_closing=3   C4_Restrictions_on_gatherings=1   
+   (((   0.333333   0.333333   0.333333)   % C1_School_closing=0   C2_Workplace_closing=0   C4_Restrictions_on_gatherings=2   
+   (   0.333333   0.333333   0.333333)   % C1_School_closing=1   C2_Workplace_closing=0   C4_Restrictions_on_gatherings=2   
+   (   0.333333   0.333333   0.333333)   % C1_School_closing=2   C2_Workplace_closing=0   C4_Restrictions_on_gatherings=2   
+   (   0.333333   0.333333   0.333333))   % C1_School_closing=3   C2_Workplace_closing=0   C4_Restrictions_on_gatherings=2   
+   ((   0.333333   0.333333   0.333333)   % C1_School_closing=0   C2_Workplace_closing=2   C4_Restrictions_on_gatherings=2   
+   (   0.333333   0.333333   0.333333)   % C1_School_closing=1   C2_Workplace_closing=2   C4_Restrictions_on_gatherings=2   
+   (   0.000420345   0.000420345   0.999159)   % C1_School_closing=2   C2_Workplace_closing=2   C4_Restrictions_on_gatherings=2   
+   (   0.333333   0.333333   0.333333))   % C1_School_closing=3   C2_Workplace_closing=2   C4_Restrictions_on_gatherings=2   
+   ((   0.333333   0.333333   0.333333)   % C1_School_closing=0   C2_Workplace_closing=3   C4_Restrictions_on_gatherings=2   
+   (   0.333333   0.333333   0.333333)   % C1_School_closing=1   C2_Workplace_closing=3   C4_Restrictions_on_gatherings=2   
+   (   0.333333   0.333333   0.333333)   % C1_School_closing=2   C2_Workplace_closing=3   C4_Restrictions_on_gatherings=2   
+   (   0.333333   0.333333   0.333333))));   % C1_School_closing=3   C2_Workplace_closing=3   C4_Restrictions_on_gatherings=2   
+}
+
+

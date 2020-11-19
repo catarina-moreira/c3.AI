@@ -1,0 +1,109 @@
+
+net {
+  name = unnamedBN;
+  software = "aGrUM 0.18.2";
+  node_size = (50 50);
+}
+
+node Cases_per_Million {
+   states = (L16_95__29_79L L29_79__42_64L L42_64__55_48L L4_11__16_95L L55_48__68_33L );
+   label = "Cases_per_Million";
+   ID = "Cases_per_Million";
+}
+
+node Deaths_per_Million {
+   states = (L0_0__0_31L L0_31__0_63L L0_63__0_94L L0_94__1_25L L1_25__1_56L );
+   label = "Deaths_per_Million";
+   ID = "Deaths_per_Million";
+}
+
+node G_Retail {
+   states = (L_15_54___8_53L L_1_51__5_5L L_22_56___15_54L L_29_57___22_56L L_8_53___1_51L );
+   label = "G_Retail";
+   ID = "G_Retail";
+}
+
+node G_Grocery_Pharmacy {
+   states = (L_11_98___7_69L L_16_28___11_98L L_20_57___16_28L L_3_39__0_9L L_7_69___3_39L );
+   label = "G_Grocery_Pharmacy";
+   ID = "G_Grocery_Pharmacy";
+}
+
+node G_Parks {
+   states = (L103_4__130_98L L130_98__158_57L L20_64__48_22L L48_22__75_81L L75_81__103_4L );
+   label = "G_Parks";
+   ID = "G_Parks";
+}
+
+node G_Transit {
+   states = (L_22_71___17_43L L_28_0___22_71L L_33_29___28_0L L_38_57___33_29L L_43_86___38_57L );
+   label = "G_Transit";
+   ID = "G_Transit";
+}
+
+node G_Workplace {
+   states = (L_47_57___34_14L L_61_0___47_57L L_7_29__6_14L );
+   label = "G_Workplace";
+   ID = "G_Workplace";
+}
+
+node G_Residencial {
+   states = (L1_7__4_91L L4_91__8_12L L8_12__11_33L L_1_5__1_7L L_4_71___1_5L );
+   label = "G_Residencial";
+   ID = "G_Residencial";
+}
+
+potential (Cases_per_Million) {
+   data = (  0.44375 0.19375 0.0375 0.225 0.1);
+}
+
+potential ( Deaths_per_Million | G_Transit   ) {
+   data = 
+   ((   0.472727   0.0181818   0.0181818   0.472727   0.0181818)   % G_Transit=L_22_71___17_43L   
+   (   0.0125   0.325   0.6375   0.0125   0.0125)   % G_Transit=L_28_0___22_71L   
+   (   0.0125   0.0125   0.6375   0.0125   0.325)   % G_Transit=L_33_29___28_0L   
+   (   0.00645161   0.00645161   0.00645161   0.167742   0.812903)   % G_Transit=L_38_57___33_29L   
+   (   0.293023   0.234884   0.293023   0.176744   0.00232558));   % G_Transit=L_43_86___38_57L   
+}
+
+potential (G_Retail) {
+   data = (  0.19375 0.2875 0.1625 0.13125 0.225);
+}
+
+potential ( G_Grocery_Pharmacy | G_Retail   ) {
+   data = 
+   ((   0.974194   0.00645161   0.00645161   0.00645161   0.00645161)   % G_Retail=L_15_54___8_53L   
+   (   0.00434783   0.00434783   0.00434783   0.43913   0.547826)   % G_Retail=L_1_51__5_5L   
+   (   0.2   0.392308   0.392308   0.00769231   0.00769231)   % G_Retail=L_22_56___15_54L   
+   (   0.00952381   0.247619   0.72381   0.00952381   0.00952381)   % G_Retail=L_29_57___22_56L   
+   (   0.422222   0.00555556   0.00555556   0.00555556   0.561111));   % G_Retail=L_8_53___1_51L   
+}
+
+potential (G_Parks) {
+   data = (  0.1 0.1625 0.1 0.06875 0.56875);
+}
+
+potential ( G_Transit | G_Workplace   ) {
+   data = 
+   ((   0.02   0.02   0.32   0.62   0.02)   % G_Workplace=L_47_57___34_14L   
+   (   0.00327869   0.00327869   0.00327869   0.15082   0.839344)   % G_Workplace=L_61_0___47_57L   
+   (   0.248   0.368   0.248   0.128   0.008));   % G_Workplace=L_7_29__6_14L   
+}
+
+potential ( G_Workplace | Cases_per_Million   ) {
+   data = 
+   ((   0.00469484   0.920188   0.0751174)   % Cases_per_Million=L16_95__29_79L   
+   (   0.0107527   0.494624   0.494624)   % Cases_per_Million=L29_79__42_64L   
+   (   0.0555556   0.888889   0.0555556)   % Cases_per_Million=L42_64__55_48L   
+   (   0.00925926   0.425926   0.564815)   % Cases_per_Million=L4_11__16_95L   
+   (   0.958333   0.0208333   0.0208333));   % Cases_per_Million=L55_48__68_33L   
+}
+
+potential ( G_Residencial | G_Workplace   ) {
+   data = 
+   ((   0.02   0.32   0.62   0.02   0.02)   % G_Workplace=L_47_57___34_14L   
+   (   0.00327869   0.101639   0.888525   0.00327869   0.00327869)   % G_Workplace=L_61_0___47_57L   
+   (   0.128   0.008   0.008   0.248   0.608));   % G_Workplace=L_7_29__6_14L   
+}
+
+

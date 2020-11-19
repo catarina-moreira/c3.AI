@@ -1,0 +1,121 @@
+
+net {
+  name = unnamedBN;
+  software = "aGrUM 0.18.2";
+  node_size = (50 50);
+}
+
+node Cases_per_Million {
+   states = (L0_0__30_17L L120_66__150_83L L30_17__60_33L L60_33__90_5L L90_5__120_66L );
+   label = "Cases_per_Million";
+   ID = "Cases_per_Million";
+}
+
+node Deaths_per_Million {
+   states = (L0_0__0_23L L0_23__0_47L L0_47__0_7L L0_7__0_94L L0_94__1_17L );
+   label = "Deaths_per_Million";
+   ID = "Deaths_per_Million";
+}
+
+node G_Retail {
+   states = (L_11_05___7_06L L_15_03___11_05L L_19_02___15_03L L_23_0___19_02L L_7_06___3_08L );
+   label = "G_Retail";
+   ID = "G_Retail";
+}
+
+node G_Grocery_Pharmacy {
+   states = (L_11_52___8_78L L_14_26___11_52L L_17_0___14_26L L_6_05___3_31L L_8_78___6_05L );
+   label = "G_Grocery_Pharmacy";
+   ID = "G_Grocery_Pharmacy";
+}
+
+node G_Parks {
+   states = (L25_33__47_67L L3_0__25_33L L47_67__70_0L L70_0__92_33L L92_33__114_67L );
+   label = "G_Parks";
+   ID = "G_Parks";
+}
+
+node G_Transit {
+   states = (L_22_68___18_85L L_26_51___22_68L L_30_34___26_51L L_34_17___30_34L L_38_0___34_17L );
+   label = "G_Transit";
+   ID = "G_Transit";
+}
+
+node G_Workplace {
+   states = (L_10_2___1_0L L_28_6___19_4L L_37_8___28_6L L_47_0___37_8L );
+   label = "G_Workplace";
+   ID = "G_Workplace";
+}
+
+node G_Residencial {
+   states = (L3_67__6_11L L6_11__8_56L L8_56__11_0L L_1_22__1_22L );
+   label = "G_Residencial";
+   ID = "G_Residencial";
+}
+
+potential (Cases_per_Million) {
+   data = (  0.587097 0.0387097 0.264516 0.0709677 0.0387097);
+}
+
+potential (Deaths_per_Million) {
+   data = (  0.554839 0.167742 0.167742 0.0387097 0.0709677);
+}
+
+potential ( G_Retail | G_Grocery_Pharmacy   ) {
+   data = 
+   ((   0.472727   0.0181818   0.472727   0.0181818   0.0181818)   % G_Grocery_Pharmacy=L_11_52___8_78L   
+   (   0.00769231   0.00769231   0.776923   0.2   0.00769231)   % G_Grocery_Pharmacy=L_14_26___11_52L   
+   (   0.00952381   0.00952381   0.00952381   0.961905   0.00952381)   % G_Grocery_Pharmacy=L_17_0___14_26L   
+   (   0.43913   0.00434783   0.00434783   0.00434783   0.547826)   % G_Grocery_Pharmacy=L_6_05___3_31L   
+   (   0.396078   0.592157   0.00392157   0.00392157   0.00392157));   % G_Grocery_Pharmacy=L_8_78___6_05L   
+}
+
+potential ( G_Grocery_Pharmacy | G_Residencial   G_Parks   ) {
+   data = 
+   (((   0.0019802   0.0019802   0.0019802   0.992079   0.0019802)   % G_Parks=L25_33__47_67L   G_Residencial=L3_67__6_11L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L3_0__25_33L   G_Residencial=L3_67__6_11L   
+   (   0.2   0.0019802   0.0019802   0.2   0.59604)   % G_Parks=L47_67__70_0L   G_Residencial=L3_67__6_11L   
+   (   0.00327869   0.00327869   0.00327869   0.00327869   0.986885)   % G_Parks=L70_0__92_33L   G_Residencial=L3_67__6_11L   
+   (   0.00952381   0.00952381   0.00952381   0.961905   0.00952381))   % G_Parks=L92_33__114_67L   G_Residencial=L3_67__6_11L   
+   ((   0.00952381   0.00952381   0.961905   0.00952381   0.00952381)   % G_Parks=L25_33__47_67L   G_Residencial=L6_11__8_56L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L3_0__25_33L   G_Residencial=L6_11__8_56L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L47_67__70_0L   G_Residencial=L6_11__8_56L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L70_0__92_33L   G_Residencial=L6_11__8_56L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Parks=L92_33__114_67L   G_Residencial=L6_11__8_56L   
+   ((   0.00327869   0.986885   0.00327869   0.00327869   0.00327869)   % G_Parks=L25_33__47_67L   G_Residencial=L8_56__11_0L   
+   (   0.00327869   0.331148   0.659016   0.00327869   0.00327869)   % G_Parks=L3_0__25_33L   G_Residencial=L8_56__11_0L   
+   (   0.961905   0.00952381   0.00952381   0.00952381   0.00952381)   % G_Parks=L47_67__70_0L   G_Residencial=L8_56__11_0L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L70_0__92_33L   G_Residencial=L8_56__11_0L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Parks=L92_33__114_67L   G_Residencial=L8_56__11_0L   
+   ((   0.00246914   0.00246914   0.00246914   0.496296   0.496296)   % G_Parks=L25_33__47_67L   G_Residencial=L_1_22__1_22L   
+   (   0.00487805   0.492683   0.492683   0.00487805   0.00487805)   % G_Parks=L3_0__25_33L   G_Residencial=L_1_22__1_22L   
+   (   0.00952381   0.00952381   0.00952381   0.00952381   0.961905)   % G_Parks=L47_67__70_0L   G_Residencial=L_1_22__1_22L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L70_0__92_33L   G_Residencial=L_1_22__1_22L   
+   (   0.00952381   0.00952381   0.00952381   0.00952381   0.961905)));   % G_Parks=L92_33__114_67L   G_Residencial=L_1_22__1_22L   
+}
+
+potential (G_Parks) {
+   data = (  0.425806 0.167742 0.232258 0.103226 0.0709677);
+}
+
+potential ( G_Transit | G_Residencial   ) {
+   data = 
+   ((   0.00350877   0.214035   0.775439   0.00350877   0.00350877)   % G_Residencial=L3_67__6_11L   
+   (   0.04   0.04   0.04   0.84   0.04)   % G_Residencial=L6_11__8_56L   
+   (   0.00689655   0.00689655   0.00689655   0.282759   0.696552)   % G_Residencial=L8_56__11_0L   
+   (   0.248485   0.248485   0.369697   0.127273   0.00606061));   % G_Residencial=L_1_22__1_22L   
+}
+
+potential ( G_Workplace | G_Residencial   ) {
+   data = 
+   ((   0.00438596   0.916667   0.0745614   0.00438596)   % G_Residencial=L3_67__6_11L   
+   (   0.05   0.05   0.05   0.85)   % G_Residencial=L6_11__8_56L   
+   (   0.00862069   0.00862069   0.00862069   0.974138)   % G_Residencial=L8_56__11_0L   
+   (   0.977273   0.00757576   0.00757576   0.00757576));   % G_Residencial=L_1_22__1_22L   
+}
+
+potential (G_Residencial) {
+   data = (  0.459677 0.0403226 0.233871 0.266129);
+}
+
+

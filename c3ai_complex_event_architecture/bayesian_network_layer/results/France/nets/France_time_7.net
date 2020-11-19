@@ -1,0 +1,122 @@
+
+net {
+  name = unnamedBN;
+  software = "aGrUM 0.18.2";
+  node_size = (50 50);
+}
+
+node Cases_per_Million {
+   states = (L0_0__8_14L L16_29__24_43L L24_43__32_58L L32_58__40_72L L8_14__16_29L );
+   label = "Cases_per_Million";
+   ID = "Cases_per_Million";
+}
+
+node Deaths_per_Million {
+   states = (L0_0__0_27L L0_27__0_54L L0_54__0_82L L1_09__1_36L );
+   label = "Deaths_per_Million";
+   ID = "Deaths_per_Million";
+}
+
+node G_Retail {
+   states = (L14_04__23_21L L4_86__14_04L L_13_48___4_31L L_22_66___13_48L L_4_31__4_86L );
+   label = "G_Retail";
+   ID = "G_Retail";
+}
+
+node G_Grocery_Pharmacy {
+   states = (L22_12__37_29L L6_95__22_12L L_38_56___23_39L L_8_22__6_95L );
+   label = "G_Grocery_Pharmacy";
+   ID = "G_Grocery_Pharmacy";
+}
+
+node G_Parks {
+   states = (L103_11__144_63L L144_63__186_16L L186_16__227_68L L227_68__269_2L L61_59__103_11L );
+   label = "G_Parks";
+   ID = "G_Parks";
+}
+
+node G_Transit {
+   states = (L17_79__30_74L L30_74__43_7L L43_7__56_66L L4_83__17_79L L_8_13__4_83L );
+   label = "G_Transit";
+   ID = "G_Transit";
+}
+
+node G_Workplace {
+   states = (L_39_93___22_4L L_4_86__12_67L L_57_46___39_93L L_74_99___57_46L );
+   label = "G_Workplace";
+   ID = "G_Workplace";
+}
+
+node G_Residencial {
+   states = (L11_32__15_12L L3_73__7_53L L_0_07__3_73L L_3_87___0_07L );
+   label = "G_Residencial";
+   ID = "G_Residencial";
+}
+
+potential ( Cases_per_Million | G_Workplace   ) {
+   data = 
+   ((   0.190588   0.190588   0.0494118   0.0964706   0.472941)   % G_Workplace=L_39_93___22_4L   
+   (   0.975758   0.00606061   0.00606061   0.00606061   0.00606061)   % G_Workplace=L_4_86__12_67L   
+   (   0.04   0.84   0.04   0.04   0.04)   % G_Workplace=L_57_46___39_93L   
+   (   0.84   0.04   0.04   0.04   0.04));   % G_Workplace=L_74_99___57_46L   
+}
+
+potential (Deaths_per_Million) {
+   data = (  0.757812 0.164062 0.0390625 0.0390625);
+}
+
+potential (G_Retail) {
+   data = (  0.06875 0.31875 0.19375 0.0375 0.38125);
+}
+
+potential ( G_Grocery_Pharmacy | G_Retail   ) {
+   data = 
+   ((   0.931818   0.0227273   0.0227273   0.0227273)   % G_Retail=L14_04__23_21L   
+   (   0.20098   0.789216   0.00490196   0.00490196)   % G_Retail=L4_86__14_04L   
+   (   0.00806452   0.00806452   0.00806452   0.975806)   % G_Retail=L_13_48___4_31L   
+   (   0.0416667   0.0416667   0.875   0.0416667)   % G_Retail=L_22_66___13_48L   
+   (   0.00409836   0.577869   0.00409836   0.413934));   % G_Retail=L_4_31__4_86L   
+}
+
+potential (G_Parks) {
+   data = (  0.2875 0.25625 0.225 0.06875 0.1625);
+}
+
+potential ( G_Transit | G_Residencial   ) {
+   data = 
+   ((   0.04   0.04   0.04   0.04   0.84)   % G_Residencial=L11_32__15_12L   
+   (   0.0518519   0.00246914   0.00246914   0.298765   0.644444)   % G_Residencial=L3_73__7_53L   
+   (   0.0222222   0.0222222   0.0222222   0.466667   0.466667)   % G_Residencial=L_0_07__3_73L   
+   (   0.248485   0.369697   0.369697   0.00606061   0.00606061));   % G_Residencial=L_3_87___0_07L   
+}
+
+potential ( G_Workplace | G_Retail   ) {
+   data = 
+   ((   0.0227273   0.477273   0.477273   0.0227273)   % G_Retail=L14_04__23_21L   
+   (   0.789216   0.20098   0.00490196   0.00490196)   % G_Retail=L4_86__14_04L   
+   (   0.330645   0.653226   0.00806452   0.00806452)   % G_Retail=L_13_48___4_31L   
+   (   0.0416667   0.0416667   0.0416667   0.875)   % G_Retail=L_22_66___13_48L   
+   (   0.905738   0.0860656   0.00409836   0.00409836));   % G_Retail=L_4_31__4_86L   
+}
+
+potential ( G_Residencial | G_Workplace   Deaths_per_Million   ) {
+   data = 
+   (((   0.00103734   0.930498   0.0674274   0.00103734)   % Deaths_per_Million=L0_0__0_27L   G_Workplace=L_39_93___22_4L   
+   (   0.00384615   0.988462   0.00384615   0.00384615)   % Deaths_per_Million=L0_27__0_54L   G_Workplace=L_39_93___22_4L   
+   (   0.0147059   0.955882   0.0147059   0.0147059)   % Deaths_per_Million=L0_54__0_82L   G_Workplace=L_39_93___22_4L   
+   (   0.0147059   0.0147059   0.955882   0.0147059))   % Deaths_per_Million=L1_09__1_36L   G_Workplace=L_39_93___22_4L   
+   ((   0.00193798   0.00193798   0.00193798   0.994186)   % Deaths_per_Million=L0_0__0_27L   G_Workplace=L_4_86__12_67L   
+   (   0.25   0.25   0.25   0.25)   % Deaths_per_Million=L0_27__0_54L   G_Workplace=L_4_86__12_67L   
+   (   0.25   0.25   0.25   0.25)   % Deaths_per_Million=L0_54__0_82L   G_Workplace=L_4_86__12_67L   
+   (   0.25   0.25   0.25   0.25))   % Deaths_per_Million=L1_09__1_36L   G_Workplace=L_4_86__12_67L   
+   ((   0.25   0.25   0.25   0.25)   % Deaths_per_Million=L0_0__0_27L   G_Workplace=L_57_46___39_93L   
+   (   0.0147059   0.955882   0.0147059   0.0147059)   % Deaths_per_Million=L0_27__0_54L   G_Workplace=L_57_46___39_93L   
+   (   0.25   0.25   0.25   0.25)   % Deaths_per_Million=L0_54__0_82L   G_Workplace=L_57_46___39_93L   
+   (   0.25   0.25   0.25   0.25))   % Deaths_per_Million=L1_09__1_36L   G_Workplace=L_57_46___39_93L   
+   ((   0.955882   0.0147059   0.0147059   0.0147059)   % Deaths_per_Million=L0_0__0_27L   G_Workplace=L_74_99___57_46L   
+   (   0.25   0.25   0.25   0.25)   % Deaths_per_Million=L0_27__0_54L   G_Workplace=L_74_99___57_46L   
+   (   0.25   0.25   0.25   0.25)   % Deaths_per_Million=L0_54__0_82L   G_Workplace=L_74_99___57_46L   
+   (   0.25   0.25   0.25   0.25)));   % Deaths_per_Million=L1_09__1_36L   G_Workplace=L_74_99___57_46L   
+}
+
+

@@ -1,0 +1,41 @@
+net
+{
+	name = "unnamedBN";
+	software = "aGrUM 0.18.2";
+	node_size = (50.0 50.0);
+	huginenginegenerator3061656038650325130L = "edu.ucla.belief.inference.JoinTreeSettings@1347a627";
+}
+
+node C6_Stay_at_home_requirements
+{
+	states = ("L0" "L1" );
+	position = (61 -184);
+	diagnosistype = "AUXILIARY";
+	ismapvariable = "false";
+	label = "C6_Stay_at_home_requirements";
+	ID = "C6_Stay_at_home_requirements";
+	DSLxEXTRA_DEFINITIONxDIAGNOSIS_TYPE = "AUXILIARY";
+	excludepolicy = "include whole CPT";
+}
+node Cases_per_Million
+{
+	states = ("L0_0__308_48L" "L1233_94__1542_42L" "L308_48__616_97L" "L925_45__1233_94L" );
+	position = (164 -60);
+	diagnosistype = "AUXILIARY";
+	ismapvariable = "false";
+	label = "Cases_per_Million";
+	ID = "Cases_per_Million";
+	DSLxEXTRA_DEFINITIONxDIAGNOSIS_TYPE = "AUXILIARY";
+	excludepolicy = "include whole CPT";
+}
+potential ( C6_Stay_at_home_requirements | Cases_per_Million )
+{
+	data = ((	0.149761	0.850239	)
+		(	0.1	0.9	)
+		(	0.01724139310344276	0.9827586068965573	)
+		(	0.1	0.9	));
+}
+potential ( Cases_per_Million | )
+{
+	data = (	0.9640220964022096	0.004612550461255046	0.02675280267528027	0.004612550461255046	);
+}

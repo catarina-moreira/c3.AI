@@ -1,0 +1,41 @@
+net
+{
+	name = "unnamedBN";
+	software = "aGrUM 0.18.2";
+	node_size = (50.0 50.0);
+	huginenginegenerator3061656038650325130L = "edu.ucla.belief.inference.JoinTreeSettings@7a17f9ff";
+}
+
+node Cases_per_Million
+{
+	states = ("L0_0__308_48L" "L1233_94__1542_42L" "L308_48__616_97L" "L925_45__1233_94L" );
+	position = (159 -11);
+	diagnosistype = "AUXILIARY";
+	ismapvariable = "false";
+	label = "Cases_per_Million";
+	ID = "Cases_per_Million";
+	DSLxEXTRA_DEFINITIONxDIAGNOSIS_TYPE = "AUXILIARY";
+	excludepolicy = "include whole CPT";
+}
+node H2_Testing_policy
+{
+	states = ("L1" "L2" );
+	position = (93 -134);
+	diagnosistype = "AUXILIARY";
+	ismapvariable = "false";
+	label = "H2_Testing_policy";
+	ID = "H2_Testing_policy";
+	DSLxEXTRA_DEFINITIONxDIAGNOSIS_TYPE = "AUXILIARY";
+	excludepolicy = "include whole CPT";
+}
+potential ( Cases_per_Million | )
+{
+	data = (	0.9640220964022096	0.004612550461255046	0.02675280267528027	0.004612550461255046	);
+}
+potential ( H2_Testing_policy | Cases_per_Million )
+{
+	data = ((	0.421531	0.578469	)
+		(	0.1	0.9	)
+		(	0.01724139310344276	0.9827586068965573	)
+		(	0.1	0.9	));
+}

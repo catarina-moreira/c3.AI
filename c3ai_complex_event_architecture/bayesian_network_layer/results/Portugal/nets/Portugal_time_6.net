@@ -1,0 +1,246 @@
+
+net {
+  name = unnamedBN;
+  software = "aGrUM 0.18.2";
+  node_size = (50 50);
+}
+
+node Cases_per_Million {
+   states = (L18_68__23_83L L23_83__28_99L L28_99__34_14L L34_14__39_3L L39_3__44_46L );
+   label = "Cases_per_Million";
+   ID = "Cases_per_Million";
+}
+
+node Deaths_per_Million {
+   states = (L0_1__0_35L L0_35__0_6L L0_6__0_86L L0_86__1_11L L1_11__1_36L );
+   label = "Deaths_per_Million";
+   ID = "Deaths_per_Million";
+}
+
+node G_Retail {
+   states = (L_20_07___15_82L L_24_32___20_07L L_28_57___24_32L L_32_82___28_57L L_37_07___32_82L );
+   label = "G_Retail";
+   ID = "G_Retail";
+}
+
+node G_Grocery_Pharmacy {
+   states = (L_12_22___7_84L L_16_6___12_22L L_20_99___16_6L L_25_37___20_99L L_7_84___3_45L );
+   label = "G_Grocery_Pharmacy";
+   ID = "G_Grocery_Pharmacy";
+}
+
+node G_Parks {
+   states = (L14_22__30_16L L30_16__46_11L L46_11__62_05L L62_05__78_0L L_1_73__14_22L );
+   label = "G_Parks";
+   ID = "G_Parks";
+}
+
+node G_Transit {
+   states = (L_32_3___27_14L L_37_46___32_3L L_42_62___37_46L L_47_78___42_62L L_52_93___47_78L );
+   label = "G_Transit";
+   ID = "G_Transit";
+}
+
+node G_Workplace {
+   states = (L_11_71__3_04L L_41_21___26_46L L_55_95___41_21L L_70_7___55_95L );
+   label = "G_Workplace";
+   ID = "G_Workplace";
+}
+
+node G_Residencial {
+   states = (L13_0__17_7L L17_7__22_4L L22_4__27_1L L3_61__8_31L L8_31__13_0L );
+   label = "G_Residencial";
+   ID = "G_Residencial";
+}
+
+potential (Cases_per_Million) {
+   data = (  0.167742 0.2 0.296774 0.2 0.135484);
+}
+
+potential (Deaths_per_Million) {
+   data = (  0.329032 0.329032 0.167742 0.103226 0.0709677);
+}
+
+potential ( G_Retail | G_Transit   G_Grocery_Pharmacy   G_Parks   ) {
+   data = 
+   ((((   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L14_22__30_16L   G_Grocery_Pharmacy=L_12_22___7_84L   G_Transit=L_32_3___27_14L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L30_16__46_11L   G_Grocery_Pharmacy=L_12_22___7_84L   G_Transit=L_32_3___27_14L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L46_11__62_05L   G_Grocery_Pharmacy=L_12_22___7_84L   G_Transit=L_32_3___27_14L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L62_05__78_0L   G_Grocery_Pharmacy=L_12_22___7_84L   G_Transit=L_32_3___27_14L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Parks=L_1_73__14_22L   G_Grocery_Pharmacy=L_12_22___7_84L   G_Transit=L_32_3___27_14L   
+   ((   0.000796813   0.000796813   0.000796813   0.996813   0.000796813)   % G_Parks=L14_22__30_16L   G_Grocery_Pharmacy=L_16_6___12_22L   G_Transit=L_32_3___27_14L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L30_16__46_11L   G_Grocery_Pharmacy=L_16_6___12_22L   G_Transit=L_32_3___27_14L   
+   (   0.0015873   0.0015873   0.993651   0.0015873   0.0015873)   % G_Parks=L46_11__62_05L   G_Grocery_Pharmacy=L_16_6___12_22L   G_Transit=L_32_3___27_14L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L62_05__78_0L   G_Grocery_Pharmacy=L_16_6___12_22L   G_Transit=L_32_3___27_14L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Parks=L_1_73__14_22L   G_Grocery_Pharmacy=L_16_6___12_22L   G_Transit=L_32_3___27_14L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L14_22__30_16L   G_Grocery_Pharmacy=L_20_99___16_6L   G_Transit=L_32_3___27_14L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L30_16__46_11L   G_Grocery_Pharmacy=L_20_99___16_6L   G_Transit=L_32_3___27_14L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L46_11__62_05L   G_Grocery_Pharmacy=L_20_99___16_6L   G_Transit=L_32_3___27_14L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L62_05__78_0L   G_Grocery_Pharmacy=L_20_99___16_6L   G_Transit=L_32_3___27_14L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Parks=L_1_73__14_22L   G_Grocery_Pharmacy=L_20_99___16_6L   G_Transit=L_32_3___27_14L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L14_22__30_16L   G_Grocery_Pharmacy=L_25_37___20_99L   G_Transit=L_32_3___27_14L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L30_16__46_11L   G_Grocery_Pharmacy=L_25_37___20_99L   G_Transit=L_32_3___27_14L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L46_11__62_05L   G_Grocery_Pharmacy=L_25_37___20_99L   G_Transit=L_32_3___27_14L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L62_05__78_0L   G_Grocery_Pharmacy=L_25_37___20_99L   G_Transit=L_32_3___27_14L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Parks=L_1_73__14_22L   G_Grocery_Pharmacy=L_25_37___20_99L   G_Transit=L_32_3___27_14L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L14_22__30_16L   G_Grocery_Pharmacy=L_7_84___3_45L   G_Transit=L_32_3___27_14L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L30_16__46_11L   G_Grocery_Pharmacy=L_7_84___3_45L   G_Transit=L_32_3___27_14L   
+   (   0.993651   0.0015873   0.0015873   0.0015873   0.0015873)   % G_Parks=L46_11__62_05L   G_Grocery_Pharmacy=L_7_84___3_45L   G_Transit=L_32_3___27_14L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L62_05__78_0L   G_Grocery_Pharmacy=L_7_84___3_45L   G_Transit=L_32_3___27_14L   
+   (   0.2   0.2   0.2   0.2   0.2)))   % G_Parks=L_1_73__14_22L   G_Grocery_Pharmacy=L_7_84___3_45L   G_Transit=L_32_3___27_14L   
+   (((   0.000319489   0.599361   0.399681   0.000319489   0.000319489)   % G_Parks=L14_22__30_16L   G_Grocery_Pharmacy=L_12_22___7_84L   G_Transit=L_37_46___32_3L   
+   (   0.000531915   0.997872   0.000531915   0.000531915   0.000531915)   % G_Parks=L30_16__46_11L   G_Grocery_Pharmacy=L_12_22___7_84L   G_Transit=L_37_46___32_3L   
+   (   0.0015873   0.993651   0.0015873   0.0015873   0.0015873)   % G_Parks=L46_11__62_05L   G_Grocery_Pharmacy=L_12_22___7_84L   G_Transit=L_37_46___32_3L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L62_05__78_0L   G_Grocery_Pharmacy=L_12_22___7_84L   G_Transit=L_37_46___32_3L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Parks=L_1_73__14_22L   G_Grocery_Pharmacy=L_12_22___7_84L   G_Transit=L_37_46___32_3L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L14_22__30_16L   G_Grocery_Pharmacy=L_16_6___12_22L   G_Transit=L_37_46___32_3L   
+   (   0.0015873   0.993651   0.0015873   0.0015873   0.0015873)   % G_Parks=L30_16__46_11L   G_Grocery_Pharmacy=L_16_6___12_22L   G_Transit=L_37_46___32_3L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L46_11__62_05L   G_Grocery_Pharmacy=L_16_6___12_22L   G_Transit=L_37_46___32_3L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L62_05__78_0L   G_Grocery_Pharmacy=L_16_6___12_22L   G_Transit=L_37_46___32_3L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Parks=L_1_73__14_22L   G_Grocery_Pharmacy=L_16_6___12_22L   G_Transit=L_37_46___32_3L   
+   ((   0.000796813   0.000796813   0.000796813   0.000796813   0.996813)   % G_Parks=L14_22__30_16L   G_Grocery_Pharmacy=L_20_99___16_6L   G_Transit=L_37_46___32_3L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L30_16__46_11L   G_Grocery_Pharmacy=L_20_99___16_6L   G_Transit=L_37_46___32_3L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L46_11__62_05L   G_Grocery_Pharmacy=L_20_99___16_6L   G_Transit=L_37_46___32_3L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L62_05__78_0L   G_Grocery_Pharmacy=L_20_99___16_6L   G_Transit=L_37_46___32_3L   
+   (   0.0015873   0.0015873   0.0015873   0.0015873   0.993651))   % G_Parks=L_1_73__14_22L   G_Grocery_Pharmacy=L_20_99___16_6L   G_Transit=L_37_46___32_3L   
+   ((   0.0015873   0.0015873   0.0015873   0.0015873   0.993651)   % G_Parks=L14_22__30_16L   G_Grocery_Pharmacy=L_25_37___20_99L   G_Transit=L_37_46___32_3L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L30_16__46_11L   G_Grocery_Pharmacy=L_25_37___20_99L   G_Transit=L_37_46___32_3L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L46_11__62_05L   G_Grocery_Pharmacy=L_25_37___20_99L   G_Transit=L_37_46___32_3L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L62_05__78_0L   G_Grocery_Pharmacy=L_25_37___20_99L   G_Transit=L_37_46___32_3L   
+   (   0.0015873   0.0015873   0.0015873   0.0015873   0.993651))   % G_Parks=L_1_73__14_22L   G_Grocery_Pharmacy=L_25_37___20_99L   G_Transit=L_37_46___32_3L   
+   ((   0.000796813   0.996813   0.000796813   0.000796813   0.000796813)   % G_Parks=L14_22__30_16L   G_Grocery_Pharmacy=L_7_84___3_45L   G_Transit=L_37_46___32_3L   
+   (   0.993651   0.0015873   0.0015873   0.0015873   0.0015873)   % G_Parks=L30_16__46_11L   G_Grocery_Pharmacy=L_7_84___3_45L   G_Transit=L_37_46___32_3L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L46_11__62_05L   G_Grocery_Pharmacy=L_7_84___3_45L   G_Transit=L_37_46___32_3L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L62_05__78_0L   G_Grocery_Pharmacy=L_7_84___3_45L   G_Transit=L_37_46___32_3L   
+   (   0.2   0.2   0.2   0.2   0.2)))   % G_Parks=L_1_73__14_22L   G_Grocery_Pharmacy=L_7_84___3_45L   G_Transit=L_37_46___32_3L   
+   (((   0.000399202   0.000399202   0.499401   0.499401   0.000399202)   % G_Parks=L14_22__30_16L   G_Grocery_Pharmacy=L_12_22___7_84L   G_Transit=L_42_62___37_46L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L30_16__46_11L   G_Grocery_Pharmacy=L_12_22___7_84L   G_Transit=L_42_62___37_46L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L46_11__62_05L   G_Grocery_Pharmacy=L_12_22___7_84L   G_Transit=L_42_62___37_46L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L62_05__78_0L   G_Grocery_Pharmacy=L_12_22___7_84L   G_Transit=L_42_62___37_46L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Parks=L_1_73__14_22L   G_Grocery_Pharmacy=L_12_22___7_84L   G_Transit=L_42_62___37_46L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L14_22__30_16L   G_Grocery_Pharmacy=L_16_6___12_22L   G_Transit=L_42_62___37_46L   
+   (   0.0015873   0.0015873   0.993651   0.0015873   0.0015873)   % G_Parks=L30_16__46_11L   G_Grocery_Pharmacy=L_16_6___12_22L   G_Transit=L_42_62___37_46L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L46_11__62_05L   G_Grocery_Pharmacy=L_16_6___12_22L   G_Transit=L_42_62___37_46L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L62_05__78_0L   G_Grocery_Pharmacy=L_16_6___12_22L   G_Transit=L_42_62___37_46L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Parks=L_1_73__14_22L   G_Grocery_Pharmacy=L_16_6___12_22L   G_Transit=L_42_62___37_46L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L14_22__30_16L   G_Grocery_Pharmacy=L_20_99___16_6L   G_Transit=L_42_62___37_46L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L30_16__46_11L   G_Grocery_Pharmacy=L_20_99___16_6L   G_Transit=L_42_62___37_46L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L46_11__62_05L   G_Grocery_Pharmacy=L_20_99___16_6L   G_Transit=L_42_62___37_46L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L62_05__78_0L   G_Grocery_Pharmacy=L_20_99___16_6L   G_Transit=L_42_62___37_46L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Parks=L_1_73__14_22L   G_Grocery_Pharmacy=L_20_99___16_6L   G_Transit=L_42_62___37_46L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L14_22__30_16L   G_Grocery_Pharmacy=L_25_37___20_99L   G_Transit=L_42_62___37_46L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L30_16__46_11L   G_Grocery_Pharmacy=L_25_37___20_99L   G_Transit=L_42_62___37_46L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L46_11__62_05L   G_Grocery_Pharmacy=L_25_37___20_99L   G_Transit=L_42_62___37_46L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L62_05__78_0L   G_Grocery_Pharmacy=L_25_37___20_99L   G_Transit=L_42_62___37_46L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Parks=L_1_73__14_22L   G_Grocery_Pharmacy=L_25_37___20_99L   G_Transit=L_42_62___37_46L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L14_22__30_16L   G_Grocery_Pharmacy=L_7_84___3_45L   G_Transit=L_42_62___37_46L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L30_16__46_11L   G_Grocery_Pharmacy=L_7_84___3_45L   G_Transit=L_42_62___37_46L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L46_11__62_05L   G_Grocery_Pharmacy=L_7_84___3_45L   G_Transit=L_42_62___37_46L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L62_05__78_0L   G_Grocery_Pharmacy=L_7_84___3_45L   G_Transit=L_42_62___37_46L   
+   (   0.2   0.2   0.2   0.2   0.2)))   % G_Parks=L_1_73__14_22L   G_Grocery_Pharmacy=L_7_84___3_45L   G_Transit=L_42_62___37_46L   
+   (((   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L14_22__30_16L   G_Grocery_Pharmacy=L_12_22___7_84L   G_Transit=L_47_78___42_62L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L30_16__46_11L   G_Grocery_Pharmacy=L_12_22___7_84L   G_Transit=L_47_78___42_62L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L46_11__62_05L   G_Grocery_Pharmacy=L_12_22___7_84L   G_Transit=L_47_78___42_62L   
+   (   0.0015873   0.0015873   0.993651   0.0015873   0.0015873)   % G_Parks=L62_05__78_0L   G_Grocery_Pharmacy=L_12_22___7_84L   G_Transit=L_47_78___42_62L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Parks=L_1_73__14_22L   G_Grocery_Pharmacy=L_12_22___7_84L   G_Transit=L_47_78___42_62L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L14_22__30_16L   G_Grocery_Pharmacy=L_16_6___12_22L   G_Transit=L_47_78___42_62L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L30_16__46_11L   G_Grocery_Pharmacy=L_16_6___12_22L   G_Transit=L_47_78___42_62L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L46_11__62_05L   G_Grocery_Pharmacy=L_16_6___12_22L   G_Transit=L_47_78___42_62L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L62_05__78_0L   G_Grocery_Pharmacy=L_16_6___12_22L   G_Transit=L_47_78___42_62L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Parks=L_1_73__14_22L   G_Grocery_Pharmacy=L_16_6___12_22L   G_Transit=L_47_78___42_62L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L14_22__30_16L   G_Grocery_Pharmacy=L_20_99___16_6L   G_Transit=L_47_78___42_62L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L30_16__46_11L   G_Grocery_Pharmacy=L_20_99___16_6L   G_Transit=L_47_78___42_62L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L46_11__62_05L   G_Grocery_Pharmacy=L_20_99___16_6L   G_Transit=L_47_78___42_62L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L62_05__78_0L   G_Grocery_Pharmacy=L_20_99___16_6L   G_Transit=L_47_78___42_62L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Parks=L_1_73__14_22L   G_Grocery_Pharmacy=L_20_99___16_6L   G_Transit=L_47_78___42_62L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L14_22__30_16L   G_Grocery_Pharmacy=L_25_37___20_99L   G_Transit=L_47_78___42_62L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L30_16__46_11L   G_Grocery_Pharmacy=L_25_37___20_99L   G_Transit=L_47_78___42_62L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L46_11__62_05L   G_Grocery_Pharmacy=L_25_37___20_99L   G_Transit=L_47_78___42_62L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L62_05__78_0L   G_Grocery_Pharmacy=L_25_37___20_99L   G_Transit=L_47_78___42_62L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Parks=L_1_73__14_22L   G_Grocery_Pharmacy=L_25_37___20_99L   G_Transit=L_47_78___42_62L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L14_22__30_16L   G_Grocery_Pharmacy=L_7_84___3_45L   G_Transit=L_47_78___42_62L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L30_16__46_11L   G_Grocery_Pharmacy=L_7_84___3_45L   G_Transit=L_47_78___42_62L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L46_11__62_05L   G_Grocery_Pharmacy=L_7_84___3_45L   G_Transit=L_47_78___42_62L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L62_05__78_0L   G_Grocery_Pharmacy=L_7_84___3_45L   G_Transit=L_47_78___42_62L   
+   (   0.0015873   0.0015873   0.993651   0.0015873   0.0015873)))   % G_Parks=L_1_73__14_22L   G_Grocery_Pharmacy=L_7_84___3_45L   G_Transit=L_47_78___42_62L   
+   (((   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L14_22__30_16L   G_Grocery_Pharmacy=L_12_22___7_84L   G_Transit=L_52_93___47_78L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L30_16__46_11L   G_Grocery_Pharmacy=L_12_22___7_84L   G_Transit=L_52_93___47_78L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L46_11__62_05L   G_Grocery_Pharmacy=L_12_22___7_84L   G_Transit=L_52_93___47_78L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L62_05__78_0L   G_Grocery_Pharmacy=L_12_22___7_84L   G_Transit=L_52_93___47_78L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Parks=L_1_73__14_22L   G_Grocery_Pharmacy=L_12_22___7_84L   G_Transit=L_52_93___47_78L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L14_22__30_16L   G_Grocery_Pharmacy=L_16_6___12_22L   G_Transit=L_52_93___47_78L   
+   (   0.0015873   0.0015873   0.0015873   0.993651   0.0015873)   % G_Parks=L30_16__46_11L   G_Grocery_Pharmacy=L_16_6___12_22L   G_Transit=L_52_93___47_78L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L46_11__62_05L   G_Grocery_Pharmacy=L_16_6___12_22L   G_Transit=L_52_93___47_78L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L62_05__78_0L   G_Grocery_Pharmacy=L_16_6___12_22L   G_Transit=L_52_93___47_78L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Parks=L_1_73__14_22L   G_Grocery_Pharmacy=L_16_6___12_22L   G_Transit=L_52_93___47_78L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L14_22__30_16L   G_Grocery_Pharmacy=L_20_99___16_6L   G_Transit=L_52_93___47_78L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L30_16__46_11L   G_Grocery_Pharmacy=L_20_99___16_6L   G_Transit=L_52_93___47_78L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L46_11__62_05L   G_Grocery_Pharmacy=L_20_99___16_6L   G_Transit=L_52_93___47_78L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L62_05__78_0L   G_Grocery_Pharmacy=L_20_99___16_6L   G_Transit=L_52_93___47_78L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Parks=L_1_73__14_22L   G_Grocery_Pharmacy=L_20_99___16_6L   G_Transit=L_52_93___47_78L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L14_22__30_16L   G_Grocery_Pharmacy=L_25_37___20_99L   G_Transit=L_52_93___47_78L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L30_16__46_11L   G_Grocery_Pharmacy=L_25_37___20_99L   G_Transit=L_52_93___47_78L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L46_11__62_05L   G_Grocery_Pharmacy=L_25_37___20_99L   G_Transit=L_52_93___47_78L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L62_05__78_0L   G_Grocery_Pharmacy=L_25_37___20_99L   G_Transit=L_52_93___47_78L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Parks=L_1_73__14_22L   G_Grocery_Pharmacy=L_25_37___20_99L   G_Transit=L_52_93___47_78L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L14_22__30_16L   G_Grocery_Pharmacy=L_7_84___3_45L   G_Transit=L_52_93___47_78L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L30_16__46_11L   G_Grocery_Pharmacy=L_7_84___3_45L   G_Transit=L_52_93___47_78L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L46_11__62_05L   G_Grocery_Pharmacy=L_7_84___3_45L   G_Transit=L_52_93___47_78L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L62_05__78_0L   G_Grocery_Pharmacy=L_7_84___3_45L   G_Transit=L_52_93___47_78L   
+   (   0.2   0.2   0.2   0.2   0.2))));   % G_Parks=L_1_73__14_22L   G_Grocery_Pharmacy=L_7_84___3_45L   G_Transit=L_52_93___47_78L   
+}
+
+potential (G_Grocery_Pharmacy) {
+   data = (  0.458065 0.2 0.103226 0.0709677 0.167742);
+}
+
+potential ( G_Parks | G_Workplace   ) {
+   data = 
+   ((   0.612121   0.00606061   0.127273   0.00606061   0.248485)   % G_Workplace=L_11_71__3_04L   
+   (   0.574026   0.314286   0.106494   0.0025974   0.0025974)   % G_Workplace=L_41_21___26_46L   
+   (   0.04   0.04   0.04   0.04   0.84)   % G_Workplace=L_55_95___41_21L   
+   (   0.0222222   0.466667   0.0222222   0.466667   0.0222222));   % G_Workplace=L_70_7___55_95L   
+}
+
+potential (G_Transit) {
+   data = (  0.135484 0.587097 0.167742 0.0709677 0.0387097);
+}
+
+potential ( G_Workplace | G_Grocery_Pharmacy   G_Transit   ) {
+   data = 
+   (((   0.25   0.25   0.25   0.25)   % G_Transit=L_32_3___27_14L   G_Grocery_Pharmacy=L_12_22___7_84L   
+   (   0.00110619   0.996681   0.00110619   0.00110619)   % G_Transit=L_37_46___32_3L   G_Grocery_Pharmacy=L_12_22___7_84L   
+   (   0.00247525   0.992574   0.00247525   0.00247525)   % G_Transit=L_42_62___37_46L   G_Grocery_Pharmacy=L_12_22___7_84L   
+   (   0.00961538   0.00961538   0.00961538   0.971154)   % G_Transit=L_47_78___42_62L   G_Grocery_Pharmacy=L_12_22___7_84L   
+   (   0.25   0.25   0.25   0.25))   % G_Transit=L_52_93___47_78L   G_Grocery_Pharmacy=L_12_22___7_84L   
+   ((   0.990132   0.00328947   0.00328947   0.00328947)   % G_Transit=L_32_3___27_14L   G_Grocery_Pharmacy=L_16_6___12_22L   
+   (   0.00961538   0.971154   0.00961538   0.00961538)   % G_Transit=L_37_46___32_3L   G_Grocery_Pharmacy=L_16_6___12_22L   
+   (   0.00961538   0.971154   0.00961538   0.00961538)   % G_Transit=L_42_62___37_46L   G_Grocery_Pharmacy=L_16_6___12_22L   
+   (   0.25   0.25   0.25   0.25)   % G_Transit=L_47_78___42_62L   G_Grocery_Pharmacy=L_16_6___12_22L   
+   (   0.00961538   0.00961538   0.00961538   0.971154))   % G_Transit=L_52_93___47_78L   G_Grocery_Pharmacy=L_16_6___12_22L   
+   ((   0.25   0.25   0.25   0.25)   % G_Transit=L_32_3___27_14L   G_Grocery_Pharmacy=L_20_99___16_6L   
+   (   0.990132   0.00328947   0.00328947   0.00328947)   % G_Transit=L_37_46___32_3L   G_Grocery_Pharmacy=L_20_99___16_6L   
+   (   0.25   0.25   0.25   0.25)   % G_Transit=L_42_62___37_46L   G_Grocery_Pharmacy=L_20_99___16_6L   
+   (   0.25   0.25   0.25   0.25)   % G_Transit=L_47_78___42_62L   G_Grocery_Pharmacy=L_20_99___16_6L   
+   (   0.25   0.25   0.25   0.25))   % G_Transit=L_52_93___47_78L   G_Grocery_Pharmacy=L_20_99___16_6L   
+   ((   0.25   0.25   0.25   0.25)   % G_Transit=L_32_3___27_14L   G_Grocery_Pharmacy=L_25_37___20_99L   
+   (   0.985294   0.00490196   0.00490196   0.00490196)   % G_Transit=L_37_46___32_3L   G_Grocery_Pharmacy=L_25_37___20_99L   
+   (   0.25   0.25   0.25   0.25)   % G_Transit=L_42_62___37_46L   G_Grocery_Pharmacy=L_25_37___20_99L   
+   (   0.25   0.25   0.25   0.25)   % G_Transit=L_47_78___42_62L   G_Grocery_Pharmacy=L_25_37___20_99L   
+   (   0.25   0.25   0.25   0.25))   % G_Transit=L_52_93___47_78L   G_Grocery_Pharmacy=L_25_37___20_99L   
+   ((   0.00961538   0.971154   0.00961538   0.00961538)   % G_Transit=L_32_3___27_14L   G_Grocery_Pharmacy=L_7_84___3_45L   
+   (   0.00328947   0.990132   0.00328947   0.00328947)   % G_Transit=L_37_46___32_3L   G_Grocery_Pharmacy=L_7_84___3_45L   
+   (   0.25   0.25   0.25   0.25)   % G_Transit=L_42_62___37_46L   G_Grocery_Pharmacy=L_7_84___3_45L   
+   (   0.00961538   0.00961538   0.971154   0.00961538)   % G_Transit=L_47_78___42_62L   G_Grocery_Pharmacy=L_7_84___3_45L   
+   (   0.25   0.25   0.25   0.25)));   % G_Transit=L_52_93___47_78L   G_Grocery_Pharmacy=L_7_84___3_45L   
+}
+
+potential ( G_Residencial | G_Workplace   ) {
+   data = 
+   ((   0.00606061   0.00606061   0.00606061   0.733333   0.248485)   % G_Workplace=L_11_71__3_04L   
+   (   0.937662   0.0025974   0.0025974   0.0025974   0.0545455)   % G_Workplace=L_41_21___26_46L   
+   (   0.04   0.84   0.04   0.04   0.04)   % G_Workplace=L_55_95___41_21L   
+   (   0.0222222   0.466667   0.466667   0.0222222   0.0222222));   % G_Workplace=L_70_7___55_95L   
+}
+
+

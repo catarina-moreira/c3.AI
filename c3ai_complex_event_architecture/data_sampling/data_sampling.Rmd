@@ -1,0 +1,739 @@
+---
+title: "C3.ai data sampling notebook (Multi-variate Methods)"
+output: html_notebook
+---
+
+# C3.ai COVID-19 Data Lake - Data Sampling (Multi-variate Methods)
+
+This notebooks collects all available data for the Quantum-like Bayesian network interface.
+
+For the time being, we are using a simplified model in which only the data segment but not the header segment will be created for event types.
+
+To view an outline of this notebook, use the RStudio keyboard shortcut Control + Shift + O on Windows or Command + Shift + O on Mac.
+
+Remark: Some of the packages may not be needed, use the following (sample) code to load packages instead:
+
+#define a function to install and load required packages
+ipak <- function(pkg){
+  new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+  if (length(new.pkg)) 
+    install.packages(new.pkg, dependencies = TRUE)
+  sapply(pkg, require, character.only = TRUE)
+}
+
+#specify a list of required packages
+pack_list <- c("dplyr",
+               "lubridate",
+               "NCmisc")
+
+#install and load packages
+suppressWarnings(ipak(pack_list))
+
+#define current working directory
+current_wd <- dirname(rstudioapi::getActiveDocumentContext()$path)
+setwd(current_wd)
+
+#cross-check unused packages
+used_packages <- list.functions.in.file(rstudioapi::getSourceEditorContext()$path) %>%
+  names() %>%
+  unique()
+pack_list <- paste0("package:",unlist(pack_list))
+print("Unused packages:")
+print(setdiff(pack_list,used_packages))
+print("Missing packages:")
+print(setdiff(used_packages,pack_list))
+
+```{r}
+if (!require(plyr)) install.packages('plyr')
+if (!require(dplyr)) install.packages('dplyr')
+if (!require(pbmcapply)) install.packages('pbmcapply')
+if (!require(stats)) install.packages('stats')
+if (!require(lubridate)) install.packages('lubridate')
+if (!require(fuzzyjoin)) install.packages('fuzzyjoin')
+if (!require(gtools)) install.packages('gtools')
+if (!require(tidyr)) install.packages('tidyr')
+if (!require(stringr)) install.packages('stringr')
+if (!require(uuid)) install.packages('uuid')
+if (!require(data.table)) install.packages('data.table')
+if (!require(rlist)) install.packages('rlist')
+if (!require(ggplot2)) install.packages('ggplot2')
+
+library(plyr)
+library(dplyr)
+library(pbmcapply)
+library(stats)
+library(lubridate)
+library(fuzzyjoin)
+library(gtools)
+library(tidyr)
+library(stringr)
+library(uuid)
+library(data.table)
+library(rlist)
+library(ggplot2)
+```
+
+Define maximum data validity
+
+```{r}
+seconds_back <- 6*60*60-1
+seconds_ahead <- 6*60*60-1
+```
+
+
+Function to collect all data
+
+```{r}
+start_time <- as.character(Sys.time())
+
+#get existing scope for sampling
+object_types <- read.csv(file="../events/objectTypeIDs.csv",
+                         header=TRUE,
+                         sep=";")
+measures <- read.csv(file="../events/measureIDs.csv",
+                         header=TRUE,
+                         sep=";") %>%
+              mutate(.,
+                     uuidMeasure=uuidMeasure,
+                     description=paste0(source,
+                                        "_",
+                                        description,
+                                        "_",
+                                        scaleLevel),
+                     number=seq(1,nrow(.)),
+                     .keep="none")
+objects <- read.csv(file="../events/objectIDs.csv",
+                         header=TRUE,
+                         sep=";") %>%
+             select(.,
+                    -iso) %>%
+             left_join(.,
+                       object_types,
+                       by="uuidObjectType") %>%
+             mutate(.,
+                    description=paste0(description.y,
+                                       "_",
+                                       description.x),
+                    number=seq(1,nrow(.)),
+                    .keep="unused")
+valid_records <- expand.grid(measures$number,
+                             objects$number) %>%
+                   left_join(.,
+                             measures,
+                             by=c("Var1"="number")) %>%
+                   left_join(.,
+                             objects,
+                             by=c("Var2"="number")) %>%
+                   select(.,
+                          -c(Var1,
+                             Var2)) %>%
+                   mutate(.,
+                          eventType=paste0(uuidObjectType,
+                                           "_",
+                                           uuidMeasure))
+
+#cross-check list against existing files
+existing_files <- list.files(path="../events/") %>%
+                    substr(.,
+                           1,
+                           nchar(.)-4)
+valid_records <- valid_records[which(valid_records$eventType %in% existing_files),]
+valid_records$number <- seq(1,
+                            nrow(valid_records))
+files <- unique(valid_records$eventType)
+
+#get existing validity periods
+timestamps <- pbmclapply(files,FUN=function(x) {
+                           load(paste0("../events/",
+                                       x,
+                                       ".rda"))
+                           data <- mutate(data,
+                                          measurementTime=with_tz(data$measurementTime,
+                                                                  tzone="UTC"))
+                           return(as.character(data$measurementTime))
+              },mc.cores=8L) %>%
+                unlist() %>%
+                unique()
+timestamps <- interval(timestamps,
+                       timestamps)
+int_start(timestamps) <- int_start(timestamps) - seconds_back
+int_end(timestamps) <- int_end(timestamps) + seconds_ahead
+timestamps <- data.frame(validity=timestamps,
+                         number=seq(1,
+                                    length(timestamps)))
+
+#re-calculate valid records
+valid_records <- expand.grid(valid_records$number,
+                             timestamps$number) %>%
+                   left_join(.,
+                             valid_records,
+                             by=c("Var1"="number")) %>%
+                   left_join(.,
+                             timestamps,
+                             by=c("Var2"="number")) %>%
+                   select(.,
+                          -c(Var1,
+                             Var2)) %>%
+                   select(.,
+                          eventType,
+                          uuidMeasure,
+                          uuidObject,
+                          validity) %>%
+                   dlply(.,
+                         "eventType")
+
+#load required event records
+event_records <- pbmclapply(1:length(valid_records),FUN=function(x) {
+                   load(paste0("../events/",
+                               names(valid_records[x]),
+                               ".rda"))
+                   data <- mutate(data,
+                                  measurementTime=with_tz(data$measurementTime,
+                                                          tzone="UTC")) %>%
+                             left_join(valid_records[[x]],
+                                       data,
+                                       by="uuidObject") %>%
+                             .[which(.$measurementTime %within% .$validity),] %>%
+                             select(.,
+                                    uuidMeasure,
+                                    uuidObject,
+                                    validity,
+                                    measurementValue) %>%
+                             mutate(.,
+                                    validity=as.character(validity))
+                   return(data)
+                 },mc.cores=8L)
+
+end_time <- as.character(Sys.time())
+
+names(event_records) <- names(valid_records)
+event_records <- event_records %>%
+                   ldply(.parallel=TRUE,
+                         .id="eventType") %>%
+                   mutate(.,
+                          uuidObjectType=substr(eventType,
+                                            1,
+                                            36),
+                          measurementValue=as.numeric(measurementValue),
+                          .keep="unused") %>%
+                   left_join(.,
+                             objects,
+                             by=c("uuidObjectType",
+                                  "uuidObject")) %>%
+                   select(.,
+                          -c(uuidObjectType,
+                             uuidObject,
+                             number)) %>%
+                   left_join(.,
+                             measures,
+                             by="uuidMeasure") %>%
+                   select(.,
+                          -c(uuidMeasure,
+                             number)) %>%
+                   mutate(.,
+                          object=description.x,
+                          validity=validity,
+                          measure=description.y,
+                          measurementValue=measurementValue,
+                          .keep="none") %>%
+                   distinct(.,
+                            object,
+                            validity,
+                            measure,
+                            .keep_all=TRUE) %>%
+                   pivot_wider(.,
+                               names_from=measure,
+                               values_from=measurementValue,
+                               values_fill=NA)
+
+write.table(event_records,
+            file=paste0("event_records_",
+                        start_time,
+                        "_",
+                        end_time,
+                        ".csv"),
+            append=FALSE,
+            quote=FALSE,
+            sep=";",
+            row.names=FALSE,
+            col.names=TRUE)
+```
+
+Calculate sample models (THIS PART IS NOT YET SEMANTICALLY NEUTRAL BUT THE IDEA IS TO USE UUIDs INSTEAD OF PARAMETER NAMES AND TO AUTOMATE THE MEASURE SELECTION!)
+
+```{r}
+#impact of US governor party affiliation on transit mobility, using reproduction number
+model_data <- event_records %>%
+                filter(.,
+                       str_detect(object,
+                                  regex("^state_us_"))) %>%
+                select(.,
+                       cep_repronum_numeric,
+                       leader_party_nominal,
+                       c3_Google_TransitStationsMobility_index) %>%
+                .[which(complete.cases(.)),]
+model_data[which(model_data$leader_party_nominal>1),]$leader_party_nominal <- 0
+
+model <- lm(c3_Google_TransitStationsMobility_index ~.,
+            data=model_data)
+summary(model)
+model_data$leader_party_nominal <- as.factor(model_data$leader_party_nominal)
+plot <- ggplot(model_data,
+               aes(x=cep_repronum_numeric,
+                   y=c3_Google_TransitStationsMobility_index)) +
+          geom_point() +
+          xlim(0,3) +
+          theme_light() +
+          theme(legend.position=c(0.8, 0.2),
+                legend.background=element_rect(fill="lightgrey"))
+ggsave("transit_no_party.tiff",
+       plot=plot,
+       device="tiff",
+       scale=1,
+       width=210,
+       height=210,
+       units="mm",
+       dpi=300)
+plot <- ggplot(model_data,
+               aes(x=cep_repronum_numeric,
+                   y=c3_Google_TransitStationsMobility_index,
+                   shape=leader_party_nominal,
+                   color=leader_party_nominal)) +
+          geom_point() +
+          xlim(0,3) +
+          theme_light() +
+          theme(legend.position=c(0.8, 0.2),
+                legend.background=element_rect(fill="lightgrey"))
+ggsave("transit_party.tiff",
+       plot=plot,
+       device="tiff",
+       scale=1,
+       width=210,
+       height=210,
+       units="mm",
+       dpi=300)
+
+#impact of US governor party affiliation on parks mobility, using reproduction number
+model_data <- event_records %>%
+                filter(.,
+                       str_detect(object,
+                                  regex("^state_us_"))) %>%
+                select(.,
+                       cep_repronum_numeric,
+                       leader_party_nominal,
+                       c3_Google_ParksMobility_index) %>%
+                .[which(complete.cases(.)),]
+model_data[which(model_data$leader_party_nominal>1),]$leader_party_nominal <- 0
+
+model <- lm(c3_Google_ParksMobility_index ~.,
+            data=model_data)
+summary(model)
+model_data$leader_party_nominal <- as.factor(model_data$leader_party_nominal)
+plot <- ggplot(model_data,
+               aes(x=cep_repronum_numeric,
+                   y=c3_Google_ParksMobility_index)) +
+          geom_point() +
+          xlim(0,3) +
+          theme_light() +
+          theme(legend.position=c(0.8, 0.2),
+                legend.background=element_rect(fill="lightgrey"))
+ggsave("parks_no_party.tiff",
+       plot=plot,
+       device="tiff",
+       scale=1,
+       width=210,
+       height=210,
+       units="mm",
+       dpi=300)
+plot <- ggplot(model_data,
+               aes(x=cep_repronum_numeric,
+                   y=c3_Google_ParksMobility_index,
+                   shape=leader_party_nominal,
+                   color=leader_party_nominal)) +
+          geom_point() +
+          xlim(0,3) +
+          theme_light() +
+          theme(legend.position=c(0.8, 0.2),
+                legend.background=element_rect(fill="lightgrey"))
+ggsave("parks_party.tiff",
+       plot=plot,
+       device="tiff",
+       scale=1,
+       width=210,
+       height=210,
+       units="mm",
+       dpi=300)
+
+#impact of US governor party affiliation on government response index, using reproduction number
+model_data <- event_records %>%
+                filter(.,
+                       str_detect(object,
+                                  regex("^state_us_"))) %>%
+                select(.,
+                       cep_repronum_numeric,
+                       leader_party_nominal,
+                       c3_OxCGRT_Policy_GovernmentResponseIndex_mean_of_ordinal) %>%
+                .[which(complete.cases(.)),]
+model_data[which(model_data$leader_party_nominal>1),]$leader_party_nominal <- 0
+
+model <- lm(c3_OxCGRT_Policy_GovernmentResponseIndex_mean_of_ordinal ~.,
+            data=model_data)
+summary(model)
+model_data$leader_party_nominal <- as.factor(model_data$leader_party_nominal)
+plot <- ggplot(model_data,
+               aes(x=cep_repronum_numeric,
+                   y=c3_OxCGRT_Policy_GovernmentResponseIndex_mean_of_ordinal)) +
+          geom_point() +
+          xlim(0,3) +
+          theme_light() +
+          theme(legend.position=c(0.8, 0.2),
+                legend.background=element_rect(fill="lightgrey"))
+ggsave("response_no_party.tiff",
+       plot=plot,
+       device="tiff",
+       scale=1,
+       width=210,
+       height=210,
+       units="mm",
+       dpi=300)
+plot <- ggplot(model_data,
+               aes(x=cep_repronum_numeric,
+                   y=c3_OxCGRT_Policy_GovernmentResponseIndex_mean_of_ordinal,
+                   shape=leader_party_nominal,
+                   color=leader_party_nominal)) +
+          geom_point() +
+          xlim(0,3) +
+          theme_light() +
+          theme(legend.position=c(0.8, 0.2),
+                legend.background=element_rect(fill="lightgrey"))
+ggsave("response_party.tiff",
+       plot=plot,
+       device="tiff",
+       scale=1,
+       width=210,
+       height=210,
+       units="mm",
+       dpi=300)
+
+#impact of US governor party affiliation on government economic support index, using reproduction number
+model_data <- event_records %>%
+                filter(.,
+                       str_detect(object,
+                                  regex("^state_us_"))) %>%
+                select(.,
+                       cep_repronum_numeric,
+                       leader_party_nominal,
+                       c3_OxCGRT_Policy_EconomicSupportIndex_mean_of_ordinal) %>%
+                .[which(complete.cases(.)),]
+model_data[which(model_data$leader_party_nominal>1),]$leader_party_nominal <- 0
+
+model <- lm(c3_OxCGRT_Policy_EconomicSupportIndex_mean_of_ordinal ~.,
+            data=model_data)
+summary(model)
+model_data$leader_party_nominal <- as.factor(model_data$leader_party_nominal)
+plot <- ggplot(model_data,
+               aes(x=cep_repronum_numeric,
+                   y=c3_OxCGRT_Policy_EconomicSupportIndex_mean_of_ordinal)) +
+          geom_point() +
+          xlim(0,3) +
+          theme_light() +
+          theme(legend.position=c(0.8, 0.2),
+                legend.background=element_rect(fill="lightgrey"))
+ggsave("support_no_party.tiff",
+       plot=plot,
+       device="tiff",
+       scale=1,
+       width=210,
+       height=210,
+       units="mm",
+       dpi=300)
+plot <- ggplot(model_data,
+               aes(x=cep_repronum_numeric,
+                   y=c3_OxCGRT_Policy_EconomicSupportIndex_mean_of_ordinal,
+                   shape=leader_party_nominal,
+                   color=leader_party_nominal)) +
+          geom_point() +
+          xlim(0,3) +
+          theme_light() +
+          theme(legend.position=c(0.8, 0.2),
+                legend.background=element_rect(fill="lightgrey"))
+ggsave("support_party.tiff",
+       plot=plot,
+       device="tiff",
+       scale=1,
+       width=210,
+       height=210,
+       units="mm",
+       dpi=300)
+```
+
+Trial-and-error approach
+
+```{r}
+outcomes <- c("c3_Google_ResidentialMobility_index",
+              "c3_Apple_TransitMobility_index",
+              "c3_Google_WorkplacesMobility_index",
+              "c3_Google_TransitStationsMobility_index",
+              "c3_Apple_WalkingMobility_index",
+              "c3_Google_GroceryMobility_index",
+              "c3_Apple_DrivingMobility_index",
+              "c3_Google_RetailMobility_index",
+              "c3_Google_ParksMobility_index",
+              "c3_OxCGRT_Policy_StringencyIndex_mean_of_ordinal",
+              "c3_OxCGRT_Policy_ContainmentHealthIndex_mean_of_ordinal",
+              "c3_OxCGRT_Policy_EconomicSupportIndex_mean_of_ordinal",
+              "c3_OxCGRT_Policy_GovernmentResponseIndex_mean_of_ordinal")
+health_status <- c("c3_MaleFemaletotal_InternationalCensus_integer",
+                   "c3_MortalityRateUnder5International_numeric",
+                   "c3_LifeExpectancyInternational_numeric",
+                   "oxford_extreme_poverty_tbd",
+                   "oxford_aged_65_older_tbd",
+                   "oxford_aged_70_older_tbd",
+                   "oxford_hospital_beds_per_thousand_tbd",
+                   "oxford_male_smokers_tbd",
+                   "oxford_cardiovasc_death_rate_tbd",
+                   "oxford_life_expectancy_tbd",
+                   "oxford_diabetes_prevalence_tbd",
+                   "oxford_population_tbd",
+                   "oxford_gdp_per_capita_tbd",
+                   "oxford_human_development_index_tbd",
+                   "oxford_female_smokers_tbd",
+                   "oxford_handwashing_facilities_tbd",
+                   "oxford_population_density_tbd",
+                   "oxford_median_age_tbd")
+leader_status <- c("leader_daysSinceStart_integer",
+                   "leader_daysToEnd_integer",
+                   "leader_percentTerm_numeric",
+                   "leader_daysSinceBirth_integer")
+epidemic_status <- c("cep_repronum_se_numeric",
+                     "cep_JHU_ConfirmedDeaths_change_integer",
+                     "c3_JHU_ConfirmedDeaths_integer",
+                     "c3_JHU_ConfirmedCases_integer",
+                     "cep_JHU_ConfirmedCases_change_integer",
+                     "cep_repronum_numeric",
+                     "cep_JHU_ConfirmedDeaths_change_by_population_numeric",
+                     "oxford_new_deaths_smoothed_tbd",
+                     "oxford_total_tests_tbd",
+                     "oxford_hosp_patients_tbd",
+                     "oxford_new_tests_smoothed_tbd",
+                     "oxford_positive_rate_tbd",
+                     "oxford_new_deaths_per_million_tbd",
+                     "oxford_weekly_hosp_admissions_per_million_tbd",
+                     "oxford_total_cases_tbd",
+                     "oxford_weekly_icu_admissions_per_million_tbd",
+                     "oxford_total_tests_per_thousand_tbd",
+                     "oxford_new_cases_per_million_tbd",
+                     "oxford_icu_patients_tbd",
+                     "cep_JHU_ConfirmedCases_by_population_numeric",
+                     "oxford_new_deaths_smoothed_per_million_tbd",
+                     "oxford_hosp_patients_per_million_tbd",
+                     "oxford_weekly_icu_admissions_tbd",
+                     "oxford_total_cases_per_million_tbd",
+                     "oxford_weekly_hosp_admissions_tbd",
+                     "oxford_total_cases_per_million_tbd",
+                     "oxford_new_tests_tbd",
+                     "oxford_new_cases_smoothed_per_million_tbd",
+                     "oxford_tests_per_case_tbd",
+                     "oxford_total_deaths_per_million_tbd",
+                     "oxford_new_cases_tbd",
+                     "cep_JHU_ConfirmedCases_change_by_population_numeric",
+                     "oxford_new_cases_smoothed_tbd",
+                     "oxford_new_deaths_tbd",
+                     "oxford_new_tests_smoothed_per_thousand_tbd",
+                     "oxford_reproduction_rate_tbd",
+                     "oxford_total_deaths_tbd")
+
+#model sampling at country level
+event_records_country <- event_records[which(str_detect(event_records$object,
+                                                        regex("^country_"))),]
+model_sampling_country <- expand.grid(epidemic_status,health_status,outcomes)
+model_sampling_country <- pbmclapply(1:nrow(model_sampling_country),FUN=function(x) {
+  model_data <- cbind(event_records_country[,model_sampling_country[x,1]],
+                      event_records_country[,model_sampling_country[x,2]],
+                      event_records_country[,model_sampling_country[x,3]]) %>%
+                        .[which(complete.cases(.)),]
+  if (nrow(model_data)>100) {
+    colnames(model_data)[3] <- "y"
+    model <- lm(y ~ .,
+                data=model_data)
+    model <- data.frame(epidemic_status=model_sampling_country[x,1],
+                        health_status=model_sampling_country[x,2],
+                        outcome=model_sampling_country[x,3],
+                        adj_r_squared=summary(model)$adj.r.squared,
+                        stringsAsFactors=FALSE)
+  } else {
+    model <- as.character(NA)
+  }
+  return(model)
+},mc.cores=8L) %>%
+  .[which(!(is.na(.)))] %>%
+  ldply(.parallel=TRUE) %>%
+  mutate(.,
+         x=paste0(health_status,
+                  "__",
+                  epidemic_status),
+         y=outcome,
+         z=adj_r_squared,
+         .keep="none") %>%
+  setDT() %>%
+  setorder(.,
+           -z)
+model_sampling_country$x <- factor(model_sampling_country$x,
+                                   levels=rev(unique(model_sampling_country$x)))
+model_sampling_country$y <- factor(model_sampling_country$y,
+                                   levels=rev(unique(model_sampling_country$y)))
+
+#create heatmap for adjusted r-squared
+plot <- ggplot(model_sampling_country,
+               aes(x,y,fill=z)) +
+          geom_tile() +
+          scale_x_discrete(name="Health & Epidemic Status",
+                           breaks=NULL,
+                           labels=NULL) +
+          scale_y_discrete(name="Response",
+                           breaks=NULL,
+                           labels=NULL)
+ggsave("response_heatmap.tiff",
+       plot=plot,
+       device="tiff",
+       scale=1,
+       width=210,
+       height=210,
+       units="mm",
+       dpi=300)
+write.table(model_sampling_country,
+            file="response_heatmap.csv",
+            append=FALSE,
+            quote=FALSE,
+            sep=";",
+            row.names=FALSE,
+            col.names=TRUE)
+
+#correlations health/outcomes
+model_sampling_country <- expand.grid(health_status,outcomes)
+model_sampling_country <- pbmclapply(1:nrow(model_sampling_country),FUN=function(x) {
+  model_data <- cbind(event_records_country[,model_sampling_country[x,1]],
+                      event_records_country[,model_sampling_country[x,2]]) %>%
+                        .[which(complete.cases(.)),]
+  if (nrow(model_data)>100) {
+    colnames(model_data) <- c("x",
+                              "y")
+    cor <- cor(model_data$x,
+               model_data$y)
+  } else {
+    cor=as.numeric(NA)
+  }
+  model <- data.frame(health_status=model_sampling_country[x,1],
+                    outcome=model_sampling_country[x,2],
+                    cor=cor,
+                    stringsAsFactors=FALSE)
+  return(model)
+},mc.cores=8L) %>%
+  ldply(.parallel=TRUE) %>%
+  setDT() %>%
+    setorder(.,
+             -cor)
+model_sampling_country <- model_sampling_country[which(!(is.na(model_sampling_country$cor))),]
+model_sampling_country$health_status <- factor(model_sampling_country$health_status,
+                                               levels=rev(unique(model_sampling_country$health_status)))
+model_sampling_country$outcome <- factor(model_sampling_country$outcome,
+                                         levels=rev(unique(model_sampling_country$outcome)))
+
+#create heatmap for correlation
+plot <- ggplot(model_sampling_country,
+               aes(health_status,outcome,fill=cor)) +
+          geom_tile() +
+          scale_x_discrete(name="Health Status",
+                           breaks=NULL,
+                           labels=NULL) +
+          scale_y_discrete(name="Response",
+                           breaks=NULL,
+                           labels=NULL)
+ggsave("response_cor_st_heatmap.tiff",
+       plot=plot,
+       device="tiff",
+       scale=1,
+       width=210,
+       height=210,
+       units="mm",
+       dpi=300)
+write.table(model_sampling_country,
+            file="response_cor_st_heatmap.csv",
+            append=FALSE,
+            quote=FALSE,
+            sep=";",
+            row.names=FALSE,
+            col.names=TRUE)
+
+#correlations epidemic/outcomes
+model_sampling_country <- expand.grid(epidemic_status,outcomes)
+model_sampling_country <- pbmclapply(1:nrow(model_sampling_country),FUN=function(x) {
+  model_data <- cbind(event_records_country[,model_sampling_country[x,1]],
+                      event_records_country[,model_sampling_country[x,2]]) %>%
+                        .[which(complete.cases(.)),]
+  if (nrow(model_data)>100) {
+    colnames(model_data) <- c("x",
+                              "y")
+    cor <- cor(model_data$x,
+               model_data$y)
+  } else {
+    cor=as.numeric(NA)
+  }
+  model <- data.frame(epidemic_status=model_sampling_country[x,1],
+                    outcome=model_sampling_country[x,2],
+                    cor=cor,
+                    stringsAsFactors=FALSE)
+  return(model)
+},mc.cores=8L) %>%
+  ldply(.parallel=TRUE) %>%
+    setDT() %>%
+    setorder(.,
+             -cor)
+model_sampling_country <- model_sampling_country[which(!(is.na(model_sampling_country$cor))),]
+model_sampling_country$epidemic_status <- factor(model_sampling_country$epidemic_status,
+                                                 levels=rev(unique(model_sampling_country$epidemic_status)))
+model_sampling_country$outcome <- factor(model_sampling_country$outcome,
+                                         levels=rev(unique(model_sampling_country$outcome)))
+
+#create heatmap for correlation
+plot <- ggplot(model_sampling_country,
+               aes(epidemic_status,outcome,fill=cor)) +
+          geom_tile() +
+          scale_x_discrete(name="Epidemic Status",
+                           breaks=NULL,
+                           labels=NULL) +
+          scale_y_discrete(name="Response",
+                           breaks=NULL,
+                           labels=NULL)
+ggsave("response_cor_ep_heatmap.tiff",
+       plot=plot,
+       device="tiff",
+       scale=1,
+       width=210,
+       height=210,
+       units="mm",
+       dpi=300)
+write.table(model_sampling_country,
+            file="response_cor_ep_heatmap.csv",
+            append=FALSE,
+            quote=FALSE,
+            sep=";",
+            row.names=FALSE,
+            col.names=TRUE)
+
+model_final <- lm(c3_Apple_TransitMobility_index ~ oxford_aged_70_older_tbd + oxford_aged_65_older_tbd + oxford_median_age_tbd + 	
+oxford_tests_per_case_tbd + oxford_new_tests_smoothed_per_thousand_tbd + oxford_total_tests_per_thousand_tbd,data=event_records_country)
+
+event_records_country$validity <- date(substr(event_records_country$validity,
+                                              nchar(event_records_country$validity)-22,
+                                              nchar(event_records_country$validity)))
+event_records_country_estimate <- event_records_country[which(event_records_country$validity<=date("2020-06-06")),]
+event_records_country_test <- event_records_country[which(event_records_country$validity>date("2020-06-06")),]
+
+model_estimate <- lm(c3_Apple_TransitMobility_index ~ oxford_aged_70_older_tbd + oxford_aged_65_older_tbd + oxford_median_age_tbd + 	
+oxford_tests_per_case_tbd + oxford_new_tests_smoothed_per_thousand_tbd + oxford_total_tests_per_thousand_tbd,data=event_records_country_estimate)
+
+prediction <- predict(model_estimate,
+                      event_records_country_test)
+cor(prediction,event_records_country_test$c3_Apple_TransitMobility_index,use="pairwise.complete.obs")
+```

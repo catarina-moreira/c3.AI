@@ -1,0 +1,668 @@
+
+net {
+  name = unnamedBN;
+  software = "aGrUM 0.18.2";
+  node_size = (50 50);
+}
+
+node Cases_per_Million {
+   states = (L12_93__17_97L L23_0__28_04L L2_86__7_9L L7_9__12_93L );
+   label = "Cases_per_Million";
+   ID = "Cases_per_Million";
+}
+
+node Deaths_per_Million {
+   states = (L0_16__0_45L L0_45__0_74L L0_74__1_03L L1_32__1_61L );
+   label = "Deaths_per_Million";
+   ID = "Deaths_per_Million";
+}
+
+node G_Retail {
+   states = (L_16_43___10_78L L_22_07___16_43L L_27_71___22_07L L_33_36___27_71L L_39_0___33_36L );
+   label = "G_Retail";
+   ID = "G_Retail";
+}
+
+node G_Grocery_Pharmacy {
+   states = (L0_11__5_78L L_11_25___5_57L L_16_92___11_25L L_22_6___16_92L L_5_57__0_11L );
+   label = "G_Grocery_Pharmacy";
+   ID = "G_Grocery_Pharmacy";
+}
+
+node G_Parks {
+   states = (L13_46__25_77L L1_16__13_46L L_11_14__1_16L L_23_45___11_14L L_35_75___23_45L );
+   label = "G_Parks";
+   ID = "G_Parks";
+}
+
+node G_Transit {
+   states = (L_32_24___25_8L L_38_68___32_24L L_45_12___38_68L L_51_56___45_12L L_58_0___51_56L );
+   label = "G_Transit";
+   ID = "G_Transit";
+}
+
+node G_Workplace {
+   states = (L_16_96___12_5L L_21_42___16_96L L_25_88___21_42L L_30_34___25_88L L_34_8___30_34L );
+   label = "G_Workplace";
+   ID = "G_Workplace";
+}
+
+node G_Residencial {
+   states = (L10_41__12_47L L12_47__14_54L L14_54__16_6L L6_28__8_34L L8_34__10_41L );
+   label = "G_Residencial";
+   ID = "G_Residencial";
+}
+
+potential ( Cases_per_Million | G_Grocery_Pharmacy   ) {
+   data = 
+   ((   0.477273   0.477273   0.0227273   0.0227273)   % G_Grocery_Pharmacy=L0_11__5_78L   
+   (   0.394231   0.00961538   0.00961538   0.586538)   % G_Grocery_Pharmacy=L_11_25___5_57L   
+   (   0.00961538   0.00961538   0.778846   0.201923)   % G_Grocery_Pharmacy=L_16_92___11_25L   
+   (   0.00490196   0.00490196   0.691176   0.29902)   % G_Grocery_Pharmacy=L_22_6___16_92L   
+   (   0.548913   0.11413   0.00543478   0.331522));   % G_Grocery_Pharmacy=L_5_57__0_11L   
+}
+
+potential (Deaths_per_Million) {
+   data = (  0.351562 0.476562 0.132812 0.0390625);
+}
+
+potential ( G_Retail | G_Grocery_Pharmacy   G_Transit   ) {
+   data = 
+   (((   0.984314   0.00392157   0.00392157   0.00392157   0.00392157)   % G_Transit=L_32_24___25_8L   G_Grocery_Pharmacy=L0_11__5_78L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_38_68___32_24L   G_Grocery_Pharmacy=L0_11__5_78L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_45_12___38_68L   G_Grocery_Pharmacy=L0_11__5_78L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_51_56___45_12L   G_Grocery_Pharmacy=L0_11__5_78L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Transit=L_58_0___51_56L   G_Grocery_Pharmacy=L0_11__5_78L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_32_24___25_8L   G_Grocery_Pharmacy=L_11_25___5_57L   
+   (   0.0019802   0.49703   0.49703   0.0019802   0.0019802)   % G_Transit=L_38_68___32_24L   G_Grocery_Pharmacy=L_11_25___5_57L   
+   (   0.00769231   0.969231   0.00769231   0.00769231   0.00769231)   % G_Transit=L_45_12___38_68L   G_Grocery_Pharmacy=L_11_25___5_57L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_51_56___45_12L   G_Grocery_Pharmacy=L_11_25___5_57L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Transit=L_58_0___51_56L   G_Grocery_Pharmacy=L_11_25___5_57L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_32_24___25_8L   G_Grocery_Pharmacy=L_16_92___11_25L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_38_68___32_24L   G_Grocery_Pharmacy=L_16_92___11_25L   
+   (   0.00769231   0.00769231   0.969231   0.00769231   0.00769231)   % G_Transit=L_45_12___38_68L   G_Grocery_Pharmacy=L_16_92___11_25L   
+   (   0.0019802   0.0019802   0.0019802   0.992079   0.0019802)   % G_Transit=L_51_56___45_12L   G_Grocery_Pharmacy=L_16_92___11_25L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Transit=L_58_0___51_56L   G_Grocery_Pharmacy=L_16_92___11_25L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_32_24___25_8L   G_Grocery_Pharmacy=L_22_6___16_92L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_38_68___32_24L   G_Grocery_Pharmacy=L_22_6___16_92L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_45_12___38_68L   G_Grocery_Pharmacy=L_22_6___16_92L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_51_56___45_12L   G_Grocery_Pharmacy=L_22_6___16_92L   
+   (   0.000796813   0.000796813   0.000796813   0.000796813   0.996813))   % G_Transit=L_58_0___51_56L   G_Grocery_Pharmacy=L_22_6___16_92L   
+   ((   0.494118   0.494118   0.00392157   0.00392157   0.00392157)   % G_Transit=L_32_24___25_8L   G_Grocery_Pharmacy=L_5_57__0_11L   
+   (   0.00113636   0.995455   0.00113636   0.00113636   0.00113636)   % G_Transit=L_38_68___32_24L   G_Grocery_Pharmacy=L_5_57__0_11L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_45_12___38_68L   G_Grocery_Pharmacy=L_5_57__0_11L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_51_56___45_12L   G_Grocery_Pharmacy=L_5_57__0_11L   
+   (   0.2   0.2   0.2   0.2   0.2)));   % G_Transit=L_58_0___51_56L   G_Grocery_Pharmacy=L_5_57__0_11L   
+}
+
+potential ( G_Grocery_Pharmacy | G_Workplace   G_Parks   ) {
+   data = 
+   (((   0.984314   0.00392157   0.00392157   0.00392157   0.00392157)   % G_Parks=L13_46__25_77L   G_Workplace=L_16_96___12_5L   
+   (   0.00769231   0.00769231   0.00769231   0.00769231   0.969231)   % G_Parks=L1_16__13_46L   G_Workplace=L_16_96___12_5L   
+   (   0.00769231   0.00769231   0.969231   0.00769231   0.00769231)   % G_Parks=L_11_14__1_16L   G_Workplace=L_16_96___12_5L   
+   (   0.00769231   0.00769231   0.00769231   0.00769231   0.969231)   % G_Parks=L_23_45___11_14L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Parks=L_35_75___23_45L   G_Workplace=L_16_96___12_5L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L13_46__25_77L   G_Workplace=L_21_42___16_96L   
+   (   0.00769231   0.00769231   0.00769231   0.00769231   0.969231)   % G_Parks=L1_16__13_46L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L_11_14__1_16L   G_Workplace=L_21_42___16_96L   
+   (   0.0019802   0.249505   0.0019802   0.0019802   0.744554)   % G_Parks=L_23_45___11_14L   G_Workplace=L_21_42___16_96L   
+   (   0.00392157   0.00392157   0.494118   0.00392157   0.494118))   % G_Parks=L_35_75___23_45L   G_Workplace=L_21_42___16_96L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L13_46__25_77L   G_Workplace=L_25_88___21_42L   
+   (   0.00769231   0.969231   0.00769231   0.00769231   0.00769231)   % G_Parks=L1_16__13_46L   G_Workplace=L_25_88___21_42L   
+   (   0.00392157   0.00392157   0.00392157   0.00392157   0.984314)   % G_Parks=L_11_14__1_16L   G_Workplace=L_25_88___21_42L   
+   (   0.00263158   0.989474   0.00263158   0.00263158   0.00263158)   % G_Parks=L_23_45___11_14L   G_Workplace=L_25_88___21_42L   
+   (   0.00392157   0.00392157   0.00392157   0.984314   0.00392157))   % G_Parks=L_35_75___23_45L   G_Workplace=L_25_88___21_42L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L13_46__25_77L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L1_16__13_46L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L_11_14__1_16L   G_Workplace=L_30_34___25_88L   
+   (   0.00769231   0.00769231   0.969231   0.00769231   0.00769231)   % G_Parks=L_23_45___11_14L   G_Workplace=L_30_34___25_88L   
+   (   0.00392157   0.00392157   0.984314   0.00392157   0.00392157))   % G_Parks=L_35_75___23_45L   G_Workplace=L_30_34___25_88L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L13_46__25_77L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L1_16__13_46L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Parks=L_11_14__1_16L   G_Workplace=L_34_8___30_34L   
+   (   0.00769231   0.00769231   0.00769231   0.969231   0.00769231)   % G_Parks=L_23_45___11_14L   G_Workplace=L_34_8___30_34L   
+   (   0.00113636   0.00113636   0.00113636   0.995455   0.00113636)));   % G_Parks=L_35_75___23_45L   G_Workplace=L_34_8___30_34L   
+}
+
+potential (G_Parks) {
+   data = (  0.06875 0.1 0.1 0.31875 0.4125);
+}
+
+potential ( G_Transit | G_Workplace   G_Grocery_Pharmacy   ) {
+   data = 
+   (((   0.984314   0.00392157   0.00392157   0.00392157   0.00392157)   % G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_16_96___12_5L   
+   (   0.00769231   0.00769231   0.969231   0.00769231   0.00769231)   % G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_16_96___12_5L   
+   (   0.984314   0.00392157   0.00392157   0.00392157   0.00392157))   % G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_16_96___12_5L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_21_42___16_96L   
+   (   0.00769231   0.00769231   0.969231   0.00769231   0.00769231)   % G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_21_42___16_96L   
+   (   0.00769231   0.00769231   0.00769231   0.969231   0.00769231)   % G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_21_42___16_96L   
+   (   0.0015873   0.993651   0.0015873   0.0015873   0.0015873))   % G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_21_42___16_96L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_25_88___21_42L   
+   (   0.0019802   0.992079   0.0019802   0.0019802   0.0019802)   % G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_25_88___21_42L   
+   (   0.00392157   0.00392157   0.00392157   0.00392157   0.984314)   % G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_25_88___21_42L   
+   (   0.00392157   0.984314   0.00392157   0.00392157   0.00392157))   % G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_25_88___21_42L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_30_34___25_88L   
+   (   0.00263158   0.00263158   0.00263158   0.989474   0.00263158)   % G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_30_34___25_88L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_34_8___30_34L   
+   (   0.000995025   0.000995025   0.000995025   0.000995025   0.99602)   % G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)));   % G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_34_8___30_34L   
+}
+
+potential (G_Workplace) {
+   data = (  0.1625 0.225 0.25625 0.1 0.25625);
+}
+
+potential ( G_Residencial | G_Workplace   G_Grocery_Pharmacy   G_Parks   Deaths_per_Million   ) {
+   data = 
+   (((((   0.000399202   0.000399202   0.000399202   0.998403   0.000399202)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_16_96___12_5L   
+   (   0.000399202   0.000399202   0.000399202   0.998403   0.000399202)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_16_96___12_5L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_16_96___12_5L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_16_96___12_5L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_16_96___12_5L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_16_96___12_5L   
+   (((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_16_96___12_5L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_16_96___12_5L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_16_96___12_5L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_16_96___12_5L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_16_96___12_5L   
+   (((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_16_96___12_5L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_16_96___12_5L   
+   ((   0.000399202   0.000399202   0.000399202   0.998403   0.000399202)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_16_96___12_5L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_16_96___12_5L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_16_96___12_5L   
+   (((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_16_96___12_5L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_16_96___12_5L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_16_96___12_5L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_16_96___12_5L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_16_96___12_5L   
+   (((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_16_96___12_5L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_16_96___12_5L   
+   (   0.000399202   0.000399202   0.000399202   0.000399202   0.998403)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_16_96___12_5L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_16_96___12_5L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_16_96___12_5L   
+   (   0.000399202   0.000399202   0.000399202   0.000399202   0.998403)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_16_96___12_5L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_16_96___12_5L   
+   (   0.2   0.2   0.2   0.2   0.2))))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_16_96___12_5L   
+   ((((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_21_42___16_96L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_21_42___16_96L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_21_42___16_96L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_21_42___16_96L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_21_42___16_96L   
+   (((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_21_42___16_96L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_21_42___16_96L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_21_42___16_96L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_21_42___16_96L   
+   (   0.000399202   0.000399202   0.000399202   0.000399202   0.998403)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_21_42___16_96L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_21_42___16_96L   
+   (((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_21_42___16_96L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_21_42___16_96L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_21_42___16_96L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_21_42___16_96L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_21_42___16_96L   
+   (   0.000399202   0.000399202   0.000399202   0.000399202   0.998403)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_21_42___16_96L   
+   (((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_21_42___16_96L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_21_42___16_96L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_21_42___16_96L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_21_42___16_96L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_21_42___16_96L   
+   (((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_21_42___16_96L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_21_42___16_96L   
+   (   0.000399202   0.000399202   0.000399202   0.998403   0.000399202)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_21_42___16_96L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_21_42___16_96L   
+   ((   0.999201   0.0001998   0.0001998   0.0001998   0.0001998)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_21_42___16_96L   
+   (   0.998403   0.000399202   0.000399202   0.000399202   0.000399202)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_21_42___16_96L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_21_42___16_96L   
+   (   0.000399202   0.998403   0.000399202   0.000399202   0.000399202)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_21_42___16_96L   
+   (   0.2   0.2   0.2   0.2   0.2))))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_21_42___16_96L   
+   ((((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_25_88___21_42L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_25_88___21_42L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_25_88___21_42L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_25_88___21_42L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_25_88___21_42L   
+   (((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_25_88___21_42L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_25_88___21_42L   
+   (   0.998403   0.000399202   0.000399202   0.000399202   0.000399202)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_25_88___21_42L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_25_88___21_42L   
+   ((   0.998403   0.000399202   0.000399202   0.000399202   0.000399202)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_25_88___21_42L   
+   (   0.000399202   0.998403   0.000399202   0.000399202   0.000399202)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_25_88___21_42L   
+   (   0.998403   0.000399202   0.000399202   0.000399202   0.000399202)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_25_88___21_42L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_25_88___21_42L   
+   (((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_25_88___21_42L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_25_88___21_42L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_25_88___21_42L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_25_88___21_42L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_25_88___21_42L   
+   (((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_25_88___21_42L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_25_88___21_42L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_25_88___21_42L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_25_88___21_42L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_25_88___21_42L   
+   (   0.000399202   0.000399202   0.000399202   0.000399202   0.998403)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_25_88___21_42L   
+   (   0.000399202   0.000399202   0.000399202   0.998403   0.000399202)))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_25_88___21_42L   
+   (((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_25_88___21_42L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_25_88___21_42L   
+   ((   0.0001998   0.999201   0.0001998   0.0001998   0.0001998)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_25_88___21_42L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_25_88___21_42L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_25_88___21_42L   
+   (   0.2   0.2   0.2   0.2   0.2))))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_25_88___21_42L   
+   ((((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_30_34___25_88L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_30_34___25_88L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_30_34___25_88L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_30_34___25_88L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_30_34___25_88L   
+   (((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_30_34___25_88L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_30_34___25_88L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_30_34___25_88L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_30_34___25_88L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_30_34___25_88L   
+   (((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_30_34___25_88L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_30_34___25_88L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_30_34___25_88L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_30_34___25_88L   
+   (   0.000399202   0.998403   0.000399202   0.000399202   0.000399202)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_30_34___25_88L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_30_34___25_88L   
+   (   0.000399202   0.998403   0.000399202   0.000399202   0.000399202)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_30_34___25_88L   
+   (   0.000399202   0.998403   0.000399202   0.000399202   0.000399202)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_30_34___25_88L   
+   (((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_30_34___25_88L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_30_34___25_88L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_30_34___25_88L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_30_34___25_88L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_30_34___25_88L   
+   (((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_30_34___25_88L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_30_34___25_88L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_30_34___25_88L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_30_34___25_88L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_30_34___25_88L   
+   (   0.2   0.2   0.2   0.2   0.2))))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_30_34___25_88L   
+   ((((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_34_8___30_34L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_34_8___30_34L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_34_8___30_34L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_34_8___30_34L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L0_11__5_78L   G_Workplace=L_34_8___30_34L   
+   (((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_34_8___30_34L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_34_8___30_34L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_34_8___30_34L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_34_8___30_34L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_11_25___5_57L   G_Workplace=L_34_8___30_34L   
+   (((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_34_8___30_34L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_34_8___30_34L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_34_8___30_34L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_34_8___30_34L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_16_92___11_25L   G_Workplace=L_34_8___30_34L   
+   (((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_34_8___30_34L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_34_8___30_34L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_34_8___30_34L   
+   ((   0.000399202   0.000399202   0.998403   0.000399202   0.000399202)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_34_8___30_34L   
+   ((   0.000133245   0.000133245   0.999467   0.000133245   0.000133245)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_34_8___30_34L   
+   (   0.000133245   0.000133245   0.999467   0.000133245   0.000133245)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_34_8___30_34L   
+   (   0.000399202   0.000399202   0.998403   0.000399202   0.000399202)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_22_6___16_92L   G_Workplace=L_34_8___30_34L   
+   (((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L13_46__25_77L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_34_8___30_34L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L1_16__13_46L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_34_8___30_34L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_11_14__1_16L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_34_8___30_34L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2))   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_23_45___11_14L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_34_8___30_34L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_16__0_45L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_45__0_74L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)   % Deaths_per_Million=L0_74__1_03L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_34_8___30_34L   
+   (   0.2   0.2   0.2   0.2   0.2)))));   % Deaths_per_Million=L1_32__1_61L   G_Parks=L_35_75___23_45L   G_Grocery_Pharmacy=L_5_57__0_11L   G_Workplace=L_34_8___30_34L   
+}
+
+

@@ -1,0 +1,181 @@
+
+net {
+  name = unnamedBN;
+  software = "aGrUM 0.18.2";
+  node_size = (50 50);
+}
+
+node Cases_per_Million {
+   states = (L29_33__39_06L L39_06__48_8L L48_8__58_53L L58_53__68_27L L68_27__78_01L );
+   label = "Cases_per_Million";
+   ID = "Cases_per_Million";
+}
+
+node Deaths_per_Million {
+   states = (L10_21__11_24L L6_06__7_1L L7_1__8_13L L8_13__9_17L L9_17__10_21L );
+   label = "Deaths_per_Million";
+   ID = "Deaths_per_Million";
+}
+
+node G_Retail {
+   states = (L_18_77___10_92L L_26_62___18_77L L_34_48___26_62L L_42_33___34_48L L_50_18___42_33L );
+   label = "G_Retail";
+   ID = "G_Retail";
+}
+
+node G_Grocery_Pharmacy {
+   states = (L5_91__13_08L L_15_62___8_45L L_1_27__5_91L L_22_8___15_62L L_8_45___1_27L );
+   label = "G_Grocery_Pharmacy";
+   ID = "G_Grocery_Pharmacy";
+}
+
+node G_Parks {
+   states = (L12_22__35_63L L35_63__59_04L L59_04__82_46L L82_46__105_88L L_11_2__12_22L );
+   label = "G_Parks";
+   ID = "G_Parks";
+}
+
+node G_Transit {
+   states = (L_39_96___33_4L L_46_51___39_96L L_53_07___46_51L L_66_18___59_63L );
+   label = "G_Transit";
+   ID = "G_Transit";
+}
+
+node G_Workplace {
+   states = (L_25_67___11_4L L_39_93___25_67L L_54_2___39_93L L_82_73___68_46L );
+   label = "G_Workplace";
+   ID = "G_Workplace";
+}
+
+node G_Residencial {
+   states = (L12_14__16_07L L19_99__23_91L L4_3__8_22L L8_22__12_14L );
+   label = "G_Residencial";
+   ID = "G_Residencial";
+}
+
+potential (Cases_per_Million) {
+   data = (  0.2 0.232258 0.103226 0.232258 0.232258);
+}
+
+potential (Deaths_per_Million) {
+   data = (  0.103226 0.103226 0.296774 0.425806 0.0709677);
+}
+
+potential ( G_Retail | G_Residencial   Deaths_per_Million   G_Transit   ) {
+   data = 
+   ((((   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_39_96___33_4L   Deaths_per_Million=L10_21__11_24L   G_Residencial=L12_14__16_07L   
+   (   0.000829876   0.99668   0.000829876   0.000829876   0.000829876)   % G_Transit=L_46_51___39_96L   Deaths_per_Million=L10_21__11_24L   G_Residencial=L12_14__16_07L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_53_07___46_51L   Deaths_per_Million=L10_21__11_24L   G_Residencial=L12_14__16_07L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Transit=L_66_18___59_63L   Deaths_per_Million=L10_21__11_24L   G_Residencial=L12_14__16_07L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_39_96___33_4L   Deaths_per_Million=L6_06__7_1L   G_Residencial=L12_14__16_07L   
+   (   0.00124224   0.00124224   0.995031   0.00124224   0.00124224)   % G_Transit=L_46_51___39_96L   Deaths_per_Million=L6_06__7_1L   G_Residencial=L12_14__16_07L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_53_07___46_51L   Deaths_per_Million=L6_06__7_1L   G_Residencial=L12_14__16_07L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Transit=L_66_18___59_63L   Deaths_per_Million=L6_06__7_1L   G_Residencial=L12_14__16_07L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_39_96___33_4L   Deaths_per_Million=L7_1__8_13L   G_Residencial=L12_14__16_07L   
+   (   0.00124224   0.498137   0.498137   0.00124224   0.00124224)   % G_Transit=L_46_51___39_96L   Deaths_per_Million=L7_1__8_13L   G_Residencial=L12_14__16_07L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_53_07___46_51L   Deaths_per_Million=L7_1__8_13L   G_Residencial=L12_14__16_07L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Transit=L_66_18___59_63L   Deaths_per_Million=L7_1__8_13L   G_Residencial=L12_14__16_07L   
+   ((   0.00246914   0.990123   0.00246914   0.00246914   0.00246914)   % G_Transit=L_39_96___33_4L   Deaths_per_Million=L8_13__9_17L   G_Residencial=L12_14__16_07L   
+   (   0.99668   0.000829876   0.000829876   0.000829876   0.000829876)   % G_Transit=L_46_51___39_96L   Deaths_per_Million=L8_13__9_17L   G_Residencial=L12_14__16_07L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_53_07___46_51L   Deaths_per_Million=L8_13__9_17L   G_Residencial=L12_14__16_07L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Transit=L_66_18___59_63L   Deaths_per_Million=L8_13__9_17L   G_Residencial=L12_14__16_07L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_39_96___33_4L   Deaths_per_Million=L9_17__10_21L   G_Residencial=L12_14__16_07L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_46_51___39_96L   Deaths_per_Million=L9_17__10_21L   G_Residencial=L12_14__16_07L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_53_07___46_51L   Deaths_per_Million=L9_17__10_21L   G_Residencial=L12_14__16_07L   
+   (   0.2   0.2   0.2   0.2   0.2)))   % G_Transit=L_66_18___59_63L   Deaths_per_Million=L9_17__10_21L   G_Residencial=L12_14__16_07L   
+   (((   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_39_96___33_4L   Deaths_per_Million=L10_21__11_24L   G_Residencial=L19_99__23_91L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_46_51___39_96L   Deaths_per_Million=L10_21__11_24L   G_Residencial=L19_99__23_91L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_53_07___46_51L   Deaths_per_Million=L10_21__11_24L   G_Residencial=L19_99__23_91L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Transit=L_66_18___59_63L   Deaths_per_Million=L10_21__11_24L   G_Residencial=L19_99__23_91L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_39_96___33_4L   Deaths_per_Million=L6_06__7_1L   G_Residencial=L19_99__23_91L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_46_51___39_96L   Deaths_per_Million=L6_06__7_1L   G_Residencial=L19_99__23_91L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_53_07___46_51L   Deaths_per_Million=L6_06__7_1L   G_Residencial=L19_99__23_91L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Transit=L_66_18___59_63L   Deaths_per_Million=L6_06__7_1L   G_Residencial=L19_99__23_91L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_39_96___33_4L   Deaths_per_Million=L7_1__8_13L   G_Residencial=L19_99__23_91L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_46_51___39_96L   Deaths_per_Million=L7_1__8_13L   G_Residencial=L19_99__23_91L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_53_07___46_51L   Deaths_per_Million=L7_1__8_13L   G_Residencial=L19_99__23_91L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Transit=L_66_18___59_63L   Deaths_per_Million=L7_1__8_13L   G_Residencial=L19_99__23_91L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_39_96___33_4L   Deaths_per_Million=L8_13__9_17L   G_Residencial=L19_99__23_91L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_46_51___39_96L   Deaths_per_Million=L8_13__9_17L   G_Residencial=L19_99__23_91L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_53_07___46_51L   Deaths_per_Million=L8_13__9_17L   G_Residencial=L19_99__23_91L   
+   (   0.00246914   0.00246914   0.00246914   0.990123   0.00246914))   % G_Transit=L_66_18___59_63L   Deaths_per_Million=L8_13__9_17L   G_Residencial=L19_99__23_91L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_39_96___33_4L   Deaths_per_Million=L9_17__10_21L   G_Residencial=L19_99__23_91L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_46_51___39_96L   Deaths_per_Million=L9_17__10_21L   G_Residencial=L19_99__23_91L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_53_07___46_51L   Deaths_per_Million=L9_17__10_21L   G_Residencial=L19_99__23_91L   
+   (   0.00246914   0.00246914   0.00246914   0.00246914   0.990123)))   % G_Transit=L_66_18___59_63L   Deaths_per_Million=L9_17__10_21L   G_Residencial=L19_99__23_91L   
+   (((   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_39_96___33_4L   Deaths_per_Million=L10_21__11_24L   G_Residencial=L4_3__8_22L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_46_51___39_96L   Deaths_per_Million=L10_21__11_24L   G_Residencial=L4_3__8_22L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_53_07___46_51L   Deaths_per_Million=L10_21__11_24L   G_Residencial=L4_3__8_22L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Transit=L_66_18___59_63L   Deaths_per_Million=L10_21__11_24L   G_Residencial=L4_3__8_22L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_39_96___33_4L   Deaths_per_Million=L6_06__7_1L   G_Residencial=L4_3__8_22L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_46_51___39_96L   Deaths_per_Million=L6_06__7_1L   G_Residencial=L4_3__8_22L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_53_07___46_51L   Deaths_per_Million=L6_06__7_1L   G_Residencial=L4_3__8_22L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Transit=L_66_18___59_63L   Deaths_per_Million=L6_06__7_1L   G_Residencial=L4_3__8_22L   
+   ((   0.00124224   0.995031   0.00124224   0.00124224   0.00124224)   % G_Transit=L_39_96___33_4L   Deaths_per_Million=L7_1__8_13L   G_Residencial=L4_3__8_22L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_46_51___39_96L   Deaths_per_Million=L7_1__8_13L   G_Residencial=L4_3__8_22L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_53_07___46_51L   Deaths_per_Million=L7_1__8_13L   G_Residencial=L4_3__8_22L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Transit=L_66_18___59_63L   Deaths_per_Million=L7_1__8_13L   G_Residencial=L4_3__8_22L   
+   ((   0.000829876   0.000829876   0.66473   0.33278   0.000829876)   % G_Transit=L_39_96___33_4L   Deaths_per_Million=L8_13__9_17L   G_Residencial=L4_3__8_22L   
+   (   0.00246914   0.00246914   0.990123   0.00246914   0.00246914)   % G_Transit=L_46_51___39_96L   Deaths_per_Million=L8_13__9_17L   G_Residencial=L4_3__8_22L   
+   (   0.00246914   0.00246914   0.00246914   0.990123   0.00246914)   % G_Transit=L_53_07___46_51L   Deaths_per_Million=L8_13__9_17L   G_Residencial=L4_3__8_22L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Transit=L_66_18___59_63L   Deaths_per_Million=L8_13__9_17L   G_Residencial=L4_3__8_22L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_39_96___33_4L   Deaths_per_Million=L9_17__10_21L   G_Residencial=L4_3__8_22L   
+   (   0.00246914   0.00246914   0.00246914   0.00246914   0.990123)   % G_Transit=L_46_51___39_96L   Deaths_per_Million=L9_17__10_21L   G_Residencial=L4_3__8_22L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_53_07___46_51L   Deaths_per_Million=L9_17__10_21L   G_Residencial=L4_3__8_22L   
+   (   0.2   0.2   0.2   0.2   0.2)))   % G_Transit=L_66_18___59_63L   Deaths_per_Million=L9_17__10_21L   G_Residencial=L4_3__8_22L   
+   (((   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_39_96___33_4L   Deaths_per_Million=L10_21__11_24L   G_Residencial=L8_22__12_14L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_46_51___39_96L   Deaths_per_Million=L10_21__11_24L   G_Residencial=L8_22__12_14L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_53_07___46_51L   Deaths_per_Million=L10_21__11_24L   G_Residencial=L8_22__12_14L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Transit=L_66_18___59_63L   Deaths_per_Million=L10_21__11_24L   G_Residencial=L8_22__12_14L   
+   ((   0.990123   0.00246914   0.00246914   0.00246914   0.00246914)   % G_Transit=L_39_96___33_4L   Deaths_per_Million=L6_06__7_1L   G_Residencial=L8_22__12_14L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_46_51___39_96L   Deaths_per_Million=L6_06__7_1L   G_Residencial=L8_22__12_14L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_53_07___46_51L   Deaths_per_Million=L6_06__7_1L   G_Residencial=L8_22__12_14L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Transit=L_66_18___59_63L   Deaths_per_Million=L6_06__7_1L   G_Residencial=L8_22__12_14L   
+   ((   0.99668   0.000829876   0.000829876   0.000829876   0.000829876)   % G_Transit=L_39_96___33_4L   Deaths_per_Million=L7_1__8_13L   G_Residencial=L8_22__12_14L   
+   (   0.995031   0.00124224   0.00124224   0.00124224   0.00124224)   % G_Transit=L_46_51___39_96L   Deaths_per_Million=L7_1__8_13L   G_Residencial=L8_22__12_14L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_53_07___46_51L   Deaths_per_Million=L7_1__8_13L   G_Residencial=L8_22__12_14L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Transit=L_66_18___59_63L   Deaths_per_Million=L7_1__8_13L   G_Residencial=L8_22__12_14L   
+   ((   0.498137   0.498137   0.00124224   0.00124224   0.00124224)   % G_Transit=L_39_96___33_4L   Deaths_per_Million=L8_13__9_17L   G_Residencial=L8_22__12_14L   
+   (   0.990123   0.00246914   0.00246914   0.00246914   0.00246914)   % G_Transit=L_46_51___39_96L   Deaths_per_Million=L8_13__9_17L   G_Residencial=L8_22__12_14L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_53_07___46_51L   Deaths_per_Million=L8_13__9_17L   G_Residencial=L8_22__12_14L   
+   (   0.2   0.2   0.2   0.2   0.2))   % G_Transit=L_66_18___59_63L   Deaths_per_Million=L8_13__9_17L   G_Residencial=L8_22__12_14L   
+   ((   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_39_96___33_4L   Deaths_per_Million=L9_17__10_21L   G_Residencial=L8_22__12_14L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_46_51___39_96L   Deaths_per_Million=L9_17__10_21L   G_Residencial=L8_22__12_14L   
+   (   0.2   0.2   0.2   0.2   0.2)   % G_Transit=L_53_07___46_51L   Deaths_per_Million=L9_17__10_21L   G_Residencial=L8_22__12_14L   
+   (   0.2   0.2   0.2   0.2   0.2))));   % G_Transit=L_66_18___59_63L   Deaths_per_Million=L9_17__10_21L   G_Residencial=L8_22__12_14L   
+}
+
+potential ( G_Grocery_Pharmacy | G_Retail   ) {
+   data = 
+   ((   0.182143   0.00357143   0.182143   0.00357143   0.628571)   % G_Retail=L_18_77___10_92L   
+   (   0.00487805   0.126829   0.00487805   0.00487805   0.858537)   % G_Retail=L_26_62___18_77L   
+   (   0.00645161   0.651613   0.00645161   0.00645161   0.329032)   % G_Retail=L_34_48___26_62L   
+   (   0.0125   0.325   0.0125   0.6375   0.0125)   % G_Retail=L_42_33___34_48L   
+   (   0.0181818   0.0181818   0.0181818   0.927273   0.0181818));   % G_Retail=L_50_18___42_33L   
+}
+
+potential (G_Parks) {
+   data = (  0.232258 0.296774 0.2 0.135484 0.135484);
+}
+
+potential ( G_Transit | G_Residencial   ) {
+   data = 
+   ((   0.0944444   0.894444   0.00555556   0.00555556)   % G_Residencial=L12_14__16_07L   
+   (   0.0277778   0.0277778   0.0277778   0.916667)   % G_Residencial=L19_99__23_91L   
+   (   0.613636   0.25   0.128788   0.00757576)   % G_Residencial=L4_3__8_22L   
+   (   0.655405   0.331081   0.00675676   0.00675676));   % G_Residencial=L8_22__12_14L   
+}
+
+potential ( G_Workplace | G_Residencial   ) {
+   data = 
+   ((   0.00555556   0.805556   0.183333   0.00555556)   % G_Residencial=L12_14__16_07L   
+   (   0.0277778   0.0277778   0.0277778   0.916667)   % G_Residencial=L19_99__23_91L   
+   (   0.977273   0.00757576   0.00757576   0.00757576)   % G_Residencial=L4_3__8_22L   
+   (   0.00675676   0.97973   0.00675676   0.00675676));   % G_Residencial=L8_22__12_14L   
+}
+
+potential (G_Residencial) {
+   data = (  0.362903 0.0725806 0.266129 0.298387);
+}
+
+

@@ -1,0 +1,33 @@
+
+net {
+  name = unnamedBN;
+  software = "aGrUM 0.18.2";
+  node_size = (50 50);
+}
+
+node Cases_per_Million {
+   states = (L0_0__374_43L L1123_28__1497_7L L1497_7__1872_13L L374_43__748_85L L748_85__1123_28L );
+   label = "Cases_per_Million";
+   ID = "Cases_per_Million";
+}
+
+node H2_Testing_policy {
+   states = (1 2 3 No policy );
+   label = "H2_Testing_policy";
+   ID = "H2_Testing_policy";
+}
+
+potential (Cases_per_Million) {
+   data = (  0.904797 0.00442804 0.00811808 0.0708487 0.0118081);
+}
+
+potential ( H2_Testing_policy | Cases_per_Million   ) {
+   data = 
+   ((   0.220432   0.391721   0.34686   0.0409869)   % Cases_per_Million=L0_0__374_43L   
+   (   0.0416667   0.0416667   0.875   0.0416667)   % Cases_per_Million=L1123_28__1497_7L   
+   (   0.0227273   0.0227273   0.931818   0.0227273)   % Cases_per_Million=L1497_7__1872_13L   
+   (   0.0546875   0.00260417   0.940104   0.00260417)   % Cases_per_Million=L374_43__748_85L   
+   (   0.015625   0.015625   0.953125   0.015625));   % Cases_per_Million=L748_85__1123_28L   
+}
+
+
