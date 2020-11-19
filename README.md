@@ -32,12 +32,12 @@ We used Bayesian networks (BNs) to learn insights regarding the (ir)rationality 
 
 
 <img src="imgs/BN1.png" width="70%" />	
-<img src="imgs/BN2.png" />	
+<img src="imgs/BN2.png" width="80%" />	
 
 ## Quantum-Like Bayesian Network Analysis
 
 Quantum-Like Bayesian networks models events as waves. During inference, these waves crash with each other leading to deviations from the classical probability. These models may bring the data analyst insights about the (ir)rationality of decision processes.
 
-<img src="imgs/Q1.png" />	
-<img src="imgs/Q2.png" />
-<img src="imgs/Q3.png" />
+<img src="imgs/Q1.png" width="80%" />	
+<img src="imgs/Q2.png" width="80%"/>
+<img src="imgs/Q3.png" width="80%" />
